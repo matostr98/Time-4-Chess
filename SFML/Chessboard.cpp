@@ -68,14 +68,14 @@ void Chessboard::Sprites() {
 	if (t_background.loadFromFile("Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
 
-	if (b_texture.loadFromFile("Pionek.png"))
-		blue.setTexture(b_texture); else std::cout << "why?\n";
+	//if (b_texture.loadFromFile("Pionek.png"))
+	//	blue.setTexture(b_texture); else std::cout << "why?\n";
 
-	if (g_texture.loadFromFile("high.png"))
-		green.setTexture(g_texture); else std::cout << "why?\n";
+	//if (g_texture.loadFromFile("high.png"))
+	//	green.setTexture(g_texture); else std::cout << "why?\n";
 
-	if (r_texture.loadFromFile("capt.png"))
-		red.setTexture(r_texture); else std::cout << "why?\n";
+	//if (r_texture.loadFromFile("capt.png"))
+	//	red.setTexture(r_texture); else std::cout << "why?\n";
 }
 
 Chessboard::Chessboard() {
@@ -83,6 +83,10 @@ Chessboard::Chessboard() {
 	Initialize();
 }
 Chessboard::~Chessboard() {}
+
+void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
+
+}
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 	return Board[coor.x][coor.y].status;
@@ -111,9 +115,13 @@ void Chessboard::Initialize() {
 
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 2; j++) {
+			//gdzies tu pojawil sie blad przy wychodzeniu z aplikacji
+			Pawn p(PieceColor::Black, {i, j});
+			BlackPiecesSet.emplace_back(&p);
+			Board[i][j].piece = std::make_shared<Pawn>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
 			sf::Sprite temp;
-			temp.setTexture(TextureMap["bP"]);
+			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
 			temp.setPosition(23 + i * 84, 23 + j * 84);
 			Board[i][j].rect = temp;
 			
@@ -125,9 +133,12 @@ void Chessboard::Initialize() {
 			Board[i][j].piece = nullptr;
 		}
 		for (int j = 6; j < 8; j++) {
+			Pawn p(PieceColor::White, { i, j });
+			BlackPiecesSet.emplace_back(&p);
+			Board[i][j].piece = std::make_shared<Pawn>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
 			sf::Sprite temp;
-			temp.setTexture(TextureMap["wP"]);
+			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
 			temp.setPosition(23 + i * 84, 23 + j * 84);
 			Board[i][j].rect = temp;
 		}

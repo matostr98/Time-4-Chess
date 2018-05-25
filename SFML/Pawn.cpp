@@ -2,9 +2,9 @@
 
 
 
-Pawn::Pawn(PieceColor s_color, PieceID s_id, sf::Vector2i s_position) 
-	:ChessPiece(s_color, s_id, s_position) {
-
+Pawn::Pawn(PieceColor s_color, sf::Vector2i s_position)
+	:ChessPiece(s_color, s_position) {
+	color == PieceColor::White ? spriteName = "wP" : spriteName = "bP";
 }
 
 

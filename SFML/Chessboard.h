@@ -5,10 +5,12 @@
 #include <iostream>
 #include <map>
 #include "Chesspiece.h"
+#include "Pawn.h"
 #include "Useful.h"
 
 using PiecePtr = std::shared_ptr<ChessPiece>;
-using PieceSet = std::array<std::shared_ptr<ChessPiece>, 16>;
+//using PieceSet = std::array<std::shared_ptr<ChessPiece>, 16>;
+using PieceSet = std::vector<std::shared_ptr<ChessPiece>>;
 
 
 
@@ -29,12 +31,13 @@ private:
 	sf::Sprite background;
 
 	std::map<std::string, sf::Texture> TextureMap;
-	sf::Texture b_texture;
+
+	/*sf::Texture b_texture;
 	sf::Sprite blue;
 	sf::Texture g_texture;
 	sf::Sprite green;
 	sf::Texture r_texture;
-	sf::Sprite red;
+	sf::Sprite red;*/
 
 	void Sprites();
 
@@ -42,6 +45,8 @@ public:
 
 	Chessboard();
 	~Chessboard();
+
+	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);

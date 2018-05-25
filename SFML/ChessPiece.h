@@ -22,7 +22,7 @@ protected:
 public:
 	//Constructors and destructors
 	ChessPiece();
-	ChessPiece(PieceColor s_color, PieceID s_id,
+	ChessPiece(PieceColor s_color,
 		sf::Vector2i s_position);
 	~ChessPiece();
 

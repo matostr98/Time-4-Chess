@@ -65,8 +65,13 @@ void Game::Update() {
 						ActiveCoord = { -1, -1 };
 						Active = false;
 					}
-					else {
+					else if (Active == true && CurrentCoordinates != ActiveCoord) {
+						if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
+							m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+						}
+						else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {
 
+						}
 					}
 
 					break;

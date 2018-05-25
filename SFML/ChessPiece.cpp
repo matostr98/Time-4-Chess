@@ -6,9 +6,8 @@ ChessPiece::ChessPiece()
 {
 }
 
-ChessPiece::ChessPiece(PieceColor s_color, PieceID s_id, sf::Vector2i s_position) {
+ChessPiece::ChessPiece(PieceColor s_color, sf::Vector2i s_position) {
 	color = s_color;
-	id = s_id;
 	position = s_position;
 	moveCount = 0;
 }
