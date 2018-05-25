@@ -13,7 +13,6 @@ using PiecePtr = std::shared_ptr<ChessPiece>;
 using PieceSet = std::vector<std::shared_ptr<ChessPiece>>;
 
 
-
 class Chessboard
 {
 public:
@@ -22,6 +21,7 @@ public:
 		std::shared_ptr<ChessPiece> piece;
 		BoardStatus status;
 	};
+
 private:
 	std::array<std::array<BoardSlot, 8>, 8> Board;
 	PieceSet WhitePiecesSet;

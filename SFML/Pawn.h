@@ -8,6 +8,6 @@ public:
 	~Pawn();
 
 	virtual std::vector<sf::Vector2i> getPossibleMoves(
-		/*std::array<std::array<Chessboard::BoardSlot, 8>, 8> Board*/) override;
+		std::array<std::array<BoardSlot, 8>, 8> &Board) override;
 };
 
