@@ -18,6 +18,7 @@ class Chessboard
 public:
 	struct BoardSlot {
 		sf::Sprite rect;
+		sf::Sprite StatRect;
 		std::shared_ptr<ChessPiece> piece;
 		BoardStatus status;
 	};
@@ -47,6 +48,7 @@ public:
 	~Chessboard();
 
 	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
+	void CallForPossibleMoves();
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);

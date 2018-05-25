@@ -53,6 +53,7 @@ void Game::Update() {
 								Active = true;
 								ActiveCoord = CurrentCoordinates;
 								m_chessboard.MakeActiveSprite(ActiveCoord);
+								
 							}
 
 						}

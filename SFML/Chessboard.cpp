@@ -14,10 +14,10 @@ void Chessboard::Sprites() {
 		red.setTexture(r_texture); else std::cout << "why?\n";*/
 
 	sf::Texture temp;
-	//white
-	if (temp.loadFromFile("wP.png")) {
-		TextureMap["wP"]=temp;
-	} else std::cout << "why?\n";
+	
+	//White
+	if (temp.loadFromFile("wP.png"))
+		TextureMap["wP"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wR.png"))
 		TextureMap["wR"]=temp; else std::cout << "why?\n";
@@ -34,7 +34,7 @@ void Chessboard::Sprites() {
 	if (temp.loadFromFile("wK.png"))
 		TextureMap["wK"]=temp; else std::cout << "why?\n";
 	
-	//black
+	//Black
 	if (temp.loadFromFile("bP.png"))
 		TextureMap["bP"]=temp; else std::cout << "why?\n";
 
@@ -53,15 +53,18 @@ void Chessboard::Sprites() {
 	if (temp.loadFromFile("bK.png"))
 		TextureMap["bK"]=temp; else std::cout << "why?\n";
 
-	//other
-	if (temp.loadFromFile("Pionek.png"))
+	//Other
+	if (temp.loadFromFile("blue.png"))
 		TextureMap["blue"] = temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("high.png"))
+	if (temp.loadFromFile("green.png"))
 		TextureMap["green"] = temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("capt.png"))
+	if (temp.loadFromFile("red.png"))
 		TextureMap["red"] = temp; else std::cout << "why?\n";
+
+	if (temp.loadFromFile("none.png"))
+		TextureMap["none"] = temp; else std::cout << "why?\n";
 
 
 
@@ -96,17 +99,17 @@ void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
 	sf::Sprite temp;
 	temp.setTexture(TextureMap["blue"]);
 
-	temp.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
-	Board[coord.x][coord.y].rect = temp;
+	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
+	Board[coord.x][coord.y].StatRect = temp;
 }
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
 	sf::Sprite temp;
-	temp.setTexture(TextureMap["wP"]);
+	temp.setTexture(TextureMap["none"]);
 
 
-	temp.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
-	Board[coord.x][coord.y].rect = temp;
+	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
+	Board[coord.x][coord.y].StatRect = temp;
 }
 
 void Chessboard::Initialize() {
@@ -150,8 +153,10 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 	l_window.draw(background);
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++) {
-			if (Board[i][j].status != BoardStatus::Empty)
+			if (Board[i][j].status != BoardStatus::Empty) {
 				l_window.draw(Board[i][j].rect);
+				l_window.draw(Board[i][j].StatRect);
+			}
 		}
 	}
 

@@ -13,13 +13,12 @@ class ChessPiece
 protected:
 	struct BoardSlot {
 		sf::Sprite rect;
+		sf::Sprite StatRect;
 		std::shared_ptr<ChessPiece> piece;
 		BoardStatus status;
 	};
 
 	PieceColor color;
-	/*sf::Sprite whiteSprite;
-	sf::Sprite blackSprite;*/
 	std::string spriteName;
 	PieceID id;
 
@@ -36,8 +35,6 @@ public:
 	PieceColor getPieceColor();
 	PieceID getPieceID();
 	std::string getSpriteName();
-	/*sf::Sprite getWhitePieceSprite();
-	sf::Sprite getBlackPieceSprite();*/
 	int getMoveCount();
 
 
