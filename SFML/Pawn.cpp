@@ -15,7 +15,7 @@ Pawn::~Pawn()
 std::vector<sf::Vector2i> Pawn::getPossibleMoves()
 {
 	std::vector<sf::Vector2i> moves;
-
+	//no capture!!!!!
 	if (color == PieceColor::White) {
 		if (moveCount == 0) {
 			moves.push_back({ position.x, position.y + 1 });

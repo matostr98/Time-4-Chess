@@ -1,5 +1,5 @@
 #include "ChessPiece.h"
-
+#include "Chessboard.h"
 
 
 ChessPiece::ChessPiece()
