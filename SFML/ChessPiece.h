@@ -40,7 +40,8 @@ public:
 	void increamentMoveCount();
 
 	//Virtual
-	virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
+	virtual std::vector<sf::Vector2i> getPossibleMoves(
+		/*std::array<std::array<Chessboard::BoardSlot, 8>, 8> Board*/) = 0;
 
 };
 

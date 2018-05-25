@@ -15,8 +15,9 @@ void Chessboard::Sprites() {
 
 	sf::Texture temp;
 	//white
-	if (temp.loadFromFile("wP.png"))
-		SpriteMap["wP"].setTexture(temp); else std::cout << "why?\n";
+	if (temp.loadFromFile("wP.png")) {
+		SpriteMap["wP"].setTexture(temp);
+	} else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wR.png"))
 		SpriteMap["wR"].setTexture(temp); else std::cout << "why?\n";
@@ -53,6 +54,17 @@ void Chessboard::Sprites() {
 		SpriteMap["bK"].setTexture(temp); else std::cout << "why?\n";
 
 	//other
+	if (temp.loadFromFile("Pionek.png"))
+		blue.setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("high.png"))
+		green.setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("capt.png"))
+		red.setTexture(temp); else std::cout << "why?\n";
+
+
+
 	if (t_background.loadFromFile("Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
 
@@ -93,8 +105,9 @@ void Chessboard::Initialize() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 2; j++) {
 			Board[i][j].status = BoardStatus::Occupied;
-			blue.setPosition(23 + i * 84, 23 + j * 84);
-			Board[i][j].rect = blue;
+			sf::Sprite temp = SpriteMap["wP"];
+			temp.setPosition(23 + i * 84, 23 + j * 84);
+			Board[i][j].rect = temp;
 
 		}
 		for (int j = 2; j < 6; j++) {

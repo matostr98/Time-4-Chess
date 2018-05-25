@@ -7,6 +7,7 @@ public:
 	Pawn(PieceColor s_color, PieceID s_id, sf::Vector2i s_position);
 	~Pawn();
 
-	virtual std::vector<sf::Vector2i> getPossibleMoves() override;
+	virtual std::vector<sf::Vector2i> getPossibleMoves(
+		/*std::array<std::array<Chessboard::BoardSlot, 8>, 8> Board*/) override;
 };
 

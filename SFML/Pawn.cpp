@@ -12,7 +12,8 @@ Pawn::~Pawn()
 {
 }
 
-std::vector<sf::Vector2i> Pawn::getPossibleMoves()
+std::vector<sf::Vector2i> Pawn::getPossibleMoves(
+	/*std::array<std::array<Chessboard::BoardSlot, 8>, 8> Board*/)
 {
 	std::vector<sf::Vector2i> moves;
 	//no capture!!!!!
