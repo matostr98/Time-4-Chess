@@ -28,7 +28,7 @@ private:
 	sf::Texture t_background;
 	sf::Sprite background;
 
-	std::map<std::string, sf::Sprite> SpriteMap;
+	std::map<std::string, sf::Texture> TextureMap;
 	sf::Texture b_texture;
 	sf::Sprite blue;
 	sf::Texture g_texture;

@@ -16,52 +16,52 @@ void Chessboard::Sprites() {
 	sf::Texture temp;
 	//white
 	if (temp.loadFromFile("wP.png")) {
-		SpriteMap["wP"].setTexture(temp);
+		TextureMap["wP"]=temp;
 	} else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wR.png"))
-		SpriteMap["wR"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["wR"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wKn.png"))
-		SpriteMap["wKn"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["wKn"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wB.png"))
-		SpriteMap["wB"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["wB"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wQ.png"))
-		SpriteMap["wQ"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["wQ"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("wK.png"))
-		SpriteMap["wK"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["wK"]=temp; else std::cout << "why?\n";
 	
 	//black
 	if (temp.loadFromFile("bP.png"))
-		SpriteMap["bP"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bP"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("bR.png"))
-		SpriteMap["bR"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bR"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("bKn.png"))
-		SpriteMap["bKn"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bKn"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("bB.png"))
-		SpriteMap["bB"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bB"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("bQ.png"))
-		SpriteMap["bQ"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bQ"]=temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("bK.png"))
-		SpriteMap["bK"].setTexture(temp); else std::cout << "why?\n";
+		TextureMap["bK"]=temp; else std::cout << "why?\n";
 
 	//other
 	if (temp.loadFromFile("Pionek.png"))
-		blue.setTexture(temp); else std::cout << "why?\n";
+		TextureMap["blue"] = temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("high.png"))
-		green.setTexture(temp); else std::cout << "why?\n";
+		TextureMap["green"] = temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("capt.png"))
-		red.setTexture(temp); else std::cout << "why?\n";
+		TextureMap["red"] = temp; else std::cout << "why?\n";
 
 
 
@@ -89,13 +89,20 @@ BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
-	green.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
-	Board[coord.x][coord.y].rect = green;
+	sf::Sprite temp;
+	temp.setTexture(TextureMap["blue"]);
+
+	temp.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
+	Board[coord.x][coord.y].rect = temp;
 }
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
-	blue.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
-	Board[coord.x][coord.y].rect = blue;
+	sf::Sprite temp;
+	temp.setTexture(TextureMap["wP"]);
+
+
+	temp.setPosition(23 + coord.x * 84, 23 + coord.y * 84);
+	Board[coord.x][coord.y].rect = temp;
 }
 
 void Chessboard::Initialize() {
@@ -105,9 +112,12 @@ void Chessboard::Initialize() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 2; j++) {
 			Board[i][j].status = BoardStatus::Occupied;
-			sf::Sprite temp = SpriteMap["wP"];
+			sf::Sprite temp;
+			temp.setTexture(TextureMap["bP"]);
 			temp.setPosition(23 + i * 84, 23 + j * 84);
 			Board[i][j].rect = temp;
+			
+
 
 		}
 		for (int j = 2; j < 6; j++) {
@@ -116,8 +126,10 @@ void Chessboard::Initialize() {
 		}
 		for (int j = 6; j < 8; j++) {
 			Board[i][j].status = BoardStatus::Occupied;
-			blue.setPosition(23 + i * 84, 23 + j * 84);
-			Board[i][j].rect = blue;
+			sf::Sprite temp;
+			temp.setTexture(TextureMap["wP"]);
+			temp.setPosition(23 + i * 84, 23 + j * 84);
+			Board[i][j].rect = temp;
 		}
 	}
 }
