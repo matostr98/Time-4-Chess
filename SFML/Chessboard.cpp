@@ -2,6 +2,57 @@
 
 
 void Chessboard::Sprites() {
+	
+
+	/*if (b_texture.loadFromFile("Pionek.png"))
+		blue.setTexture(b_texture); else std::cout << "why?\n";
+
+	if (g_texture.loadFromFile("high.png"))
+		green.setTexture(g_texture); else std::cout << "why?\n";
+
+	if (r_texture.loadFromFile("capt.png"))
+		red.setTexture(r_texture); else std::cout << "why?\n";*/
+
+	sf::Texture temp;
+	//white
+	if (temp.loadFromFile("wP.png"))
+		SpriteMap["wP"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("wR.png"))
+		SpriteMap["wR"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("wKn.png"))
+		SpriteMap["wKn"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("wB.png"))
+		SpriteMap["wB"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("wQ.png"))
+		SpriteMap["wQ"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("wK.png"))
+		SpriteMap["wK"].setTexture(temp); else std::cout << "why?\n";
+	
+	//black
+	if (temp.loadFromFile("bP.png"))
+		SpriteMap["bP"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("bR.png"))
+		SpriteMap["bR"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("bKn.png"))
+		SpriteMap["bKn"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("bB.png"))
+		SpriteMap["bB"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("bQ.png"))
+		SpriteMap["bQ"].setTexture(temp); else std::cout << "why?\n";
+
+	if (temp.loadFromFile("bK.png"))
+		SpriteMap["bK"].setTexture(temp); else std::cout << "why?\n";
+
+	//other
 	if (t_background.loadFromFile("Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
 

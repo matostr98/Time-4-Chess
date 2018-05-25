@@ -6,9 +6,8 @@ ChessPiece::ChessPiece()
 {
 }
 
-ChessPiece::ChessPiece(PieceColor s_color, sf::Sprite s_whiteSprite, PieceID s_id, sf::Vector2i s_position) {
+ChessPiece::ChessPiece(PieceColor s_color, PieceID s_id, sf::Vector2i s_position) {
 	color = s_color;
-	whiteSprite = s_whiteSprite;
 	id = s_id;
 	position = s_position;
 	moveCount = 0;
@@ -27,13 +26,18 @@ PieceID ChessPiece::getPieceID() {
 	return id;
 }
 
-sf::Sprite ChessPiece::getWhitePieceSprite() {
-	return whiteSprite;
+std::string ChessPiece::getSpriteName()
+{
+	return spriteName;
 }
 
-sf::Sprite ChessPiece::getBlackPieceSprite() {
-	return blackSprite;
-}
+//sf::Sprite ChessPiece::getWhitePieceSprite() {
+//	return whiteSprite;
+//}
+//
+//sf::Sprite ChessPiece::getBlackPieceSprite() {
+//	return blackSprite;
+//}
 
 int ChessPiece::getMoveCount() {
 	return moveCount;

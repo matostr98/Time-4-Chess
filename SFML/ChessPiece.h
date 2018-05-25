@@ -12,22 +12,26 @@ class ChessPiece
 protected:
 
 	PieceColor color;
-	sf::Sprite whiteSprite;
-	sf::Sprite blackSprite;
+	/*sf::Sprite whiteSprite;
+	sf::Sprite blackSprite;*/
+	std::string spriteName;
 	PieceID id;
 
 	sf::Vector2i position;
 	int moveCount;
 public:
+	//Constructors and destructors
 	ChessPiece();
-	ChessPiece(PieceColor s_color, sf::Sprite s_whiteSprite, PieceID s_id, sf::Vector2i s_position);
+	ChessPiece(PieceColor s_color, PieceID s_id,
+		sf::Vector2i s_position);
 	~ChessPiece();
 
 	//Get
 	PieceColor getPieceColor();
 	PieceID getPieceID();
-	sf::Sprite getWhitePieceSprite();
-	sf::Sprite getBlackPieceSprite();
+	std::string getSpriteName();
+	/*sf::Sprite getWhitePieceSprite();
+	sf::Sprite getBlackPieceSprite();*/
 	int getMoveCount();
 
 
@@ -36,7 +40,7 @@ public:
 	void increamentMoveCount();
 
 	//Virtual
-	//virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
+	virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
 
 };
 

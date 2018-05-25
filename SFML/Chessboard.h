@@ -3,6 +3,7 @@
 #include <memory>
 #include <array>
 #include <iostream>
+#include <map>
 #include "Chesspiece.h"
 #include "Useful.h"
 
@@ -27,6 +28,7 @@ private:
 	sf::Texture t_background;
 	sf::Sprite background;
 
+	std::map<std::string, sf::Sprite> SpriteMap;
 	sf::Texture b_texture;
 	sf::Sprite blue;
 	sf::Texture g_texture;
