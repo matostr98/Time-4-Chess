@@ -78,9 +78,10 @@ void Game::Update() {
 							Active = false;
 						}
 						else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {
-							//m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+							
 
 							m_chessboard.UnmakeActiveSprite(ActiveCoord);
+							//m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
 							ActiveCoord = { -1, -1 };
 							Active = false;
 						}

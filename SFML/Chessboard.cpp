@@ -91,6 +91,8 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 	//HidePossibleMoves(CurrentCoord);
 	//new field
 	Board[CurrentCoord.x][CurrentCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
+	Board[ActiveCoord.x][ActiveCoord.y].piece->increamentMoveCount();
+
 	Board[CurrentCoord.x][CurrentCoord.y].status = BoardStatus::Occupied;
 	Board[CurrentCoord.x][CurrentCoord.y].rect = 
 		PieceSpriteHandler(Board[CurrentCoord.x][CurrentCoord.y].piece->getPieceID(),
@@ -271,9 +273,15 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 		}
 
 		else {
+			//for one step move
+			if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
+				Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
+				Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y - 1 });
+			}
 		}
-	}
-	else {
+	} else {
 		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
 			//two step move
 
@@ -297,9 +305,18 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
 			}
 
+		} else {
+			//for one step move
+			if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
+				Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
+				Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y + 1 });
+			}
 		}
 	}
 }
+
 void Chessboard::HidePawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
 	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
@@ -328,6 +345,13 @@ void Chessboard::HidePawnPossibleMoves(sf::Vector2i ActiveCoord) {
 		}
 
 		else {
+			//for one step move
+			if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Highlighted) {
+				Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Empty;
+				Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y - 1 });
+			}
 		}
 	}
 	else {
@@ -354,6 +378,15 @@ void Chessboard::HidePawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
 			}
 
+		}
+		else {
+			//for one step move
+			if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Highlighted) {
+				Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Empty;
+				Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y + 1 });
+			}
 		}
 	}
 }
