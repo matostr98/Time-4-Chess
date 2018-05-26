@@ -25,8 +25,8 @@ public:
 
 private:
 	std::array<std::array<BoardSlot, 8>, 8> Board;
-	PieceSet WhitePiecesSet;
-	PieceSet BlackPiecesSet;
+	//PieceSet WhitePiecesSet;
+	//PieceSet BlackPiecesSet;
 
 	sf::Texture t_background;
 	sf::Sprite background;
@@ -34,6 +34,7 @@ private:
 	std::map<std::string, sf::Texture> TextureMap;
 
 	void Sprites();
+	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
 
 	//Chess pieces possible moves
 		//Pawn

@@ -62,6 +62,15 @@ void Chessboard::Sprites() {
 
 }
 
+void Chessboard::setPiece(PieceColor color, PieceID id, sf::Vector2i coord){
+	ChessPiece p(color, id, coord);
+	Board[coord.x][coord.y].piece = std::make_shared<ChessPiece>(p);
+	Board[coord.x][coord.y].status = BoardStatus::Occupied;
+
+	Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
+		Board[coord.x][coord.y].piece->getPieceColor(), coord);
+}
+
 Chessboard::Chessboard() {
 	Sprites();
 	Initialize();
@@ -209,37 +218,77 @@ sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vect
 }
 
 void Chessboard::Initialize() {
-	//initialize board status
-
+	//initialize board status	
 
 	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 2; j++) {
-			//gdzies tu pojawil sie blad przy wychodzeniu z aplikacji
-			ChessPiece p(PieceColor::Black, PieceID::Pawn ,{i, j});
-			//BlackPiecesSet.emplace_back(&p); //comment i nagle nie ma bledu
-			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
-			Board[i][j].status = BoardStatus::Occupied;
+		int j = 0;
 
-			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
-				Board[i][j].piece->getPieceColor(), {i, j});
-			
+		//Black 
 
-
+		//rooks
+		if (i == 0 || i == 7) {
+			setPiece(PieceColor::Black, PieceID::Rook, { i, j });
 		}
-		for (int j = 2; j < 6; j++) {
+		//knights
+		if (i == 1 || i == 6) {
+			setPiece(PieceColor::Black, PieceID::Knight, { i, j });
+		}
+		//bishops
+		if (i == 2 || i == 5) {
+			setPiece(PieceColor::Black, PieceID::Bishop, { i, j });
+		}
+		//queen
+		if (i == 3) {
+			setPiece(PieceColor::Black, PieceID::Queen, { i, j });
+		}
+		//king
+		if (i == 4) {
+			setPiece(PieceColor::Black, PieceID::King, { i, j });
+		}
+
+
+		//pawns
+		j = 1;
+			setPiece(PieceColor::Black, PieceID::Pawn, { i, j });
+			
+		
+		//Empty slots
+		for (j = 2; j < 6; j++) {
 			Board[i][j].status = BoardStatus::Empty;
 			Board[i][j].piece = nullptr;
 		}
-		for (int j = 6; j < 8; j++) {
-			ChessPiece p(PieceColor::White, PieceID::Pawn, { i, j });
-			//BlackPiecesSet.emplace_back(&p);
-			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
-			Board[i][j].status = BoardStatus::Occupied;
 
-			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
-				Board[i][j].piece->getPieceColor(), { i, j });
+		//White
+
+		//pawns
+		j = 6;	
+		setPiece(PieceColor::White, PieceID::Pawn, { i, j });
+		
+		j = 7;
+		//rooks
+		if (i == 0 || i == 7) {
+			setPiece(PieceColor::White, PieceID::Rook, { i, j });
+		}
+		//knights
+		if (i == 1 || i == 6) {
+			setPiece(PieceColor::White, PieceID::Knight, { i, j });
+		}
+		//bishops
+		if (i == 2 || i == 5) {
+			setPiece(PieceColor::White, PieceID::Bishop, { i, j });
+		}
+		//queen
+		if (i == 3) {
+			setPiece(PieceColor::White, PieceID::Queen, { i, j });
+		}
+		//king
+		if (i == 4) {
+			setPiece(PieceColor::White, PieceID::King, { i, j });
 		}
 	}
+
+
+	
 }
 
 void Chessboard::Render(sf::RenderWindow & l_window) {
