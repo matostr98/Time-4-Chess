@@ -68,18 +68,18 @@ Chessboard::Chessboard() {
 }
 Chessboard::~Chessboard() {}
 
-void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
-	//HidePossibleMoves(CurrentCoord);
+void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
+	//HidePossibleMoves(NewCoord);
 	//new field
-	Board[CurrentCoord.x][CurrentCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
-	Board[ActiveCoord.x][ActiveCoord.y].piece->increamentMoveCount();
+	Board[NewCoord.x][NewCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
+	Board[NewCoord.x][NewCoord.y].piece->increamentMoveCount(); //tu bylo active
 
-	Board[CurrentCoord.x][CurrentCoord.y].status = BoardStatus::Occupied;
-	Board[CurrentCoord.x][CurrentCoord.y].rect = 
-		PieceSpriteHandler(Board[CurrentCoord.x][CurrentCoord.y].piece->getPieceID(),
-		Board[CurrentCoord.x][CurrentCoord.y].piece->getPieceColor(), CurrentCoord);
-	Board[CurrentCoord.x][CurrentCoord.y].StatRect= 
-		StatusSpriteHandler(Board[CurrentCoord.x][CurrentCoord.y].status, CurrentCoord);
+	Board[NewCoord.x][NewCoord.y].status = BoardStatus::Occupied;
+	Board[NewCoord.x][NewCoord.y].rect = 
+		PieceSpriteHandler(Board[NewCoord.x][NewCoord.y].piece->getPieceID(),
+		Board[NewCoord.x][NewCoord.y].piece->getPieceColor(), NewCoord);
+	Board[NewCoord.x][NewCoord.y].StatRect= 
+		StatusSpriteHandler(Board[NewCoord.x][NewCoord.y].status, NewCoord);
 
 	//old field
 	Board[ActiveCoord.x][ActiveCoord.y].piece = nullptr;
@@ -92,8 +92,29 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 	
 }
 
-void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord) {
+void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord) {
+	
+	//opponent field (new field)
+	Board[NewCoord.x][NewCoord.y].piece = nullptr;
+	Board[NewCoord.x][NewCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
+	Board[NewCoord.x][NewCoord.y].piece->increamentMoveCount();
 
+	Board[NewCoord.x][NewCoord.y].status = BoardStatus::Occupied;
+	Board[NewCoord.x][NewCoord.y].rect =
+		PieceSpriteHandler(Board[NewCoord.x][NewCoord.y].piece->getPieceID(),
+			Board[NewCoord.x][NewCoord.y].piece->getPieceColor(), NewCoord);
+	Board[NewCoord.x][NewCoord.y].StatRect =
+		StatusSpriteHandler(Board[NewCoord.x][NewCoord.y].status, NewCoord);
+	
+	//to add - move sprite to the right!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	//old field
+	Board[ActiveCoord.x][ActiveCoord.y].piece = nullptr;
+	Board[ActiveCoord.x][ActiveCoord.y].status = BoardStatus::Empty;
+	Board[ActiveCoord.x][ActiveCoord.y].rect =
+		StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y].status, ActiveCoord);
+	Board[ActiveCoord.x][ActiveCoord.y].StatRect =
+		StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y].status, ActiveCoord);
 	
 
 }

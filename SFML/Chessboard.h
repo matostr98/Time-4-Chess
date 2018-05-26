@@ -60,7 +60,7 @@ public:
 	~Chessboard();
 
 	//Move and possible moves
-	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
+	void Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord);
 	void Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
 	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
 	void HidePossibleMoves(sf::Vector2i ActiveCoord);

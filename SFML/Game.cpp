@@ -96,12 +96,10 @@ void Game::Update() {
 							} 
 							
 							//capture-------------------------
-							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {
-								//dodac warunek dla kolorow
-								//albo i nie?
+							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {								
 
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
-								//m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
