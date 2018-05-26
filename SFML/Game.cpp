@@ -54,7 +54,7 @@ void Game::Update() {
 								Active = true;
 								ActiveCoord = CurrentCoordinates;
 								m_chessboard.MakeActiveSprite(ActiveCoord);
-								m_chessboard.CallForPossibleMoves(ActiveCoord);
+								//m_chessboard.CallForPossibleMoves(ActiveCoord);
 							}
 
 						}
@@ -130,11 +130,23 @@ void Game::OnClickTest() {
 			std::cout << "Occupied: " << x << "," << y << "\n";
 
 		}
-		else {
+		else if (m_chessboard.getBoardStatus(GetCellCoor()) == BoardStatus::Empty) {
 			int x = GetCellCoor().x;
 			int y = GetCellCoor().y;
 
 			std::cout << "Empty: " << x << "," << y << "\n";
+		}
+		else if (m_chessboard.getBoardStatus(GetCellCoor()) == BoardStatus::Active) {
+			int x = GetCellCoor().x;
+			int y = GetCellCoor().y;
+
+			std::cout << "Active: " << x << "," << y << "\n";
+		}
+		if (m_chessboard.getBoardStatus(GetCellCoor()) == BoardStatus::Highlighted) {
+			int x = GetCellCoor().x;
+			int y = GetCellCoor().y;
+
+			std::cout << "Highlighted: " << x << "," << y << "\n";
 		}
 	}
 	else {

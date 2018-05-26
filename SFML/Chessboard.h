@@ -48,7 +48,7 @@ public:
 	~Chessboard();
 
 	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
-	void CallForPossibleMoves(sf::Vector2i ActiveCoord);
+	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
@@ -57,6 +57,10 @@ public:
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);
 	void UnmakeActiveSprite(sf::Vector2i coord);
+
+	//Sprite Handlers
+	sf::Sprite StatusSpriteHandler(BoardStatus status, sf::Vector2i coord);
+	sf::Sprite PieceSpriteHandler(PieceID id, PieceColor color, sf::Vector2i coord);
 
 	void Initialize();
 	void Render(sf::RenderWindow& l_window);

@@ -91,7 +91,7 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 
 }
 
-void Chessboard::CallForPossibleMoves(sf::Vector2i ActiveCoord){
+void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
 	/*Board[ActiveCoord.x][ActiveCoord.y].piece->setPosition(ActiveCoord);
 	std::vector<sf::Vector2i> posMoves{ Board[ActiveCoord.x][ActiveCoord.y].piece->getPossibleMoves() };
 	for (auto e : posMoves) {
@@ -108,41 +108,59 @@ void Chessboard::CallForPossibleMoves(sf::Vector2i ActiveCoord){
 		case PieceID::Pawn: { //Pawn move and collisions
 			if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
 				if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+					
 					//two step move
-
 					if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
 
 						//for move one in two step move
 						Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
-						//tu bedzie board status handler
-						sf::Sprite temp;
-						temp.setTexture(TextureMap["green"]);
-
-						temp.setPosition(24 + ActiveCoord.x * 84, 24 + (ActiveCoord.y - 1) * 84);
-						Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect = temp;
-						//tu sie konczy
+						Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect = 
+							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status, 
+								{ ActiveCoord.x,  ActiveCoord.y - 1});
 
 							if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Empty) {
 
 								//for move two in two step move
 								Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Highlighted;
-								//tu bedzie board status handler
-								sf::Sprite temp;
-								temp.setTexture(TextureMap["green"]);
-
-								temp.setPosition(24 + ActiveCoord.x * 84, 24 + (ActiveCoord.y - 2) * 84);
-								Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect = temp;
-								//tu sie konczy
+								Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
+									StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
+										{ ActiveCoord.x,  ActiveCoord.y - 2 });
 							}
+					}
+					//if capture
+					
+				}
+
+				else {
+				}
+			}
+			else {
+				if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+					//two step move
+
+					if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
+
+						//for move one in two step move
+						Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
+						Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1 ].status,
+								{ ActiveCoord.x,  ActiveCoord.y + 1 });
+
+						if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Empty) {
+
+							//for move two in two step move
+							Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Highlighted;
+							Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
+								StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
+									{ ActiveCoord.x,  ActiveCoord.y + 2 });
+						}
 
 
 					}
-					
-				}
-				else {
 
 				}
 			}
+			break;
 		}
 	}
 	//}
@@ -153,20 +171,67 @@ BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
-	sf::Sprite temp;
-	temp.setTexture(TextureMap["blue"]);
+	//sf::Sprite temp;
+	//temp.setTexture(TextureMap["blue"]);
 
-	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
-	Board[coord.x][coord.y].StatRect = temp;
+	//temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
+	Board[coord.x][coord.y].status = BoardStatus::Active;
+	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
+	ShowPossibleMoves(coord);
 }
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
-	sf::Sprite temp;
-	temp.setTexture(TextureMap["none"]);
+	//sf::Sprite temp;
+	//temp.setTexture(TextureMap["none"]);
 
+
+	//temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
+	Board[coord.x][coord.y].status = BoardStatus::Occupied;
+	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
+}
+
+sf::Sprite Chessboard::StatusSpriteHandler(BoardStatus status, sf::Vector2i coord)
+{
+	sf::Sprite temp;
+
+	//case
+	switch (status) {
+	case BoardStatus::Empty: { temp.setTexture(TextureMap["none"]); break; }
+	case BoardStatus::Occupied: { temp.setTexture(TextureMap["none"]); break; }
+	case BoardStatus::Highlighted: { temp.setTexture(TextureMap["green"]); break; }
+	case BoardStatus::Active: { temp.setTexture(TextureMap["blue"]); break; }
+	case BoardStatus::Capture: { temp.setTexture(TextureMap["red"]); break; }
+	}
 
 	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
-	Board[coord.x][coord.y].StatRect = temp;
+	return temp;
+}
+
+sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vector2i coord)
+{
+	sf::Sprite temp;
+	if (color == PieceColor::White) {
+		switch (id) {
+		case PieceID::Pawn: {temp.setTexture(TextureMap["wP"]); break; }
+		case PieceID::Rook: {temp.setTexture(TextureMap["wR"]); break; }
+		case PieceID::Knight: {temp.setTexture(TextureMap["wKn"]); break; }
+		case PieceID::Bishop: {temp.setTexture(TextureMap["wB"]); break; }
+		case PieceID::Queen: {temp.setTexture(TextureMap["wQ"]); break; }
+		case PieceID::King: {temp.setTexture(TextureMap["wK"]); break; }
+		}
+	}
+	else {
+		switch (id) {
+		case PieceID::Pawn: {temp.setTexture(TextureMap["bP"]); break; }
+		case PieceID::Rook: {temp.setTexture(TextureMap["bR"]); break; }
+		case PieceID::Knight: {temp.setTexture(TextureMap["bKn"]); break; }
+		case PieceID::Bishop: {temp.setTexture(TextureMap["bB"]); break; }
+		case PieceID::Queen: {temp.setTexture(TextureMap["bQ"]); break; }
+		case PieceID::King: {temp.setTexture(TextureMap["bK"]); break; }
+		}
+	}
+	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
+	return temp;
 }
 
 void Chessboard::Initialize() {
@@ -180,10 +245,11 @@ void Chessboard::Initialize() {
 			BlackPiecesSet.emplace_back(&p);
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
-			sf::Sprite temp;
-			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
-			temp.setPosition(23 + i * 84, 23 + j * 84);
-			Board[i][j].rect = temp;
+			//sf::Sprite temp;
+			//temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
+			//temp.setPosition(23 + i * 84, 23 + j * 84);
+			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
+				Board[i][j].piece->getPieceColor(), {i, j});
 			
 
 
@@ -197,10 +263,11 @@ void Chessboard::Initialize() {
 			BlackPiecesSet.emplace_back(&p);
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
-			sf::Sprite temp;
-			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
-			temp.setPosition(23 + i * 84, 23 + j * 84);
-			Board[i][j].rect = temp;
+			//sf::Sprite temp;
+			//temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
+			//temp.setPosition(23 + i * 84, 23 + j * 84);
+			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
+				Board[i][j].piece->getPieceColor(), { i, j });
 		}
 	}
 }
