@@ -12,7 +12,7 @@ class ChessPiece
 {
 protected:
 	PieceColor color;
-	std::string spriteName;
+	//std::string spriteName;
 	PieceID id;
 
 	sf::Vector2i position;
@@ -21,13 +21,12 @@ public:
 	//Constructors and destructors
 	ChessPiece();
 	ChessPiece(PieceColor s_color, PieceID s_id,
-		sf::Vector2i s_position, std::string s_sn);
+		sf::Vector2i s_position);
 	~ChessPiece();
 
 	//Get
 	PieceColor getPieceColor();
 	PieceID getPieceID();
-	std::string getSpriteName();
 	int getMoveCount();
 
 

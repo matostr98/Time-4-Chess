@@ -88,7 +88,27 @@ Chessboard::Chessboard() {
 Chessboard::~Chessboard() {}
 
 void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
+	//HidePossibleMoves(CurrentCoord);
+	//new field
+	Board[CurrentCoord.x][CurrentCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
+	Board[CurrentCoord.x][CurrentCoord.y].status = BoardStatus::Occupied;
+	Board[CurrentCoord.x][CurrentCoord.y].rect = 
+		PieceSpriteHandler(Board[CurrentCoord.x][CurrentCoord.y].piece->getPieceID(),
+		Board[CurrentCoord.x][CurrentCoord.y].piece->getPieceColor(), CurrentCoord);
+	Board[CurrentCoord.x][CurrentCoord.y].StatRect= 
+		StatusSpriteHandler(Board[CurrentCoord.x][CurrentCoord.y].status, CurrentCoord);
+
+	//old field
+	Board[ActiveCoord.x][ActiveCoord.y].piece = nullptr;
+	Board[ActiveCoord.x][ActiveCoord.y].status = BoardStatus::Empty;
+	Board[ActiveCoord.x][ActiveCoord.y].rect= 
+		StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y].status, ActiveCoord);
+	Board[ActiveCoord.x][ActiveCoord.y].StatRect =
+		StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y].status, ActiveCoord);
+
 	
+
+
 }
 
 void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
@@ -161,7 +181,7 @@ sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vect
 		case PieceID::King: {temp.setTexture(TextureMap["wK"]); break; }
 		}
 	}
-	else {
+	else if (color == PieceColor::Black) {
 		switch (id) {
 		case PieceID::Pawn: {temp.setTexture(TextureMap["bP"]); break; }
 		case PieceID::Rook: {temp.setTexture(TextureMap["bR"]); break; }
@@ -170,7 +190,7 @@ sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vect
 		case PieceID::Queen: {temp.setTexture(TextureMap["bQ"]); break; }
 		case PieceID::King: {temp.setTexture(TextureMap["bK"]); break; }
 		}
-	}
+	} 
 	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
 	return temp;
 }
@@ -182,7 +202,7 @@ void Chessboard::Initialize() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 2; j++) {
 			//gdzies tu pojawil sie blad przy wychodzeniu z aplikacji
-			ChessPiece p(PieceColor::Black, PieceID::Pawn ,{i, j}, "bP");
+			ChessPiece p(PieceColor::Black, PieceID::Pawn ,{i, j});
 			//BlackPiecesSet.emplace_back(&p); //comment i nagle nie ma bledu
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
@@ -198,7 +218,7 @@ void Chessboard::Initialize() {
 			Board[i][j].piece = nullptr;
 		}
 		for (int j = 6; j < 8; j++) {
-			ChessPiece p(PieceColor::White, PieceID::Pawn, { i, j }, "wP");
+			ChessPiece p(PieceColor::White, PieceID::Pawn, { i, j });
 			//BlackPiecesSet.emplace_back(&p);
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
@@ -281,6 +301,7 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 	}
 }
 void Chessboard::HidePawnPossibleMoves(sf::Vector2i ActiveCoord) {
+
 	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
 		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
 

@@ -69,14 +69,16 @@ void Game::Update() {
 					}
 					else if (Active == true && CurrentCoordinates != ActiveCoord) {
 						if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
+							
+							m_chessboard.UnmakeActiveSprite(ActiveCoord);
 							m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 
-							m_chessboard.UnmakeActiveSprite(ActiveCoord);
+							
 							ActiveCoord = { -1, -1 };
 							Active = false;
 						}
 						else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {
-							m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+							//m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
 
 							m_chessboard.UnmakeActiveSprite(ActiveCoord);
 							ActiveCoord = { -1, -1 };
