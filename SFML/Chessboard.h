@@ -39,6 +39,9 @@ private:
 	//Pawn
 	void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
 	void HidePawnPossibleMoves(sf::Vector2i ActiveCoord);
+	//Rook
+	void ShowRookPossibleMoves(sf::Vector2i ActiveCoord);
+	void HideRookPossibleMoves(sf::Vector2i ActiveCoord);
 
 public:
 
