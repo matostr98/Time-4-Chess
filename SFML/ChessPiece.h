@@ -11,13 +11,6 @@
 class ChessPiece
 {
 protected:
-	struct BoardSlot {
-		sf::Sprite rect;
-		sf::Sprite StatRect;
-		std::shared_ptr<ChessPiece> piece;
-		BoardStatus status;
-	};
-
 	PieceColor color;
 	std::string spriteName;
 	PieceID id;
@@ -43,8 +36,7 @@ public:
 	void increamentMoveCount();
 
 	//Virtual
-	virtual std::vector<sf::Vector2i> getPossibleMoves(
-		std::array<std::array<BoardSlot, 8>, 8> &Board) = 0;
+	virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
 
 };
 

@@ -45,7 +45,8 @@ void Game::Update() {
 
 				sf::Vector2i CurrentCoordinates = GetCellCoor();
 
-				if (CurrentCoordinates.x >= 0 && CurrentCoordinates.x < 8 && CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8)
+				if (CurrentCoordinates.x >= 0 && CurrentCoordinates.x < 8 
+					&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8)
 					if (Active == false) {
 						if (playerTurn == 1) {
 							//na chwile obecna jest zle bo wymaja dobrej klasy ChessPiece
@@ -53,7 +54,7 @@ void Game::Update() {
 								Active = true;
 								ActiveCoord = CurrentCoordinates;
 								m_chessboard.MakeActiveSprite(ActiveCoord);
-								
+								//m_chessboard.CallForPossibleMoves(ActiveCoord);
 							}
 
 						}

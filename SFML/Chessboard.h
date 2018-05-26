@@ -48,7 +48,7 @@ public:
 	~Chessboard();
 
 	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
-	void CallForPossibleMoves();
+	void CallForPossibleMoves(sf::Vector2i ActiveCoord);
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
