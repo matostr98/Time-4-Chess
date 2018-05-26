@@ -1047,7 +1047,7 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 	//przynajmniej juz mnie nie dziwi ze dzialaja
 	//i jezeli przy nich wywali to juz nie wiem jak to zrobic abym rozumial i dzialo
 
-	//White----------------------------------------------------------------
+	//White--------------------------------------------------------------------------
 	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
 
 		int x = ActiveCoord.x;
@@ -1106,8 +1106,8 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 
 		//bottom-left---------------
 
-		//x = ActiveCoord.x;
-		//y = ActiveCoord.y;
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
 
 		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
@@ -1161,9 +1161,11 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 		}
 
 	}
-	else {
+	
+	//Black--------------------------------------------------------------------------
+else {
 
-		//Black--------------------------------------------------------------------------
+		
 
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
@@ -1399,9 +1401,10 @@ void Chessboard::HideBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 		}
 
 	}
+	//Black--------------------------------------------------------------------------
 	else {
 
-		//Black--------------------------------------------------------------------------
+		
 
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
@@ -1523,9 +1526,896 @@ void Chessboard::HideBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 
 //Queen show and hide---------------------------------------------------------
 void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
+	//White---------------------------------------------------------------------------------
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		while (x - 1 >= 0 && x - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y].status = BoardStatus::Capture;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Empty) {
+				Board[x - 1][y].status = BoardStatus::Highlighted;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+			x--;
+			//}
+		}
+
+		//right
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (x + 1 >= 0 && x + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y].status = BoardStatus::Capture;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Empty) {
+				Board[x + 1][y].status = BoardStatus::Highlighted;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+			x++;
+			//}
+		}
+
+		//up
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y - 1 >= 0 && y - 1 <= 7) {
+			//if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x][y - 1].status = BoardStatus::Capture;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Empty) {
+				Board[x][y - 1].status = BoardStatus::Highlighted;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+			y--;
+			//}
+		}
+
+		//down
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y + 1 >= 0 && y + 1 <= 7) {
+			//if (y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x][y + 1].status = BoardStatus::Capture;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Empty) {
+				Board[x][y + 1].status = BoardStatus::Highlighted;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+			}
+			y++;
+			//}
+		}
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		//top-left---------------
+		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y - 1].status = BoardStatus::Capture;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
+				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+			x--; y--;
+			//}
+		}
+
+		//top-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y - 1].status = BoardStatus::Capture;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
+				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+			x++; y--;
+			//}
+		}
+
+		//bottom-left---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y + 1].status = BoardStatus::Capture;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
+				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+			x--; y++;
+			//}
+		}
+
+		//bottom-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
+				else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y + 1].status = BoardStatus::Capture;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
+				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+			x++; y++;
+			//}
+		}
+	}
+
+
+
+
+	//Black---------------------------------------------------------------------------------
+	else {
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		while (x - 1 >= 0 && x - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y].status = BoardStatus::Capture;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Empty) {
+				Board[x - 1][y].status = BoardStatus::Highlighted;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+			x--;
+			//}
+		}
+
+		//right
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (x + 1 >= 0 && x + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y].status = BoardStatus::Capture;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+					break;
+				}
+
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Empty) {
+				Board[x + 1][y].status = BoardStatus::Highlighted;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+			x++;
+			//}
+		}
+
+		//down
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y - 1 >= 0 && y - 1 <= 7) {
+			//if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x][y - 1].status = BoardStatus::Capture;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Empty) {
+				Board[x][y - 1].status = BoardStatus::Highlighted;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+			y--;
+			//}
+		}
+
+		//up
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y + 1 >= 0 && y + 1 <= 7) {
+			//if (y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Empty) {
+				Board[x][y + 1].status = BoardStatus::Highlighted;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+
+			}
+
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x][y + 1].status = BoardStatus::Capture;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+					break;
+				}
+			}
+			y++;
+			//}	
+		}
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		//top-left---------------
+		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y - 1].status = BoardStatus::Capture;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
+				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+			x--; y--;
+			//}
+		}
+
+		//top-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y - 1].status = BoardStatus::Capture;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
+				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+			x++; y--;
+			//}
+		}
+
+		//bottom-left---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y + 1].status = BoardStatus::Capture;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
+				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+			x--; y++;
+		}
+		//}
+
+		//bottom-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y + 1].status = BoardStatus::Capture;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					break;
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
+				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+			x++; y++;
+			//	}
+		}
+	}
 }
 
 void Chessboard::HideQueenPossibleMoves(sf::Vector2i ActiveCoord){
+
+	//White---------------------------------------------------------------
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		while (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x - 1][y].status == BoardStatus::Capture) {
+				Board[x - 1][y].status = BoardStatus::Occupied;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Highlighted) {
+				Board[x - 1][y].status = BoardStatus::Empty;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+			x--;
+		}
+
+		//right
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (x + 1 >= 0 && x + 1 <= 7) {
+
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x + 1][y].status == BoardStatus::Capture) {
+				Board[x + 1][y].status = BoardStatus::Occupied;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Highlighted) {
+				Board[x + 1][y].status = BoardStatus::Empty;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+			x++;
+		}
+
+		//up
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y - 1 >= 0 && y - 1 <= 7) {
+
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x][y - 1].status == BoardStatus::Capture) {
+				Board[x][y - 1].status = BoardStatus::Occupied;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Highlighted) {
+				Board[x][y - 1].status = BoardStatus::Empty;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+			y--;
+		}
+
+		//down
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y + 1 >= 0 && y + 1 <= 7) {
+
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x][y + 1].status == BoardStatus::Capture) {
+				Board[x][y + 1].status = BoardStatus::Occupied;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Highlighted) {
+				Board[x][y + 1].status = BoardStatus::Empty;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+			}
+			y++;
+		}
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		//top-left---------------
+		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x - 1][y - 1].status == BoardStatus::Capture) {
+				Board[x - 1][y - 1].status = BoardStatus::Occupied;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y - 1].status = BoardStatus::Empty;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+			x--; y--;
+			//}
+		}
+
+		//top-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x + 1][y - 1].status == BoardStatus::Capture) {
+				Board[x + 1][y - 1].status = BoardStatus::Occupied;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y - 1].status = BoardStatus::Empty;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+			x++; y--;
+			//}
+		}
+
+		//bottom-left---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+
+		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
+			}
+
+			else if (Board[x - 1][y + 1].status == BoardStatus::Capture) {
+				Board[x - 1][y + 1].status = BoardStatus::Occupied;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y + 1].status = BoardStatus::Empty;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+			x--; y++;
+			//}
+		}
+
+		//bottom-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
+
+			}
+			else if (Board[x + 1][y + 1].status == BoardStatus::Capture) {
+				Board[x + 1][y + 1].status = BoardStatus::Occupied;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y + 1].status = BoardStatus::Empty;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+			x++; y++;
+			//}
+		}
+
+	}
+
+
+
+
+	//Black---------------------------------------------------------------------------------
+	else {
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		while (x > 0) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x - 1][y].status == BoardStatus::Capture) {
+				Board[x - 1][y].status = BoardStatus::Occupied;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Highlighted) {
+				Board[x - 1][y].status = BoardStatus::Empty;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+			x--;
+		}
+
+		//right
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (x < 7) {
+
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x + 1][y].status == BoardStatus::Capture) {
+				Board[x + 1][y].status = BoardStatus::Occupied;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Highlighted) {
+				Board[x + 1][y].status = BoardStatus::Empty;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+			x++;
+		}
+
+		//up
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y > 0) {
+
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x][y - 1].status == BoardStatus::Capture) {
+				Board[x][y - 1].status = BoardStatus::Occupied;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Highlighted) {
+				Board[x][y - 1].status = BoardStatus::Empty;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+			y--;
+		}
+
+		//down
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		while (y < 7) {
+
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x][y + 1].status == BoardStatus::Capture) {
+				Board[x][y + 1].status = BoardStatus::Occupied;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Highlighted) {
+				Board[x][y + 1].status = BoardStatus::Empty;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+			}
+			y++;
+		}
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+		//top-left---------------
+		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x - 1][y - 1].status == BoardStatus::Capture) {
+				Board[x - 1][y - 1].status = BoardStatus::Occupied;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y - 1].status = BoardStatus::Empty;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+			x--; y--;
+			//}
+		}
+
+		//top-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x + 1][y - 1].status == BoardStatus::Capture) {
+				Board[x + 1][y - 1].status = BoardStatus::Occupied;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y - 1].status = BoardStatus::Empty;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+			x++; y--;
+		}
+
+
+		//bottom-left---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x - 1][y + 1].status == BoardStatus::Capture) {
+				Board[x - 1][y + 1].status = BoardStatus::Occupied;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y + 1].status = BoardStatus::Empty;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+			x--; y++;
+		}
+		//}
+
+		//bottom-right---------------
+
+		x = ActiveCoord.x;
+		y = ActiveCoord.y;
+
+		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+
+			}
+			else if (Board[x + 1][y + 1].status == BoardStatus::Capture) {
+				Board[x + 1][y + 1].status = BoardStatus::Occupied;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				break;
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y + 1].status = BoardStatus::Empty;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+			x++; y++;
+			//	}
+		}
+
+	}
 }
 
 
