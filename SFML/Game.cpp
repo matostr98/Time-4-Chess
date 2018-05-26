@@ -153,6 +153,12 @@ void Game::OnClickTest() {
 
 			std::cout << "Active: " << x << "," << y << "\n";
 		}
+		else if (m_chessboard.getBoardStatus(GetCellCoor()) == BoardStatus::Capture) {
+			int x = GetCellCoor().x;
+			int y = GetCellCoor().y;
+
+			std::cout << "Capture: " << x << "," << y << "\n";
+		}
 		if (m_chessboard.getBoardStatus(GetCellCoor()) == BoardStatus::Highlighted) {
 			int x = GetCellCoor().x;
 			int y = GetCellCoor().y;
