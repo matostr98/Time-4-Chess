@@ -18,20 +18,20 @@ std::vector<sf::Vector2i> Pawn::getPossibleMoves()
 	//no capture!!!!!
 	if (color == PieceColor::White) {
 		if (moveCount == 0) {
-			moves.push_back({ position.x, position.y + 1 });
-			moves.push_back({ position.x, position.y + 2 });
-		}
-		else {
-			moves.push_back({ position.x, position.y + 1 });
-		}
-	}
-	else {
-		if (moveCount == 0) {
 			moves.push_back({ position.x, position.y - 1 });
 			moves.push_back({ position.x, position.y - 2 });
 		}
 		else {
 			moves.push_back({ position.x, position.y - 1 });
+		}
+	}
+	else {
+		if (moveCount == 0) {
+			moves.push_back({ position.x, position.y + 1 });
+			moves.push_back({ position.x, position.y + 2 });
+		}
+		else {
+			moves.push_back({ position.x, position.y + 1 });
 		}
 	}
 	return moves;

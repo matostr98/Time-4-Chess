@@ -54,7 +54,7 @@ void Game::Update() {
 								Active = true;
 								ActiveCoord = CurrentCoordinates;
 								m_chessboard.MakeActiveSprite(ActiveCoord);
-								//m_chessboard.CallForPossibleMoves(ActiveCoord);
+								m_chessboard.CallForPossibleMoves(ActiveCoord);
 							}
 
 						}

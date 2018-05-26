@@ -93,14 +93,16 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 
 void Chessboard::CallForPossibleMoves(sf::Vector2i ActiveCoord){
 	Board[ActiveCoord.x][ActiveCoord.y].piece->setPosition(ActiveCoord);
-	/*std::vector<sf::Vector2i> posMoves{ Board[ActiveCoord.x][ActiveCoord.y].piece->getPossibleMoves() };
+	std::vector<sf::Vector2i> posMoves{ Board[ActiveCoord.x][ActiveCoord.y].piece->getPossibleMoves() };
 	for (auto e : posMoves) {
+		Board[e.x][e.y].status = BoardStatus::Highlighted;
+
 		sf::Sprite temp;
 		temp.setTexture(TextureMap["green"]);
 
 		temp.setPosition(24 + e.x * 84, 24 + e.y * 84);
 		Board[e.x][e.y].StatRect = temp;
-	}*/
+	}
 }
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
