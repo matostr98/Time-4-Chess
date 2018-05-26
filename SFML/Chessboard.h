@@ -36,8 +36,9 @@ private:
 	void Sprites();
 
 	//Chess pieces possible moves
-	void ShowPawnPossibleMoves();
-	void HidePawnPossibleMoves();
+	//Pawn
+	void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
+	void HidePawnPossibleMoves(sf::Vector2i ActiveCoord);
 
 public:
 

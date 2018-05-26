@@ -96,60 +96,7 @@ void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
 		
 		case PieceID::Pawn: { //Pawn move and collisions
-			if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
-				if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
-					
-					//two step move
-					if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
-
-						//for move one in two step move
-						Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
-						Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect = 
-							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status, 
-								{ ActiveCoord.x,  ActiveCoord.y - 1});
-
-							if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Empty) {
-
-								//for move two in two step move
-								Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Highlighted;
-								Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
-									StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
-										{ ActiveCoord.x,  ActiveCoord.y - 2 });
-							}
-					}
-					//if capture
-					
-				}
-
-				else {
-				}
-			}
-			else {
-				if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
-					//two step move
-
-					if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
-
-						//for move one in two step move
-						Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
-						Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
-							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1 ].status,
-								{ ActiveCoord.x,  ActiveCoord.y + 1 });
-
-						if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Empty) {
-
-							//for move two in two step move
-							Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Highlighted;
-							Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
-								StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
-									{ ActiveCoord.x,  ActiveCoord.y + 2 });
-						}
-
-
-					}
-
-				}
-			}
+			ShowPawnPossibleMoves(ActiveCoord);
 			break;
 		}
 	}
@@ -160,60 +107,7 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
 
 	case PieceID::Pawn: { //Pawn move and collisions
-		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
-			if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
-
-				//two step move
-				if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Highlighted) {
-
-					//for move one in two step move
-					Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Empty;
-					Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
-							{ ActiveCoord.x,  ActiveCoord.y - 1 });
-
-					if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Highlighted) {
-
-						//for move two in two step move
-						Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Empty;
-						Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
-							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
-								{ ActiveCoord.x,  ActiveCoord.y - 2 });
-					}
-				}
-				//if capture
-
-			}
-
-			else {
-			}
-		}
-		else {
-			if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
-				//two step move
-
-				if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Highlighted) {
-
-					//for move one in two step move
-					Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Empty;
-					Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
-							{ ActiveCoord.x,  ActiveCoord.y + 1 });
-
-					if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Highlighted) {
-
-						//for move two in two step move
-						Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Empty;
-						Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
-							StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
-								{ ActiveCoord.x,  ActiveCoord.y + 2 });
-					}
-
-
-				}
-
-			}
-		}
+		HidePawnPossibleMoves(ActiveCoord);
 		break;
 	}
 	}
@@ -338,4 +232,118 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 		}
 	}
 
+}
+
+
+void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+
+			//two step move
+			if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
+
+				//for move one in two step move
+				Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
+				Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y - 1 });
+
+				if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Empty) {
+
+					//for move two in two step move
+					Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Highlighted;
+					Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
+							{ ActiveCoord.x,  ActiveCoord.y - 2 });
+				}
+			}
+			//if capture
+
+		}
+
+		else {
+		}
+	}
+	else {
+		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+			//two step move
+
+			if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
+
+				//for move one in two step move
+				Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
+				Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y + 1 });
+
+				if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Empty) {
+
+					//for move two in two step move
+					Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Highlighted;
+					Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
+							{ ActiveCoord.x,  ActiveCoord.y + 2 });
+				}
+
+
+			}
+
+		}
+	}
+}
+void Chessboard::HidePawnPossibleMoves(sf::Vector2i ActiveCoord) {
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+
+			//two step move
+			if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Highlighted) {
+
+				//for move one in two step move
+				Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Empty;
+				Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y - 1 });
+
+				if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Highlighted) {
+
+					//for move two in two step move
+					Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Empty;
+					Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
+							{ ActiveCoord.x,  ActiveCoord.y - 2 });
+				}
+			}
+			//if capture
+
+		}
+
+		else {
+		}
+	}
+	else {
+		if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+			//two step move
+
+			if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Highlighted) {
+
+				//for move one in two step move
+				Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Empty;
+				Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x,  ActiveCoord.y + 1 });
+
+				if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Highlighted) {
+
+					//for move two in two step move
+					Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Empty;
+					Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
+							{ ActiveCoord.x,  ActiveCoord.y + 2 });
+				}
+
+
+			}
+
+		}
+	}
 }
