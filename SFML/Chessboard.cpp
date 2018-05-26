@@ -279,34 +279,39 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
 		else {
 			//for one step move----------------------------------------------------------
-			if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
-				Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
-				Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
-						{ ActiveCoord.x,  ActiveCoord.y - 1 });
+			if (ActiveCoord.y - 1 >= 0) {
+				if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
+					Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
+					Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
+							{ ActiveCoord.x,  ActiveCoord.y - 1 });
+				}
 			}
 		}
 
-		//capture---------------
+		//capture for white ---------------
 		//left-diagonal
-		if (Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
-			&&Board[ActiveCoord.x - 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
+		if ((ActiveCoord.x - 1) >= 0 && (ActiveCoord.y - 1) >= 0) {
+			if (Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
+				&&Board[ActiveCoord.x - 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
 
-			Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
-			Board[ActiveCoord.x - 1][ActiveCoord.y - 1].StatRect =
-				StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status,
-					{ ActiveCoord.x - 1,  ActiveCoord.y - 1 });
+				Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
+				Board[ActiveCoord.x - 1][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x - 1,  ActiveCoord.y - 1 });
+			}
 		}
 		//right-diagonal
-		if (Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
-			&&Board[ActiveCoord.x + 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
+		if ((ActiveCoord.x + 1) < 8 && (ActiveCoord.y - 1) >= 0) {
+			if (Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
+				&&Board[ActiveCoord.x + 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
 
-			Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
-			Board[ActiveCoord.x + 1][ActiveCoord.y - 1].StatRect =
-				StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status,
-					{ ActiveCoord.x + 1,  ActiveCoord.y - 1 });
+				Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
+				Board[ActiveCoord.x + 1][ActiveCoord.y - 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status,
+						{ ActiveCoord.x + 1,  ActiveCoord.y - 1 });
+			}
 		}
-
 	} 
 	
 	//black--------------------------------------------------------------------------------------
@@ -335,29 +340,35 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
 		} else {
 			//for one step move------------------------------------------------------------------
-			if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
-				Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
-				Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
-						{ ActiveCoord.x,  ActiveCoord.y + 1 });
-			}			
+			if (ActiveCoord.y + 1 < 8) {
+				if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
+					Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
+					Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
+						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
+							{ ActiveCoord.x,  ActiveCoord.y + 1 });
+				}
+			}
 		}
-		//capture----------------
+		//capture for black----------------
 		//left-diagonal
-		if (Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
-			&&Board[ActiveCoord.x - 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
-			Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
-			Board[ActiveCoord.x - 1][ActiveCoord.y + 1].StatRect =
-				StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status,
-					{ ActiveCoord.x - 1,  ActiveCoord.y + 1 });
+		if ((ActiveCoord.x - 1) >= 0 && (ActiveCoord.y + 1) < 8) {
+			if (Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
+				&&Board[ActiveCoord.x - 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
+				Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
+				Board[ActiveCoord.x - 1][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x - 1,  ActiveCoord.y + 1 });
+			}
 		}
 		//right-diagonal
-		if (Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
-			&&Board[ActiveCoord.x + 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
-			Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
-			Board[ActiveCoord.x + 1][ActiveCoord.y + 1].StatRect =
-				StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status,
-					{ ActiveCoord.x + 1,  ActiveCoord.y + 1 });
+		if ((ActiveCoord.x + 1) < 8 && (ActiveCoord.y + 1) < 8) {
+			if (Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
+				&&Board[ActiveCoord.x + 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
+				Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
+				Board[ActiveCoord.x + 1][ActiveCoord.y + 1].StatRect =
+					StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status,
+						{ ActiveCoord.x + 1,  ActiveCoord.y + 1 });
+			}
 		}
 	}
 }
