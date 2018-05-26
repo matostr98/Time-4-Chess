@@ -32,13 +32,6 @@ std::string ChessPiece::getSpriteName()
 	return spriteName;
 }
 
-//sf::Sprite ChessPiece::getWhitePieceSprite() {
-//	return whiteSprite;
-//}
-//
-//sf::Sprite ChessPiece::getBlackPieceSprite() {
-//	return blackSprite;
-//}
 
 int ChessPiece::getMoveCount() {
 	return moveCount;

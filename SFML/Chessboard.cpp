@@ -88,25 +88,25 @@ Chessboard::Chessboard() {
 Chessboard::~Chessboard() {}
 
 void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
-
+	
 }
 
 void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
 	
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
 		
-		case PieceID::Pawn: { //Pawn move and collisions
+		case PieceID::Pawn: { //Show Pawn Move
 			ShowPawnPossibleMoves(ActiveCoord);
 			break;
 		}
+
 	}
-	//}
 }
 
 void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
 
-	case PieceID::Pawn: { //Pawn move and collisions
+	case PieceID::Pawn: { //Hide Pawn Move
 		HidePawnPossibleMoves(ActiveCoord);
 		break;
 	}
