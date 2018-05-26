@@ -33,22 +33,24 @@ private:
 
 	std::map<std::string, sf::Texture> TextureMap;
 
-	/*sf::Texture b_texture;
-	sf::Sprite blue;
-	sf::Texture g_texture;
-	sf::Sprite green;
-	sf::Texture r_texture;
-	sf::Sprite red;*/
-
 	void Sprites();
+
+	//Chess pieces possible moves
+	void ShowPawnPossibleMoves();
+	void HidePawnPossibleMoves();
 
 public:
 
 	Chessboard();
 	~Chessboard();
 
+	//Move and possible moves
 	void Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
+	void Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
 	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
+	void HidePossibleMoves(sf::Vector2i ActiveCoord);
+
+
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
