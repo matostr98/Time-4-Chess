@@ -118,21 +118,14 @@ BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
-	//sf::Sprite temp;
-	//temp.setTexture(TextureMap["blue"]);
 
-	//temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
 	Board[coord.x][coord.y].status = BoardStatus::Active;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	ShowPossibleMoves(coord);
 }
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
-	//sf::Sprite temp;
-	//temp.setTexture(TextureMap["none"]);
 
-
-	//temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
 	Board[coord.x][coord.y].status = BoardStatus::Occupied;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	HidePossibleMoves(coord);
@@ -190,12 +183,10 @@ void Chessboard::Initialize() {
 		for (int j = 0; j < 2; j++) {
 			//gdzies tu pojawil sie blad przy wychodzeniu z aplikacji
 			ChessPiece p(PieceColor::Black, PieceID::Pawn ,{i, j}, "bP");
-			BlackPiecesSet.emplace_back(&p);
+			//BlackPiecesSet.emplace_back(&p); //comment i nagle nie ma bledu
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
-			//sf::Sprite temp;
-			//temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
-			//temp.setPosition(23 + i * 84, 23 + j * 84);
+
 			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
 				Board[i][j].piece->getPieceColor(), {i, j});
 			
@@ -208,12 +199,10 @@ void Chessboard::Initialize() {
 		}
 		for (int j = 6; j < 8; j++) {
 			ChessPiece p(PieceColor::White, PieceID::Pawn, { i, j }, "wP");
-			BlackPiecesSet.emplace_back(&p);
+			//BlackPiecesSet.emplace_back(&p);
 			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
-			//sf::Sprite temp;
-			//temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
-			//temp.setPosition(23 + i * 84, 23 + j * 84);
+
 			Board[i][j].rect = PieceSpriteHandler(Board[i][j].piece->getPieceID(),
 				Board[i][j].piece->getPieceColor(), { i, j });
 		}
