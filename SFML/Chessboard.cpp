@@ -92,7 +92,7 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 }
 
 void Chessboard::CallForPossibleMoves(sf::Vector2i ActiveCoord){
-	Board[ActiveCoord.x][ActiveCoord.y].piece->setPosition(ActiveCoord);
+	/*Board[ActiveCoord.x][ActiveCoord.y].piece->setPosition(ActiveCoord);
 	std::vector<sf::Vector2i> posMoves{ Board[ActiveCoord.x][ActiveCoord.y].piece->getPossibleMoves() };
 	for (auto e : posMoves) {
 		Board[e.x][e.y].status = BoardStatus::Highlighted;
@@ -101,8 +101,51 @@ void Chessboard::CallForPossibleMoves(sf::Vector2i ActiveCoord){
 		temp.setTexture(TextureMap["green"]);
 
 		temp.setPosition(24 + e.x * 84, 24 + e.y * 84);
-		Board[e.x][e.y].StatRect = temp;
+		Board[e.x][e.y].StatRect = temp;*/
+
+	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
+		
+		case PieceID::Pawn: { //Pawn move and collisions
+			if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+				if (Board[ActiveCoord.x][ActiveCoord.y].piece->getMoveCount() == 0) {
+					//two step move
+
+					if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
+
+						//for move one in two step move
+						Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
+						//tu bedzie board status handler
+						sf::Sprite temp;
+						temp.setTexture(TextureMap["green"]);
+
+						temp.setPosition(24 + ActiveCoord.x * 84, 24 + (ActiveCoord.y - 1) * 84);
+						Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect = temp;
+						//tu sie konczy
+
+							if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Empty) {
+
+								//for move two in two step move
+								Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Highlighted;
+								//tu bedzie board status handler
+								sf::Sprite temp;
+								temp.setTexture(TextureMap["green"]);
+
+								temp.setPosition(24 + ActiveCoord.x * 84, 24 + (ActiveCoord.y - 2) * 84);
+								Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect = temp;
+								//tu sie konczy
+							}
+
+
+					}
+					
+				}
+				else {
+
+				}
+			}
+		}
 	}
+	//}
 }
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
@@ -133,9 +176,9 @@ void Chessboard::Initialize() {
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 2; j++) {
 			//gdzies tu pojawil sie blad przy wychodzeniu z aplikacji
-			Pawn p(PieceColor::Black, {i, j});
+			ChessPiece p(PieceColor::Black, PieceID::Pawn ,{i, j}, "bP");
 			BlackPiecesSet.emplace_back(&p);
-			Board[i][j].piece = std::make_shared<Pawn>(p); //ciekawe czy dobrze dziala
+			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
 			sf::Sprite temp;
 			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);
@@ -150,9 +193,9 @@ void Chessboard::Initialize() {
 			Board[i][j].piece = nullptr;
 		}
 		for (int j = 6; j < 8; j++) {
-			Pawn p(PieceColor::White, { i, j });
+			ChessPiece p(PieceColor::White, PieceID::Pawn, { i, j }, "wP");
 			BlackPiecesSet.emplace_back(&p);
-			Board[i][j].piece = std::make_shared<Pawn>(p); //ciekawe czy dobrze dziala
+			Board[i][j].piece = std::make_shared<ChessPiece>(p); //ciekawe czy dobrze dziala
 			Board[i][j].status = BoardStatus::Occupied;
 			sf::Sprite temp;
 			temp.setTexture(TextureMap[Board[i][j].piece->getSpriteName()]);

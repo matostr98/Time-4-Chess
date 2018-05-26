@@ -20,8 +20,8 @@ protected:
 public:
 	//Constructors and destructors
 	ChessPiece();
-	ChessPiece(PieceColor s_color,
-		sf::Vector2i s_position);
+	ChessPiece(PieceColor s_color, PieceID s_id,
+		sf::Vector2i s_position, std::string s_sn);
 	~ChessPiece();
 
 	//Get
@@ -36,7 +36,7 @@ public:
 	void increamentMoveCount();
 
 	//Virtual
-	virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
+	//virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
 
 };
 
