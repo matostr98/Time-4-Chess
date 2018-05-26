@@ -93,6 +93,10 @@ void Game::Update() {
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
+
+								//Change player turn
+								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+									: playerTurn = PieceColor::White;
 							} 
 							
 							//capture-------------------------
@@ -103,11 +107,13 @@ void Game::Update() {
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
+
+								//Change player turn
+								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+									: playerTurn = PieceColor::White;
 							}
 
-							//Change player turn
-							playerTurn == PieceColor::White ? playerTurn = PieceColor::Black 
-								: playerTurn = PieceColor::White;
+							
 						}
 					} 
 					break;

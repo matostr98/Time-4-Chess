@@ -10,7 +10,7 @@
 
 using PiecePtr = std::shared_ptr<ChessPiece>;
 //using PieceSet = std::array<std::shared_ptr<ChessPiece>, 16>;
-using PieceSet = std::vector<std::shared_ptr<ChessPiece>>;
+//using PieceSet = std::vector<std::shared_ptr<ChessPiece>>;
 
 
 class Chessboard
