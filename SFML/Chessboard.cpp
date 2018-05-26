@@ -1,18 +1,7 @@
 #include "Chessboard.h"
 
-
 void Chessboard::Sprites() {
 	
-
-	/*if (b_texture.loadFromFile("Pionek.png"))
-		blue.setTexture(b_texture); else std::cout << "why?\n";
-
-	if (g_texture.loadFromFile("high.png"))
-		green.setTexture(g_texture); else std::cout << "why?\n";
-
-	if (r_texture.loadFromFile("capt.png"))
-		red.setTexture(r_texture); else std::cout << "why?\n";*/
-
 	sf::Texture temp;
 	
 	//White
@@ -71,14 +60,6 @@ void Chessboard::Sprites() {
 	if (t_background.loadFromFile("Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
 
-	//if (b_texture.loadFromFile("Pionek.png"))
-	//	blue.setTexture(b_texture); else std::cout << "why?\n";
-
-	//if (g_texture.loadFromFile("high.png"))
-	//	green.setTexture(g_texture); else std::cout << "why?\n";
-
-	//if (r_texture.loadFromFile("capt.png"))
-	//	red.setTexture(r_texture); else std::cout << "why?\n";
 }
 
 Chessboard::Chessboard() {
@@ -108,11 +89,12 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord){
 	Board[ActiveCoord.x][ActiveCoord.y].StatRect =
 		StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y].status, ActiveCoord);
 
+	
 }
 
 void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord) {
 
-
+	
 
 }
 
@@ -140,6 +122,11 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 	return Board[coor.x][coor.y].status;
+}
+
+PieceColor Chessboard::getPieceColor(sf::Vector2i coor)
+{
+	return Board[coor.x][coor.y].piece->getPieceColor();	
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {

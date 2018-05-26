@@ -19,7 +19,7 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
-	int playerTurn; //white player - 1, black player - 2
+	PieceColor playerTurn;
 
 	bool Active;
 	sf::Vector2i ActiveCoord;

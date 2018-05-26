@@ -36,13 +36,24 @@ private:
 	void Sprites();
 
 	//Chess pieces possible moves
-	//Pawn
-	void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
-	void HidePawnPossibleMoves(sf::Vector2i ActiveCoord);
-	//Rook
-	void ShowRookPossibleMoves(sf::Vector2i ActiveCoord);
-	void HideRookPossibleMoves(sf::Vector2i ActiveCoord);
-
+		//Pawn
+		void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
+		void HidePawnPossibleMoves(sf::Vector2i ActiveCoord);
+		//Rook
+		void ShowRookPossibleMoves(sf::Vector2i ActiveCoord);
+		void HideRookPossibleMoves(sf::Vector2i ActiveCoord);
+		//Knight
+		void ShowKnightPossibleMoves(sf::Vector2i ActiveCoord);
+		void HideKnightPossibleMoves(sf::Vector2i ActiveCoord);
+		//Bishop
+		void ShowBishopPossibleMoves(sf::Vector2i ActiveCoord);
+		void HideBishopPossibleMoves(sf::Vector2i ActiveCoord);
+		//Queen
+		void ShowQueenPossibleMoves(sf::Vector2i ActiveCoord);
+		void HideQueenPossibleMoves(sf::Vector2i ActiveCoord);
+		//King
+		void ShowKingPossibleMoves(sf::Vector2i ActiveCoord);
+		void HideKingPossibleMoves(sf::Vector2i ActiveCoord);
 public:
 
 	Chessboard();
@@ -59,6 +70,7 @@ public:
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
 	std::array<std::array<BoardSlot, 8>, 8> getBoard() { return Board; }
+	PieceColor getPieceColor(sf::Vector2i coor);
 
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);
