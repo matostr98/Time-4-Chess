@@ -1030,9 +1030,11 @@ void Chessboard::HideRookPossibleMoves(sf::Vector2i ActiveCoord) {
 
 //Knight show and hide--------------------------------------------------------
 void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
+
 }
 
 void Chessboard::HideKnightPossibleMoves(sf::Vector2i ActiveCoord){
+
 }
 
 
@@ -2421,7 +2423,654 @@ void Chessboard::HideQueenPossibleMoves(sf::Vector2i ActiveCoord){
 
 //King show and hide----------------------------------------------------------
 void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
+
+	//White---------------------------------------------------------------------------------
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y].status = BoardStatus::Capture;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Empty) {
+				Board[x - 1][y].status = BoardStatus::Highlighted;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+		}
+
+		//right
+		if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y].status = BoardStatus::Capture;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Empty) {
+				Board[x + 1][y].status = BoardStatus::Highlighted;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+		}
+
+		//up
+		if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x][y - 1].status = BoardStatus::Capture;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Empty) {
+				Board[x][y - 1].status = BoardStatus::Highlighted;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+		}
+
+		//down
+		if (y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x][y + 1].status = BoardStatus::Capture;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Empty) {
+				Board[x][y + 1].status = BoardStatus::Highlighted;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+			}
+		}
+
+		//top-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y - 1].status = BoardStatus::Capture;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
+				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+		}
+
+		//top-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y - 1].status = BoardStatus::Capture;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
+				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+		}
+
+		//bottom-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x - 1][y + 1].status = BoardStatus::Capture;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
+				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+		}
+
+		//bottom-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					Board[x + 1][y + 1].status = BoardStatus::Capture;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
+				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+		}
+	}
+
+
+
+
+	//Black---------------------------------------------------------------------------------
+	else {
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		
+		//left---------------
+		if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y].status = BoardStatus::Capture;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Empty) {
+				Board[x - 1][y].status = BoardStatus::Highlighted;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+		}
+
+		//right
+		if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y].status = BoardStatus::Capture;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Empty) {
+				Board[x + 1][y].status = BoardStatus::Highlighted;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+		}
+		
+
+		//down
+		if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x][y - 1].status = BoardStatus::Capture;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Empty) {
+				Board[x][y - 1].status = BoardStatus::Highlighted;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+		}
+
+		//up
+		if (y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Empty) {
+				Board[x][y + 1].status = BoardStatus::Highlighted;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+
+			}
+
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x][y + 1].status = BoardStatus::Capture;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+				}
+			}
+		}
+
+		//top-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y - 1].status = BoardStatus::Capture;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
+				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+		}
+
+		//top-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				 if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y - 1].status = BoardStatus::Capture;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+
+				 }
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
+				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+		}
+
+		//bottom-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x - 1][y + 1].status = BoardStatus::Capture;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
+				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+		}
+
+		//bottom-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					Board[x + 1][y + 1].status = BoardStatus::Capture;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				}
+			}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
+				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+		}
+	}
 }
 
 void Chessboard::HideKingPossibleMoves(sf::Vector2i ActiveCoord){
+	//White---------------------------------------------------------------------------------
+	if (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceColor() == PieceColor::White) {
+
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+		//left---------------
+		if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].status == BoardStatus::Capture) {
+					Board[x - 1][y].status = BoardStatus::Occupied;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x - 1][y].status == BoardStatus::Highlighted) {
+				Board[x - 1][y].status = BoardStatus::Empty;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+		}
+
+		//right
+		if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].status == BoardStatus::Capture) {
+					Board[x + 1][y].status = BoardStatus::Occupied;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x + 1][y].status == BoardStatus::Highlighted) {
+				Board[x + 1][y].status = BoardStatus::Empty;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+		}
+
+		//up
+		if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].status == BoardStatus::Capture) {
+					Board[x][y - 1].status = BoardStatus::Occupied;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x][y - 1].status == BoardStatus::Highlighted) {
+				Board[x][y - 1].status = BoardStatus::Empty;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+		}
+
+		//down
+		if (y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].status == BoardStatus::Capture) {
+					Board[x][y + 1].status = BoardStatus::Occupied;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x][y + 1].status == BoardStatus::Highlighted) {
+				Board[x][y + 1].status = BoardStatus::Empty;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+			}
+		}
+
+		//top-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].status == BoardStatus::Capture) {
+					Board[x - 1][y - 1].status = BoardStatus::Occupied;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x - 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y - 1].status = BoardStatus::Empty;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+		}
+
+		//top-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].status == BoardStatus::Capture) {
+					Board[x + 1][y - 1].status = BoardStatus::Occupied;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x + 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y - 1].status = BoardStatus::Empty;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+		}
+
+		//bottom-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].status == BoardStatus::Capture) {
+					Board[x - 1][y + 1].status = BoardStatus::Occupied;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x - 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y + 1].status = BoardStatus::Empty;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+		}
+
+		//bottom-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].status == BoardStatus::Capture) {
+					Board[x + 1][y + 1].status = BoardStatus::Occupied;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				}
+			//}
+
+			//if next field is empty
+			if (Board[x + 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y + 1].status = BoardStatus::Empty;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+		}
+	}
+
+
+
+
+	//Black---------------------------------------------------------------------------------
+	else {
+		int x = ActiveCoord.x;
+		int y = ActiveCoord.y;
+
+		//left---------------
+		if (x - 1 >= 0 && x - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y].status == BoardStatus::Capture) {
+					Board[x - 1][y].status = BoardStatus::Occupied;
+					Board[x - 1][y].StatRect = StatusSpriteHandler(
+						Board[x - 1][y].status, { x - 1, y });
+				} else if (Board[x - 1][y].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x - 1][y].status == BoardStatus::Highlighted) {
+				Board[x - 1][y].status = BoardStatus::Empty;
+				Board[x - 1][y].StatRect = StatusSpriteHandler(
+					Board[x - 1][y].status, { x - 1, y });
+			}
+		}
+
+		//right
+		if (x + 1 >= 0 && x + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y].status == BoardStatus::Capture) {
+					Board[x + 1][y].status = BoardStatus::Occupied;
+					Board[x + 1][y].StatRect = StatusSpriteHandler(
+						Board[x + 1][y].status, { x + 1, y });
+				} else if (Board[x + 1][y].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x + 1][y].status == BoardStatus::Highlighted) {
+				Board[x + 1][y].status = BoardStatus::Empty;
+				Board[x + 1][y].StatRect = StatusSpriteHandler(
+					Board[x + 1][y].status, { x + 1, y });
+			}
+		}
+
+
+		//down
+		if (y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x][y - 1].status == BoardStatus::Occupied) {
+
+				if (Board[x][y - 1].status == BoardStatus::Capture) {
+					Board[x][y - 1].status = BoardStatus::Occupied;
+					Board[x][y - 1].StatRect = StatusSpriteHandler(
+						Board[x][y - 1].status, { x, y - 1 });
+				} else if (Board[x][y - 1].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x][y - 1].status == BoardStatus::Highlighted) {
+				Board[x][y - 1].status = BoardStatus::Empty;
+				Board[x][y - 1].StatRect = StatusSpriteHandler(
+					Board[x][y - 1].status, { x, y - 1 });
+			}
+		}
+
+		//up
+		if (y + 1 >= 0 && y + 1 <= 7) {
+			
+
+			//if next field is occupied
+			//if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].status == BoardStatus::Capture) {
+					Board[x][y + 1].status = BoardStatus::Occupied;
+					Board[x][y + 1].StatRect = StatusSpriteHandler(
+						Board[x][y + 1].status, { x, y + 1 });
+				} else if (Board[x][y + 1].status == BoardStatus::Occupied) {}
+			//}
+			
+			//if next field is Highlighted
+			if (Board[x][y + 1].status == BoardStatus::Highlighted) {
+				Board[x][y + 1].status = BoardStatus::Empty;
+				Board[x][y + 1].StatRect = StatusSpriteHandler(
+					Board[x][y + 1].status, { x, y + 1 });
+
+			}
+
+		}
+
+		//top-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y - 1].status == BoardStatus::Capture) {
+					Board[x - 1][y - 1].status = BoardStatus::Occupied;
+					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+				} else if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x - 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y - 1].status = BoardStatus::Empty;
+				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y - 1].status, { x - 1, y - 1 });
+			}
+		}
+
+		//top-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y - 1].status == BoardStatus::Capture) {
+					Board[x + 1][y - 1].status = BoardStatus::Occupied;
+					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+				} else if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x + 1][y - 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y - 1].status = BoardStatus::Empty;
+				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y - 1].status, { x + 1, y - 1 });
+			}
+		}
+
+		//bottom-left---------------
+		if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x - 1][y + 1].status == BoardStatus::Capture) {
+					Board[x - 1][y + 1].status = BoardStatus::Occupied;
+					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+				} else if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x - 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x - 1][y + 1].status = BoardStatus::Empty;
+				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x - 1][y + 1].status, { x - 1, y + 1 });
+			}
+		}
+
+		//bottom-right---------------
+		if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+			//if next field is occupied
+			//if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x + 1][y + 1].status == BoardStatus::Capture) {
+					Board[x + 1][y + 1].status = BoardStatus::Occupied;
+					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+				} else if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {}
+			//}
+
+			//if next field is Highlighted
+			if (Board[x + 1][y + 1].status == BoardStatus::Highlighted) {
+				Board[x + 1][y + 1].status = BoardStatus::Empty;
+				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
+					Board[x + 1][y + 1].status, { x + 1, y + 1 });
+			}
+		}
+	}
 }
