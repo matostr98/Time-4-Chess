@@ -40,6 +40,9 @@ private:
 		//moze to zrobie exeptions pozniej
 		void ChangeStatusForHighlighted(int x, int y);
 		void ChangeStatusForCapture(int x, int y);
+
+		void ChangeStatusToOccupied(int x, int y);
+		void ChangeStatusToEmpty(int x, int y);
 		
 		//Pawn
 		void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
