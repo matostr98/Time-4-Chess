@@ -324,6 +324,24 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 
 }
 
+void Chessboard::ChangeStatusForHighlighted(int x, int y){
+	
+	//if next field is empty
+	if (Board[x ][y].status == BoardStatus::Empty) {
+		Board[x ][y].status = BoardStatus::Highlighted;
+		Board[x ][y].StatRect = StatusSpriteHandler(
+			Board[x ][y].status, { x , y });
+	}
+
+}
+
+void Chessboard::ChangeStatusForCapture(int x, int y){
+
+		Board[x][y].status = BoardStatus::Capture;
+		Board[x][y].StatRect = StatusSpriteHandler(
+			Board[x][y].status, { x, y });
+}
+
 //Pawn show and hide----------------------------------------------------------
 void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 
@@ -342,26 +360,14 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
 						{ ActiveCoord.x,  ActiveCoord.y - 1 });
 
-				if (Board[ActiveCoord.x][ActiveCoord.y - 2].status == BoardStatus::Empty) {
-
-					//for move two in two step move
-					Board[ActiveCoord.x][ActiveCoord.y - 2].status = BoardStatus::Highlighted;
-					Board[ActiveCoord.x][ActiveCoord.y - 2].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 2].status,
-							{ ActiveCoord.x,  ActiveCoord.y - 2 });
-				}
+				ChangeStatusForHighlighted(ActiveCoord.x, ActiveCoord.y - 2);
 			}					
 		}
 
 		else {
 			//for one step move----------------------------------------------------------
 			if (ActiveCoord.y - 1 >= 0) {
-				if (Board[ActiveCoord.x][ActiveCoord.y - 1].status == BoardStatus::Empty) {
-					Board[ActiveCoord.x][ActiveCoord.y - 1].status = BoardStatus::Highlighted;
-					Board[ActiveCoord.x][ActiveCoord.y - 1].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y - 1].status,
-							{ ActiveCoord.x,  ActiveCoord.y - 1 });
-				}
+				ChangeStatusForHighlighted(ActiveCoord.x, ActiveCoord.y - 1);
 			}
 		}
 
@@ -370,22 +376,14 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 		if ((ActiveCoord.x - 1) >= 0 && (ActiveCoord.y - 1) >= 0) {
 			if (Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
 				&&Board[ActiveCoord.x - 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
-
-				Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
-				Board[ActiveCoord.x - 1][ActiveCoord.y - 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y - 1].status,
-						{ ActiveCoord.x - 1,  ActiveCoord.y - 1 });
+				ChangeStatusForCapture(ActiveCoord.x - 1, ActiveCoord.y - 1);
 			}
 		}
 		//right-diagonal
 		if ((ActiveCoord.x + 1) < 8 && (ActiveCoord.y - 1) >= 0) {
 			if (Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status == BoardStatus::Occupied
 				&&Board[ActiveCoord.x + 1][ActiveCoord.y - 1].piece->getPieceColor() == PieceColor::Black) {
-
-				Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status = BoardStatus::Capture;
-				Board[ActiveCoord.x + 1][ActiveCoord.y - 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y - 1].status,
-						{ ActiveCoord.x + 1,  ActiveCoord.y - 1 });
+				ChangeStatusForCapture(ActiveCoord.x + 1, ActiveCoord.y - 1);
 			}
 		}
 	} 
@@ -404,25 +402,14 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 					StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
 						{ ActiveCoord.x,  ActiveCoord.y + 1 });
 
-				if (Board[ActiveCoord.x][ActiveCoord.y + 2].status == BoardStatus::Empty) {
-
-					//for move two in two step move
-					Board[ActiveCoord.x][ActiveCoord.y + 2].status = BoardStatus::Highlighted;
-					Board[ActiveCoord.x][ActiveCoord.y + 2].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 2].status,
-							{ ActiveCoord.x,  ActiveCoord.y + 2 });
-				}
+				//for move two in two step move
+				ChangeStatusForHighlighted(ActiveCoord.x, ActiveCoord.y + 2);
 			}
 
 		} else {
 			//for one step move------------------------------------------------------------------
 			if (ActiveCoord.y + 1 < 8) {
-				if (Board[ActiveCoord.x][ActiveCoord.y + 1].status == BoardStatus::Empty) {
-					Board[ActiveCoord.x][ActiveCoord.y + 1].status = BoardStatus::Highlighted;
-					Board[ActiveCoord.x][ActiveCoord.y + 1].StatRect =
-						StatusSpriteHandler(Board[ActiveCoord.x][ActiveCoord.y + 1].status,
-							{ ActiveCoord.x,  ActiveCoord.y + 1 });
-				}
+				ChangeStatusForHighlighted(ActiveCoord.x, ActiveCoord.y + 1);
 			}
 		}
 		//capture for black----------------
@@ -430,20 +417,15 @@ void Chessboard::ShowPawnPossibleMoves(sf::Vector2i ActiveCoord) {
 		if ((ActiveCoord.x - 1) >= 0 && (ActiveCoord.y + 1) < 8) {
 			if (Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
 				&&Board[ActiveCoord.x - 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
-				Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
-				Board[ActiveCoord.x - 1][ActiveCoord.y + 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x - 1][ActiveCoord.y + 1].status,
-						{ ActiveCoord.x - 1,  ActiveCoord.y + 1 });
+				ChangeStatusForCapture(ActiveCoord.x - 1, ActiveCoord.y + 1);
 			}
 		}
+
 		//right-diagonal
 		if ((ActiveCoord.x + 1) < 8 && (ActiveCoord.y + 1) < 8) {
 			if (Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status == BoardStatus::Occupied
 				&&Board[ActiveCoord.x + 1][ActiveCoord.y + 1].piece->getPieceColor() == PieceColor::White) {
-				Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status = BoardStatus::Capture;
-				Board[ActiveCoord.x + 1][ActiveCoord.y + 1].StatRect =
-					StatusSpriteHandler(Board[ActiveCoord.x + 1][ActiveCoord.y + 1].status,
-						{ ActiveCoord.x + 1,  ActiveCoord.y + 1 });
+				ChangeStatusForCapture(ActiveCoord.x + 1, ActiveCoord.y + 1);
 			}
 		}
 	}
@@ -592,99 +574,65 @@ void Chessboard::ShowRookPossibleMoves(sf::Vector2i ActiveCoord) {
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y].status = BoardStatus::Capture;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
+					ChangeStatusForCapture(x - 1, y);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y].status == BoardStatus::Empty) {
-				Board[x - 1][y].status = BoardStatus::Highlighted;
-				Board[x - 1][y].StatRect = StatusSpriteHandler(
-					Board[x - 1][y].status, { x - 1, y });
-			}
+			ChangeStatusForHighlighted(x - 1, y);
 			x--;
-			//}
 		}
 
 		//right
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (x + 1 >= 0 && x + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7) {
 				//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y].status = BoardStatus::Capture;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
+					ChangeStatusForCapture(x + 1, y);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y].status == BoardStatus::Empty) {
-				Board[x + 1][y].status = BoardStatus::Highlighted;
-				Board[x + 1][y].StatRect = StatusSpriteHandler(
-					Board[x + 1][y].status, { x + 1, y });
-			}
+			ChangeStatusForHighlighted(x + 1, y);
 			x++;
-			//}
 		}
 
 		//up
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y - 1 >= 0 && y - 1 <= 7) {
-			//if (y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y - 1].status = BoardStatus::Capture;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
+					ChangeStatusForCapture(x, y - 1);
 					break;
 				}
 			}
-
-			//if next field is empty
-			if (Board[x][y - 1].status == BoardStatus::Empty) {
-				Board[x][y - 1].status = BoardStatus::Highlighted;
-				Board[x][y - 1].StatRect = StatusSpriteHandler(
-					Board[x][y - 1].status, { x, y - 1 });
-			}
+			ChangeStatusForHighlighted(x, y - 1);
 			y--;
-			//}
+
 		}
 
 		//down
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y + 1 >= 0 && y + 1 <= 7) {
-			//if (y + 1 >= 0 && y + 1 <= 7) {
 				//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y + 1].status = BoardStatus::Capture;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
+					ChangeStatusForCapture(x, y + 1);
 					break;
 				}
 			}
-
-			//if next field is empty
-			if (Board[x][y + 1].status == BoardStatus::Empty) {
-				Board[x][y + 1].status = BoardStatus::Highlighted;
-				Board[x][y + 1].StatRect = StatusSpriteHandler(
-					Board[x][y + 1].status, { x, y + 1 });
-			}
+			ChangeStatusForHighlighted(x, y + 1);
 			y++;
-			//}
 		}
 	}
 
@@ -697,106 +645,74 @@ void Chessboard::ShowRookPossibleMoves(sf::Vector2i ActiveCoord) {
 		int y = ActiveCoord.y;
 		//left---------------
 		while (x - 1 >= 0 && x - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x - 1][y].status == BoardStatus::Occupied) {
 					if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
-						Board[x - 1][y].status = BoardStatus::Capture;
-						Board[x - 1][y].StatRect = StatusSpriteHandler(
-							Board[x - 1][y].status, { x - 1, y });
+						ChangeStatusForCapture(x - 1, y);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x - 1][y].status == BoardStatus::Empty) {
-					Board[x - 1][y].status = BoardStatus::Highlighted;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
-				}
+				ChangeStatusForHighlighted(x - 1, y);
 				x--;
-			//}
 		}
 
 		//right
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (x + 1 >= 0 && x + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7) {
 				//if next field is occupied
 				if (Board[x + 1][y].status == BoardStatus::Occupied) {
 					if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
-						Board[x + 1][y].status = BoardStatus::Capture;
-						Board[x + 1][y].StatRect = StatusSpriteHandler(
-							Board[x + 1][y].status, { x + 1, y });
+						ChangeStatusForCapture(x + 1, y);
 						break;
 					}
-
 				}
 
 				//if next field is empty
-				if (Board[x + 1][y].status == BoardStatus::Empty) {
-					Board[x + 1][y].status = BoardStatus::Highlighted;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
-				}
+				ChangeStatusForHighlighted(x + 1, y);
 				x++;
-			//}
 		}
 
 		//down
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y - 1 >= 0 && y - 1 <= 7) {
-			//if (y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x][y - 1].status == BoardStatus::Occupied) {
 					if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x][y - 1].status = BoardStatus::Capture;
-						Board[x][y - 1].StatRect = StatusSpriteHandler(
-							Board[x][y - 1].status, { x, y - 1 });
+						ChangeStatusForCapture(x, y - 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x][y - 1].status == BoardStatus::Empty) {
-					Board[x][y - 1].status = BoardStatus::Highlighted;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
-				}
+				ChangeStatusForHighlighted(x, y - 1);
 				y--;
-			//}
 		}
 
 		//up
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y + 1 >= 0 && y + 1 <= 7) {
-			//if (y + 1 >= 0 && y + 1 <= 7) {
-				//if next field is empty
-				if (Board[x][y + 1].status == BoardStatus::Empty) {
-					Board[x][y + 1].status = BoardStatus::Highlighted;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
-					
-				}
+			
 
-				//if next field is occupied
-				if (Board[x][y + 1].status == BoardStatus::Occupied) {
-					if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) break;
-					else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x][y + 1].status = BoardStatus::Capture;
-						Board[x][y + 1].StatRect = StatusSpriteHandler(
-							Board[x][y + 1].status, { x, y + 1 });
-						break;
-					}
+			//if next field is occupied
+			if (Board[x][y + 1].status == BoardStatus::Occupied) {
+				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) break;
+				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
+					ChangeStatusForCapture(x, y + 1);
+					break;
 				}
-				y++;
-			//}	
+			}
+
+			//if next field is empty
+			ChangeStatusForHighlighted(x , y + 1);
+			y++;
 		}
 	}
 
@@ -1045,19 +961,11 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 2].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 2].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y - 2].status = BoardStatus::Capture;
-					Board[x - 1][y - 2].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 2].status, { x - 1, y - 2 });
+					ChangeStatusForCapture(x - 1, y - 2);
 				}
 			}
-
 			//if next field is empty
-			if (Board[x - 1][y - 2].status == BoardStatus::Empty) {
-				Board[x - 1][y - 2].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 2].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 2].status, { x - 1, y - 2 });
-			}
-
+			ChangeStatusForHighlighted(x - 1, y - 2);
 		}
 
 		//top - right----------------------
@@ -1066,18 +974,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 2].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 2].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y - 2].status = BoardStatus::Capture;
-					Board[x + 1][y - 2].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 2].status, { x + 1, y - 2 });
+					ChangeStatusForCapture(x + 1, y - 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 2].status == BoardStatus::Empty) {
-				Board[x + 1][y - 2].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 2].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 2].status, { x + 1, y - 2 });
-			}
+			ChangeStatusForHighlighted(x + 1, y - 2);
 		}
 
 		//bottom - left----------------------
@@ -1086,18 +988,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 2].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 2].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y + 2].status = BoardStatus::Capture;
-					Board[x - 1][y + 2].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 2].status, { x - 1, y + 2 });
+					ChangeStatusForCapture(x - 1, y + 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 2].status == BoardStatus::Empty) {
-				Board[x - 1][y + 2].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 2].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 2].status, { x - 1, y + 2 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 2);
 
 		}
 
@@ -1107,18 +1003,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 2].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 2].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y + 2].status = BoardStatus::Capture;
-					Board[x + 1][y + 2].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 2].status, { x + 1, y + 2 });
+					ChangeStatusForCapture(x + 1, y + 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 2].status == BoardStatus::Empty) {
-				Board[x + 1][y + 2].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 2].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 2].status, { x + 1, y + 2 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 2);
 		}
 
 
@@ -1129,19 +1019,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 2][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 2][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 2][y + 1].status = BoardStatus::Capture;
-					Board[x - 2][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 2][y + 1].status, { x - 2, y + 1 });
+					ChangeStatusForCapture(x - 2, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 2][y + 1].status == BoardStatus::Empty) {
-				Board[x - 2][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 2][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 2][y + 1].status, { x - 2, y + 1 });
-			}
-
+			ChangeStatusForHighlighted(x - 2, y + 1);
 		}
 
 		//left - top----------------------
@@ -1150,19 +1033,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 2][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 2][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 2][y - 1].status = BoardStatus::Capture;
-					Board[x - 2][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 2][y - 1].status, { x - 2, y - 1 });
+					ChangeStatusForCapture(x - 2, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 2][y - 1].status == BoardStatus::Empty) {
-				Board[x - 2][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 2][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 2][y - 1].status, { x - 2, y - 1 });
-			}
-
+			ChangeStatusForHighlighted(x - 2, y + 1);
 		}
 
 		//right - bottom------------------
@@ -1171,18 +1047,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 2][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 2][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 2][y + 1].status = BoardStatus::Capture;
-					Board[x + 2][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 2][y + 1].status, { x + 2, y + 1 });
+					ChangeStatusForCapture(x + 2, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 2][y + 1].status == BoardStatus::Empty) {
-				Board[x + 2][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 2][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 2][y + 1].status, { x + 2, y + 1 });
-			}
+			ChangeStatusForHighlighted(x + 2, y + 1);
 
 		}
 
@@ -1191,19 +1061,11 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 
 			//if next field is occupied
 			if (Board[x + 2][y - 1].status == BoardStatus::Occupied) {
-				if (Board[x + 2][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 2][y - 1].status = BoardStatus::Capture;
-					Board[x + 2][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 2][y - 1].status, { x + 2, y - 1 });
-				}
+				ChangeStatusForCapture(x + 2, y - 1);
 			}
 
 			//if next field is empty
-			if (Board[x + 2][y - 1].status == BoardStatus::Empty) {
-				Board[x + 2][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 2][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 2][y - 1].status, { x + 2, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 2, y - 1);
 
 		}
 	} 
@@ -1223,19 +1085,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 2].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 2].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y - 2].status = BoardStatus::Capture;
-					Board[x - 1][y - 2].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 2].status, { x - 1, y - 2 });
+					ChangeStatusForCapture(x - 1, y - 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y - 2].status == BoardStatus::Empty) {
-				Board[x - 1][y - 2].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 2].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 2].status, { x - 1, y - 2 });
-			}
-
+			ChangeStatusForHighlighted(x - 1, y - 2);
 		}
 
 		//top - right----------------------
@@ -1244,18 +1099,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 2].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 2].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y - 2].status = BoardStatus::Capture;
-					Board[x + 1][y - 2].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 2].status, { x + 1, y - 2 });
+					ChangeStatusForCapture(x + 1, y - 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 2].status == BoardStatus::Empty) {
-				Board[x + 1][y - 2].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 2].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 2].status, { x + 1, y - 2 });
-			}
+			ChangeStatusForHighlighted(x - 1, y - 2);
 		}
 
 		//bottom - left----------------------
@@ -1264,18 +1113,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 2].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 2].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y + 2].status = BoardStatus::Capture;
-					Board[x - 1][y + 2].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 2].status, { x - 1, y + 2 });
+					ChangeStatusForCapture(x - 1, y + 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 2].status == BoardStatus::Empty) {
-				Board[x - 1][y + 2].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 2].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 2].status, { x - 1, y + 2 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 2);
 
 		}
 
@@ -1285,18 +1128,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 2].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 2].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y + 2].status = BoardStatus::Capture;
-					Board[x + 1][y + 2].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 2].status, { x + 1, y + 2 });
+					ChangeStatusForCapture(x + 1, y + 2);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 2].status == BoardStatus::Empty) {
-				Board[x + 1][y + 2].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 2].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 2].status, { x + 1, y + 2 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 2);
 		}
 
 
@@ -1307,19 +1144,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 2][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 2][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 2][y + 1].status = BoardStatus::Capture;
-					Board[x - 2][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 2][y + 1].status, { x - 2, y + 1 });
+					ChangeStatusForCapture(x - 2, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 2][y + 1].status == BoardStatus::Empty) {
-				Board[x - 2][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 2][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 2][y + 1].status, { x - 2, y + 1 });
-			}
-
+			ChangeStatusForHighlighted(x - 2, y + 1);
 		}
 
 		//left - top----------------------
@@ -1328,19 +1158,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 2][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 2][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 2][y - 1].status = BoardStatus::Capture;
-					Board[x - 2][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 2][y - 1].status, { x - 2, y - 1 });
+					ChangeStatusForCapture(x - 2, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 2][y - 1].status == BoardStatus::Empty) {
-				Board[x - 2][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 2][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 2][y - 1].status, { x - 2, y - 1 });
-			}
-
+			ChangeStatusForHighlighted(x - 2, y - 1);
 		}
 
 		//right - bottom------------------
@@ -1349,19 +1172,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 2][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 2][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 2][y + 1].status = BoardStatus::Capture;
-					Board[x + 2][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 2][y + 1].status, { x + 2, y + 1 });
+					ChangeStatusForCapture(x + 2, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 2][y + 1].status == BoardStatus::Empty) {
-				Board[x + 2][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 2][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 2][y + 1].status, { x + 2, y + 1 });
-			}
-
+			ChangeStatusForHighlighted(x + 2, y + 1);
 		}
 
 		//right - bottom------------------
@@ -1370,18 +1186,12 @@ void Chessboard::ShowKnightPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 2][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x + 2][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 2][y - 1].status = BoardStatus::Capture;
-					Board[x + 2][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 2][y - 1].status, { x + 2, y - 1 });
+					ChangeStatusForCapture(x + 2, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 2][y - 1].status == BoardStatus::Empty) {
-				Board[x + 2][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 2][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 2][y - 1].status, { x + 2, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 2, y - 1);
 
 		}
 	}
@@ -1761,28 +1571,21 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
+
 		//top-left---------------
 		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 					if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
 					else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-						Board[x - 1][y - 1].status = BoardStatus::Capture;
-						Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-							Board[x - 1][y - 1].status, { x - 1, y - 1 });
+						ChangeStatusForCapture(x - 1, y - 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-					Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
-				}
+				ChangeStatusForHighlighted(x - 1, y - 1);
 				x--; y--;
-			//}
 		}
 
 		//top-right---------------
@@ -1791,26 +1594,18 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 					if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
 					else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-						Board[x + 1][y - 1].status = BoardStatus::Capture;
-						Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-							Board[x + 1][y - 1].status, { x + 1, y - 1 });
+						ChangeStatusForCapture(x + 1, y - 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-					Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
-				}
+				ChangeStatusForHighlighted(x + 1, y - 1);
 				x++; y--;
-			//}
 		}
 
 		//bottom-left---------------
@@ -1819,24 +1614,17 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 		y = ActiveCoord.y;
 
 		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 				//if next field is occupied
 				if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 					if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
 					else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-						Board[x - 1][y + 1].status = BoardStatus::Capture;
-						Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-							Board[x - 1][y + 1].status, { x - 1, y + 1 });
+						ChangeStatusForCapture(x - 1, y + 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-					Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
-				}
+				ChangeStatusForHighlighted(x - 1, y + 1);
 				x--; y++;
 			//}
 		}
@@ -1847,24 +1635,17 @@ void Chessboard::ShowBishopPossibleMoves(sf::Vector2i ActiveCoord) {
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 				//if next field is occupied
 				if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 					if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
 					else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-						Board[x + 1][y + 1].status = BoardStatus::Capture;
-						Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-							Board[x + 1][y + 1].status, { x + 1, y + 1 });
+						ChangeStatusForCapture(x + 1, y + 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-					Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
-				}
+				ChangeStatusForHighlighted(x + 1, y + 1);
 				x++; y++;
 			//}
 		}
@@ -1880,26 +1661,18 @@ else {
 		int y = ActiveCoord.y;
 		//top-left---------------
 		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 					if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x - 1][y - 1].status = BoardStatus::Capture;
-						Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-							Board[x - 1][y - 1].status, { x - 1, y - 1 });
+						ChangeStatusForCapture(x - 1, y - 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-					Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
-				}
+				ChangeStatusForHighlighted(x - 1, y - 1);
 				x--; y--;
-			//}
 		}
 
 		//top-right---------------
@@ -1908,26 +1681,18 @@ else {
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 				//if next field is occupied
 				if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 					if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x + 1][y - 1].status = BoardStatus::Capture;
-						Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-							Board[x + 1][y - 1].status, { x + 1, y - 1 });
+						ChangeStatusForCapture(x + 1, y - 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-					Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
-				}
+				ChangeStatusForHighlighted(x + 1, y - 1);
 				x++; y--;
-			//}
 		}
 
 		//bottom-left---------------
@@ -1936,27 +1701,19 @@ else {
 		y = ActiveCoord.y;
 
 		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 				//if next field is occupied
 				if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 					if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x - 1][y + 1].status = BoardStatus::Capture;
-						Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-							Board[x - 1][y + 1].status, { x - 1, y + 1 });
+						ChangeStatusForCapture(x - 1, y + 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-					Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
-				}
+				ChangeStatusForHighlighted(x - 1, y + 1);
 				x--; y++;
 			}
-		//}
 
 		//bottom-right---------------
 
@@ -1964,26 +1721,18 @@ else {
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 				//if next field is occupied
 				if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 					if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
 					else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-						Board[x + 1][y + 1].status = BoardStatus::Capture;
-						Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-							Board[x + 1][y + 1].status, { x + 1, y + 1 });
+						ChangeStatusForCapture(x + 1, y + 1);
 						break;
 					}
 				}
 
 				//if next field is empty
-				if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-					Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
-				}
+				ChangeStatusForHighlighted(x + 1, y + 1);
 				x++; y++;
-		//	}
 		}
 	}
 }
@@ -2242,128 +1991,89 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		int y = ActiveCoord.y;
 		//left---------------
 		while (x - 1 >= 0 && x - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y].status = BoardStatus::Capture;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
+					ChangeStatusForCapture(x - 1, y);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y].status == BoardStatus::Empty) {
-				Board[x - 1][y].status = BoardStatus::Highlighted;
-				Board[x - 1][y].StatRect = StatusSpriteHandler(
-					Board[x - 1][y].status, { x - 1, y });
-			}
+			ChangeStatusForHighlighted(x - 1, y);
 			x--;
-			//}
 		}
 
 		//right
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (x + 1 >= 0 && x + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y].status = BoardStatus::Capture;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
+					ChangeStatusForCapture(x + 1, y);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y].status == BoardStatus::Empty) {
-				Board[x + 1][y].status = BoardStatus::Highlighted;
-				Board[x + 1][y].StatRect = StatusSpriteHandler(
-					Board[x + 1][y].status, { x + 1, y });
-			}
+			ChangeStatusForHighlighted(x + 1, y);
 			x++;
-			//}
 		}
 
 		//up
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y - 1 >= 0 && y - 1 <= 7) {
-			//if (y - 1 >= 0 && y - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y - 1].status = BoardStatus::Capture;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
+					ChangeStatusForCapture(x, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x][y - 1].status == BoardStatus::Empty) {
-				Board[x][y - 1].status = BoardStatus::Highlighted;
-				Board[x][y - 1].StatRect = StatusSpriteHandler(
-					Board[x][y - 1].status, { x, y - 1 });
-			}
+			ChangeStatusForHighlighted(x, y - 1);
 			y--;
-			//}
 		}
 
 		//down
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y + 1 >= 0 && y + 1 <= 7) {
-			//if (y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y + 1].status = BoardStatus::Capture;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
+					ChangeStatusForCapture(x, y + 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x][y + 1].status == BoardStatus::Empty) {
-				Board[x][y + 1].status = BoardStatus::Highlighted;
-				Board[x][y + 1].StatRect = StatusSpriteHandler(
-					Board[x][y + 1].status, { x, y + 1 });
-			}
+			ChangeStatusForHighlighted(x, y + 1);
 			y++;
-			//}
 		}
 
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		//top-left---------------
 		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y - 1].status = BoardStatus::Capture;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					ChangeStatusForCapture(x - 1, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 1].status, { x - 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y - 1);
 			x--; y--;
 			//}
 		}
@@ -2374,24 +2084,17 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y - 1].status = BoardStatus::Capture;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					ChangeStatusForCapture(x + 1, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 1].status, { x + 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y - 1);
 			x++; y--;
 			//}
 		}
@@ -2402,26 +2105,18 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y + 1].status = BoardStatus::Capture;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					ChangeStatusForCapture(x - 1, y + 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 1].status, { x - 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 1);
 			x--; y++;
-			//}
 		}
 
 		//bottom-right---------------
@@ -2430,26 +2125,18 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) break;
 				else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y + 1].status = BoardStatus::Capture;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					ChangeStatusForCapture(x + 1, y + 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 1].status, { x + 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 1);
 			x++; y++;
-			//}
 		}
 	}
 
@@ -2462,110 +2149,79 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		int y = ActiveCoord.y;
 		//left---------------
 		while (x - 1 >= 0 && x - 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y].status = BoardStatus::Capture;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
+					ChangeStatusForCapture(x - 1, y);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y].status == BoardStatus::Empty) {
-				Board[x - 1][y].status = BoardStatus::Highlighted;
-				Board[x - 1][y].StatRect = StatusSpriteHandler(
-					Board[x - 1][y].status, { x - 1, y });
-			}
+			ChangeStatusForHighlighted(x - 1, y);
 			x--;
-			//}
 		}
 
 		//right
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (x + 1 >= 0 && x + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y].status = BoardStatus::Capture;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
+					ChangeStatusForCapture(x + 1, y);
 					break;
 				}
 
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y].status == BoardStatus::Empty) {
-				Board[x + 1][y].status = BoardStatus::Highlighted;
-				Board[x + 1][y].StatRect = StatusSpriteHandler(
-					Board[x + 1][y].status, { x + 1, y });
-			}
+			ChangeStatusForHighlighted(x + 1, y);
 			x++;
-			//}
 		}
 
 		//down
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y - 1 >= 0 && y - 1 <= 7) {
-			//if (y - 1 >= 0 && y - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x][y - 1].status = BoardStatus::Capture;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
+					ChangeStatusForCapture(x, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x][y - 1].status == BoardStatus::Empty) {
-				Board[x][y - 1].status = BoardStatus::Highlighted;
-				Board[x][y - 1].StatRect = StatusSpriteHandler(
-					Board[x][y - 1].status, { x, y - 1 });
-			}
+			ChangeStatusForHighlighted(x, y - 1);
 			y--;
-			//}
 		}
 
 		//up
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
 		while (y + 1 >= 0 && y + 1 <= 7) {
-			//if (y + 1 >= 0 && y + 1 <= 7) {
-			//if next field is empty
-			if (Board[x][y + 1].status == BoardStatus::Empty) {
-				Board[x][y + 1].status = BoardStatus::Highlighted;
-				Board[x][y + 1].StatRect = StatusSpriteHandler(
-					Board[x][y + 1].status, { x, y + 1 });
-
-			}
 
 			//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x][y + 1].status = BoardStatus::Capture;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
+					ChangeStatusForCapture(x, y + 1);
 					break;
 				}
 			}
+			//if next field is empty
+			ChangeStatusForHighlighted(x, y + 1);
+
 			y++;
-			//}	
 		}
 
 		x = ActiveCoord.x;
 		y = ActiveCoord.y;
+
 		//top-left---------------
 		while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 			//if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
@@ -2573,21 +2229,14 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y - 1].status = BoardStatus::Capture;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					ChangeStatusForCapture(x - 1, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 1].status, { x - 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y - 1);
 			x--; y--;
-			//}
 		}
 
 		//top-right---------------
@@ -2596,24 +2245,17 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y - 1].status = BoardStatus::Capture;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					ChangeStatusForCapture(x + 1, y - 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 1].status, { x + 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y - 1);
 			x++; y--;
 			//}
 		}
@@ -2624,24 +2266,17 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y + 1].status = BoardStatus::Capture;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					ChangeStatusForCapture(x - 1, y + 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 1].status, { x - 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 1);
 			x--; y++;
 		}
 		//}
@@ -2652,26 +2287,18 @@ void Chessboard::ShowQueenPossibleMoves(sf::Vector2i ActiveCoord){
 		y = ActiveCoord.y;
 
 		while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
-			//if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) break;
 				else if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y + 1].status = BoardStatus::Capture;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					ChangeStatusForCapture(x + 1, y + 1);
 					break;
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 1].status, { x + 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 1);
 			x++; y++;
-			//	}
 		}
 	}
 }
@@ -3141,18 +2768,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y].status = BoardStatus::Capture;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
+					ChangeStatusForCapture(x - 1, y);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y].status == BoardStatus::Empty) {
-				Board[x - 1][y].status = BoardStatus::Highlighted;
-				Board[x - 1][y].StatRect = StatusSpriteHandler(
-					Board[x - 1][y].status, { x - 1, y });
-			}
+			ChangeStatusForHighlighted(x - 1, y);
 		}
 
 		//right
@@ -3160,18 +2781,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y].status = BoardStatus::Capture;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
+					ChangeStatusForCapture(x + 1, y);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y].status == BoardStatus::Empty) {
-				Board[x + 1][y].status = BoardStatus::Highlighted;
-				Board[x + 1][y].StatRect = StatusSpriteHandler(
-					Board[x + 1][y].status, { x + 1, y });
-			}
+			ChangeStatusForHighlighted(x + 1, y);
 		}
 
 		//up
@@ -3179,18 +2794,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y - 1].status = BoardStatus::Capture;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
+					ChangeStatusForCapture(x, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x][y - 1].status == BoardStatus::Empty) {
-				Board[x][y - 1].status = BoardStatus::Highlighted;
-				Board[x][y - 1].StatRect = StatusSpriteHandler(
-					Board[x][y - 1].status, { x, y - 1 });
-			}
+			ChangeStatusForHighlighted(x, y - 1);
 		}
 
 		//down
@@ -3198,18 +2807,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x][y + 1].status = BoardStatus::Capture;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
+					ChangeStatusForCapture(x, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x][y + 1].status == BoardStatus::Empty) {
-				Board[x][y + 1].status = BoardStatus::Highlighted;
-				Board[x][y + 1].StatRect = StatusSpriteHandler(
-					Board[x][y + 1].status, { x, y + 1 });
-			}
+			ChangeStatusForHighlighted(x, y + 1);
 		}
 
 		//top-left---------------
@@ -3217,18 +2820,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y - 1].status = BoardStatus::Capture;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					ChangeStatusForCapture(x - 1, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 1].status, { x - 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y - 1);
 		}
 
 		//top-right---------------
@@ -3236,18 +2833,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y - 1].status = BoardStatus::Capture;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					ChangeStatusForCapture(x + 1, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 1].status, { x + 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y - 1);
 		}
 
 		//bottom-left---------------
@@ -3255,18 +2846,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x - 1][y + 1].status = BoardStatus::Capture;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					ChangeStatusForCapture(x - 1, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 1].status, { x - 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 1);
 		}
 
 		//bottom-right---------------
@@ -3274,22 +2859,14 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
-					Board[x + 1][y + 1].status = BoardStatus::Capture;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					ChangeStatusForCapture(x + 1, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 1].status, { x + 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 1);
 		}
 	}
-
-
 
 
 	//Black---------------------------------------------------------------------------------
@@ -3302,18 +2879,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y].status = BoardStatus::Capture;
-					Board[x - 1][y].StatRect = StatusSpriteHandler(
-						Board[x - 1][y].status, { x - 1, y });
+					ChangeStatusForCapture(x - 1, y);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y].status == BoardStatus::Empty) {
-				Board[x - 1][y].status = BoardStatus::Highlighted;
-				Board[x - 1][y].StatRect = StatusSpriteHandler(
-					Board[x - 1][y].status, { x - 1, y });
-			}
+			ChangeStatusForHighlighted(x - 1, y);
 		}
 
 		//right
@@ -3321,59 +2892,41 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y].status = BoardStatus::Capture;
-					Board[x + 1][y].StatRect = StatusSpriteHandler(
-						Board[x + 1][y].status, { x + 1, y });
+					ChangeStatusForCapture(x + 1, y);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y].status == BoardStatus::Empty) {
-				Board[x + 1][y].status = BoardStatus::Highlighted;
-				Board[x + 1][y].StatRect = StatusSpriteHandler(
-					Board[x + 1][y].status, { x + 1, y });
-			}
+			ChangeStatusForHighlighted(x + 1, y);
 		}
 		
-
 		//down
-		if (y - 1 >= 0 && y - 1 <= 7) {
+		if (y + 1 >= 0 && y + 1 <= 7) {
 			//if next field is occupied
-			if (Board[x][y - 1].status == BoardStatus::Occupied) {
-
-				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x][y - 1].status = BoardStatus::Capture;
-					Board[x][y - 1].StatRect = StatusSpriteHandler(
-						Board[x][y - 1].status, { x, y - 1 });
+			if (Board[x][y + 1].status == BoardStatus::Occupied &&
+				Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
+					ChangeStatusForCapture(x, y + 1);
 				}
-			}
+			
 
 			//if next field is empty
-			if (Board[x][y - 1].status == BoardStatus::Empty) {
-				Board[x][y - 1].status = BoardStatus::Highlighted;
-				Board[x][y - 1].StatRect = StatusSpriteHandler(
-					Board[x][y - 1].status, { x, y - 1 });
-			}
+			ChangeStatusForHighlighted(x, y + 1);
 		}
 
 		//up
-		if (y + 1 >= 0 && y + 1 <= 7) {
-			//if next field is empty
-			if (Board[x][y + 1].status == BoardStatus::Empty) {
-				Board[x][y + 1].status = BoardStatus::Highlighted;
-				Board[x][y + 1].StatRect = StatusSpriteHandler(
-					Board[x][y + 1].status, { x, y + 1 });
-
-			}
+		if (y - 1 >= 0 && y - 1 <= 7) {
+			
 
 			//if next field is occupied
-			if (Board[x][y + 1].status == BoardStatus::Occupied) {
-				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x][y + 1].status = BoardStatus::Capture;
-					Board[x][y + 1].StatRect = StatusSpriteHandler(
-						Board[x][y + 1].status, { x, y + 1 });
+			if (Board[x][y - 1].status == BoardStatus::Occupied) {
+				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
+					ChangeStatusForCapture(x, y - 1);
 				}
 			}
+			//if next field is empty
+			ChangeStatusForHighlighted(x, y - 1);
+
+
 		}
 
 		//top-left---------------
@@ -3381,18 +2934,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y - 1].status = BoardStatus::Capture;
-					Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y - 1].status, { x - 1, y - 1 });
+					ChangeStatusForCapture(x - 1, y - 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y - 1].status == BoardStatus::Empty) {
-				Board[x - 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y - 1].status, { x - 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y - 1);
 		}
 
 		//top-right---------------
@@ -3400,19 +2947,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				 if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y - 1].status = BoardStatus::Capture;
-					Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y - 1].status, { x + 1, y - 1 });
+					 ChangeStatusForCapture(x + 1, y - 1);
 
 				 }
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y - 1].status == BoardStatus::Empty) {
-				Board[x + 1][y - 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y - 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y - 1].status, { x + 1, y - 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y - 1);
 		}
 
 		//bottom-left---------------
@@ -3420,18 +2961,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x - 1][y + 1].status = BoardStatus::Capture;
-					Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x - 1][y + 1].status, { x - 1, y + 1 });
+					ChangeStatusForCapture(x - 1, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x - 1][y + 1].status == BoardStatus::Empty) {
-				Board[x - 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x - 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x - 1][y + 1].status, { x - 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x - 1, y + 1);
 		}
 
 		//bottom-right---------------
@@ -3439,18 +2974,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
-					Board[x + 1][y + 1].status = BoardStatus::Capture;
-					Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-						Board[x + 1][y + 1].status, { x + 1, y + 1 });
+					ChangeStatusForCapture(x + 1, y + 1);
 				}
 			}
 
 			//if next field is empty
-			if (Board[x + 1][y + 1].status == BoardStatus::Empty) {
-				Board[x + 1][y + 1].status = BoardStatus::Highlighted;
-				Board[x + 1][y + 1].StatRect = StatusSpriteHandler(
-					Board[x + 1][y + 1].status, { x + 1, y + 1 });
-			}
+			ChangeStatusForHighlighted(x + 1, y + 1);
 		}
 	}
 }

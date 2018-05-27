@@ -37,6 +37,10 @@ private:
 	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
 
 	//Chess pieces possible moves
+		//moze to zrobie exeptions pozniej
+		void ChangeStatusForHighlighted(int x, int y);
+		void ChangeStatusForCapture(int x, int y);
+		
 		//Pawn
 		void ShowPawnPossibleMoves(sf::Vector2i ActiveCoord);
 		void HidePawnPossibleMoves(sf::Vector2i ActiveCoord);
