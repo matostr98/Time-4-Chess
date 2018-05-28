@@ -39,3 +39,8 @@ void ChessPiece::setPosition(sf::Vector2i coord) {
 void ChessPiece::increamentMoveCount() {
 	moveCount++;
 }
+
+void ChessPiece::setPieceIDforPromotion(PieceID set){
+	id = set;
+	moveCount = 0;
+}

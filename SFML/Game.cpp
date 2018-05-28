@@ -90,10 +90,16 @@ void Game::Update() {
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 
+								//Check for promotion
+								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
+									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
+									m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+								}
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
 
+							
 								//Change player turn
 								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
@@ -104,6 +110,12 @@ void Game::Update() {
 
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+
+								//Check for promotion
+								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) 
+									&& m_chessboard.getPieceID(CurrentCoordinates)==PieceID::Pawn) {
+									m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+								}
 
 								ActiveCoord = { -1, -1 };
 								Active = false;

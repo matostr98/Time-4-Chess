@@ -191,6 +191,16 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 	}
 }
 
+void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
+	//sprawdzanie koloru chyba niepotrzebne
+	//if (Board[coord.x][coord.y].piece->getPieceID() == PieceID::Pawn) {
+		Board[coord.x][coord.y].piece->setPieceIDforPromotion(id);
+
+		Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
+			Board[coord.x][coord.y].piece->getPieceColor(), coord);
+	//}
+}
+
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 	return Board[coor.x][coor.y].status;
 }
@@ -198,6 +208,11 @@ BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 PieceColor Chessboard::getPieceColor(sf::Vector2i coor)
 {
 	return Board[coor.x][coor.y].piece->getPieceColor();	
+}
+
+PieceID Chessboard::getPieceID(sf::Vector2i coor)
+{
+	return Board[coor.x][coor.y].piece->getPieceID();
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {

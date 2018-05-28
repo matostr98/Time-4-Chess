@@ -74,11 +74,15 @@ public:
 	void HidePossibleMoves(sf::Vector2i ActiveCoord);
 
 
+	//special moves
+	void Promotion(PieceID id, sf::Vector2i coord);
+
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
 	std::array<std::array<BoardSlot, 8>, 8> getBoard() { return Board; }
 	PieceColor getPieceColor(sf::Vector2i coor);
+	PieceID getPieceID(sf::Vector2i coor);
 
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);

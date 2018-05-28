@@ -33,6 +33,7 @@ public:
 	//Set
 	void setPosition(sf::Vector2i coord);
 	void increamentMoveCount();
+	void setPieceIDforPromotion(PieceID set);
 
 	//Virtual
 	//virtual std::vector<sf::Vector2i> getPossibleMoves() = 0;
