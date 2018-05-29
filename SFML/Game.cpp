@@ -51,7 +51,8 @@ void Game::Update() {
 
 					//promotion
 
-					if (promotion == true) {
+					if (promotion == true && TempCoordinates.x > 832 && TempCoordinates.x < 1168 
+						&& TempCoordinates.y>318 && TempCoordinates.y < 402) {
 
 						//najpierw wyswietlic
 
@@ -270,7 +271,7 @@ void Game::OnClickTest() {
 PieceID Game::getPromotionPiece(sf::Vector2i mousePos)
 {
 	//sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-	if (mousePos.x > 832 && mousePos.x < 1168 && mousePos.y>318 && mousePos.y < 402) {
+	//if (mousePos.x > 832 && mousePos.x < 1168 && mousePos.y>318 && mousePos.y < 402) {
 		switch ((mousePos.x - 832) / 84) {
 		case 0: {return PieceID::Rook; break; }
 		case 1: {return PieceID::Knight; break; }
@@ -278,7 +279,7 @@ PieceID Game::getPromotionPiece(sf::Vector2i mousePos)
 		case 3: {return PieceID::Queen; break; }
 		//default: {return PieceID::Pawn; break; }
 		}
-	}
+	//}
 	
 }
 
