@@ -193,9 +193,10 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 
 void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
 		Board[coord.x][coord.y].piece->setPieceIDforPromotion(id);
-
+		std::cout << "weszlo\n";
 		Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
 			Board[coord.x][coord.y].piece->getPieceColor(), coord);
+		promotion = false;
 }
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
@@ -273,7 +274,7 @@ sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vect
 sf::Sprite Chessboard::PromotionSpriteHandler(PieceColor color, int n) {
 	sf::Sprite temp;
 	std::cout << "PromotionSpriteHandler\n";
-
+	
 	if (color == PieceColor::White) {
 		switch (n) {
 		case 0: {temp.setTexture(TextureMap["wR"]); break; }
@@ -296,10 +297,7 @@ sf::Sprite Chessboard::PromotionSpriteHandler(PieceColor color, int n) {
 
 void Chessboard::RenderPromotion(PieceColor color){
 
-	sf::Sprite rook;
-	sf::Sprite knight;
-	sf::Sprite bishop;
-	sf::Sprite queen;
+	promotion = true;
 
 	rook = PromotionSpriteHandler(color, 0);
 	knight = PromotionSpriteHandler(color, 1);
@@ -310,7 +308,7 @@ void Chessboard::RenderPromotion(PieceColor color){
 
 void Chessboard::Initialize() {
 	//initialize board status	
-
+	promotion = false;
 	for (int i = 0; i < 8; i++) {
 		int j = 0;
 
@@ -369,6 +367,12 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 				l_window.draw(Board[i][j].rect);
 				l_window.draw(Board[i][j].StatRect);
 			}
+		}
+		if (promotion == true) {
+			l_window.draw(rook);
+			l_window.draw(knight);
+			l_window.draw(bishop);
+			l_window.draw(queen);
 		}
 	}
 

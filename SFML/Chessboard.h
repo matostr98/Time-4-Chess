@@ -31,6 +31,12 @@ private:
 	sf::Texture t_background;
 	sf::Sprite background;
 
+	sf::Sprite rook;
+	sf::Sprite knight;
+	sf::Sprite bishop;
+	sf::Sprite queen;
+	bool promotion;
+
 	std::map<std::string, sf::Texture> TextureMap;
 
 	void Sprites();

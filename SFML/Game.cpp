@@ -46,6 +46,8 @@ void Game::Update() {
 					OnClickTest();
 
 					sf::Vector2i CurrentCoordinates = GetCellCoor();
+					sf::Vector2i TempCoordinates = sf::Mouse::getPosition(m_window);
+					
 
 					//promotion
 
@@ -53,17 +55,27 @@ void Game::Update() {
 
 						//najpierw wyswietlic
 
-						//potem klikniecie
+						//potem klikniecie w check for promotion
 						//moze jakis if z nowa zmienna (nowa==current) i pozniej zmienic na nwaz z currentem
-						CurrentCoordinates = GetCellCoor();
+						
+						
+						//TempCoordinates = sf::Mouse::getPosition(m_window);
 
 						//potem promocja i znikniecie
 
-						PromotionHandler(CurrentCoordinates.y == 0 ?
-							PieceColor::Black : PieceColor::White, CurrentCoordinates);
+
+						std::cout << "PromotionCoordinates: " << PromotionCoordinates.x << ", "
+							<< PromotionCoordinates.y << std::endl;
+
+						PromotionHandler(PromotionCoordinates.y == 0 ? 
+							PieceColor::White : PieceColor::Black, TempCoordinates, PromotionCoordinates);
 
 						//potem zmaiana stanu na bazowy i zmiana tury, ktora nie wejdzie bo promotion bylo true
 						promotion = false;
+						ActiveCoord = { -1, -1 };
+						Active = false;
+						playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+							: playerTurn = PieceColor::White;
 
 					}
 
@@ -120,19 +132,24 @@ void Game::Update() {
 
 									promotion = true;
 
+									//tu juz bym misual zmienic sprite'y
+									/*if (promotion == true) */m_chessboard.RenderPromotion(
+										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
+									
+									PromotionCoordinates = CurrentCoordinates;
 									/*PromotionHandler(CurrentCoordinates.y == 0 ?
 										PieceColor::Black : PieceColor::White, CurrentCoordinates);*/
 
 								}
 								
-
-								ActiveCoord = { -1, -1 };
-								Active = false;
-
-							
-								//Change player turn
-								if (promotion==false) playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								if (promotion == false) {
+								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
+
+									ActiveCoord = { -1, -1 };
+									Active = false;
+								}
+
 							} 
 							
 							//capture-------------------------
@@ -148,16 +165,21 @@ void Game::Update() {
 									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
 									
 									promotion = true;
-									/*PromotionHandler(CurrentCoordinates.y == 0 ?
-										PieceColor::Black : PieceColor::White, CurrentCoordinates);*/
+									/*if (promotion == true)*/ m_chessboard.RenderPromotion(
+										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
+									
+									PromotionCoordinates = CurrentCoordinates;
 								}
 
-								ActiveCoord = { -1, -1 };
-								Active = false;
+								if (promotion == false) {
+									playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+										: playerTurn = PieceColor::White;
 
-								//Change player turn
-								if (promotion == false) playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
-									: playerTurn = PieceColor::White;
+									ActiveCoord = { -1, -1 };
+									Active = false;
+								}
+
+								
 							}
 
 							//if z promocja, bo moze zadziala wtedy z kliknieciem
@@ -245,9 +267,9 @@ void Game::OnClickTest() {
 	}
 }
 
-PieceID Game::getPromotionPiece()
+PieceID Game::getPromotionPiece(sf::Vector2i mousePos)
 {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+	//sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
 	if (mousePos.x > 832 && mousePos.x < 1168 && mousePos.y>318 && mousePos.y < 402) {
 		switch ((mousePos.x - 832) / 84) {
 		case 0: {return PieceID::Rook; break; }
@@ -260,7 +282,7 @@ PieceID Game::getPromotionPiece()
 	
 }
 
-void Game::PromotionHandler(PieceColor color, sf::Vector2i CurrentCoordinates){
+void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates){
 	
 
 	//TODO: do zmiany
@@ -269,9 +291,9 @@ void Game::PromotionHandler(PieceColor color, sf::Vector2i CurrentCoordinates){
 	//RenderPromotion();
 
 	//std::cout << "0\n";
-	m_chessboard.RenderPromotion(color);
+	//m_chessboard.RenderPromotion(color);
 	//std::cout << "1\n";
-	PieceID prom = getPromotionPiece();
+	PieceID prom = getPromotionPiece(TempCoordinates);
 	//std::cout << "2\n";
 	m_chessboard.Promotion(prom, CurrentCoordinates);
 	//std::cout << "3\n";

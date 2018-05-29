@@ -19,12 +19,14 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
+
 	PieceColor playerTurn;
 
 	bool Active;
 	sf::Vector2i ActiveCoord;
 
 	bool promotion;
+	sf::Vector2i PromotionCoordinates;
 
 	Chessboard m_chessboard;
 public:
@@ -55,8 +57,8 @@ public:
 	int GetCellNumber(sf::RenderWindow& l_window);
 	sf::Vector2i GetCellCoor();
 	void OnClickTest();
-	PieceID getPromotionPiece();
-	void PromotionHandler(PieceColor color, sf::Vector2i CurrentCoordinates);
+	PieceID getPromotionPiece(sf::Vector2i mousePos);
+	void PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates);
 
 	//void Draw(sf::Drawable& l_drawable);
 
