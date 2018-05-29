@@ -91,6 +91,9 @@ public:
 	//Sprite Handlers
 	sf::Sprite StatusSpriteHandler(BoardStatus status, sf::Vector2i coord);
 	sf::Sprite PieceSpriteHandler(PieceID id, PieceColor color, sf::Vector2i coord);
+	sf::Sprite PromotionSpriteHandler(PieceColor color, int n);
+
+	void RenderPromotion(PieceColor color);
 
 	void Initialize();
 	void Render(sf::RenderWindow& l_window);

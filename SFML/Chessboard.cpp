@@ -192,13 +192,10 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 }
 
 void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
-	//sprawdzanie koloru chyba niepotrzebne
-	//if (Board[coord.x][coord.y].piece->getPieceID() == PieceID::Pawn) {
 		Board[coord.x][coord.y].piece->setPieceIDforPromotion(id);
 
 		Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
 			Board[coord.x][coord.y].piece->getPieceColor(), coord);
-	//}
 }
 
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
@@ -271,6 +268,44 @@ sf::Sprite Chessboard::PieceSpriteHandler(PieceID id, PieceColor color, sf::Vect
 	} 
 	temp.setPosition(24 + coord.x * 84, 24 + coord.y * 84);
 	return temp;
+}
+
+sf::Sprite Chessboard::PromotionSpriteHandler(PieceColor color, int n) {
+	sf::Sprite temp;
+	std::cout << "PromotionSpriteHandler\n";
+
+	if (color == PieceColor::White) {
+		switch (n) {
+		case 0: {temp.setTexture(TextureMap["wR"]); break; }
+		case 1: {temp.setTexture(TextureMap["wKn"]); break; }
+		case 2: {temp.setTexture(TextureMap["wB"]); break; }
+		case 3: {temp.setTexture(TextureMap["wQ"]); break; }
+		}
+	}
+	else if (color == PieceColor::Black) {
+		switch (n) {
+		case 0: {temp.setTexture(TextureMap["bR"]); break; }
+		case 1: {temp.setTexture(TextureMap["bKn"]); break; }
+		case 2: {temp.setTexture(TextureMap["bB"]); break; }
+		case 3: {temp.setTexture(TextureMap["bQ"]); break; }
+		}
+	}
+	temp.setPosition(833+84*n, 318);
+	return temp;
+}
+
+void Chessboard::RenderPromotion(PieceColor color){
+
+	sf::Sprite rook;
+	sf::Sprite knight;
+	sf::Sprite bishop;
+	sf::Sprite queen;
+
+	rook = PromotionSpriteHandler(color, 0);
+	knight = PromotionSpriteHandler(color, 1);
+	bishop = PromotionSpriteHandler(color, 2);
+	queen = PromotionSpriteHandler(color, 3);
+
 }
 
 void Chessboard::Initialize() {

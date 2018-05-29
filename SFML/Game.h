@@ -24,6 +24,8 @@ private:
 	bool Active;
 	sf::Vector2i ActiveCoord;
 
+	bool promotion;
+
 	Chessboard m_chessboard;
 public:
 	int cellSize = 84;
@@ -53,6 +55,8 @@ public:
 	int GetCellNumber(sf::RenderWindow& l_window);
 	sf::Vector2i GetCellCoor();
 	void OnClickTest();
+	PieceID getPromotionPiece();
+	void PromotionHandler(PieceColor color, sf::Vector2i CurrentCoordinates);
 
 	//void Draw(sf::Drawable& l_drawable);
 

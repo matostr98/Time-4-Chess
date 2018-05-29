@@ -6,6 +6,7 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	m_isDone = false;
 	playerTurn = PieceColor::White;
 	Active = false;
+	promotion = false;
 	Create();
 }
 void Game::Create() {
@@ -46,13 +47,33 @@ void Game::Update() {
 
 					sf::Vector2i CurrentCoordinates = GetCellCoor();
 
+					//promotion
+
+					if (promotion == true) {
+
+						//najpierw wyswietlic
+
+						//potem klikniecie
+						//moze jakis if z nowa zmienna (nowa==current) i pozniej zmienic na nwaz z currentem
+						CurrentCoordinates = GetCellCoor();
+
+						//potem promocja i znikniecie
+
+						PromotionHandler(CurrentCoordinates.y == 0 ?
+							PieceColor::Black : PieceColor::White, CurrentCoordinates);
+
+						//potem zmaiana stanu na bazowy i zmiana tury, ktora nie wejdzie bo promotion bylo true
+						promotion = false;
+
+					}
+
 					//if active is false, first click------------------------------------
 
 					if (CurrentCoordinates.x >= 0 && CurrentCoordinates.x < 8
 						&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8) {
 						if (Active == false) {
 							if (playerTurn == PieceColor::White) {
-								//na chwile obecna jest zle bo wymaja dobrej klasy ChessPiece
+								
 								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
 									&&m_chessboard.getPieceColor(CurrentCoordinates)==PieceColor::White) {
 									
@@ -74,7 +95,8 @@ void Game::Update() {
 						
 						//unmake active, second click------------------------------------
 
-						else if (Active == true && CurrentCoordinates == ActiveCoord) {
+						else if (Active == true && CurrentCoordinates == ActiveCoord 
+							&& promotion==false) {
 							m_chessboard.UnmakeActiveSprite(ActiveCoord);
 							ActiveCoord = { -1, -1 };
 							Active = false;
@@ -82,7 +104,8 @@ void Game::Update() {
 						
 						//move and capture, second click------------------------------------
 
-						else if (Active == true && CurrentCoordinates != ActiveCoord) {
+						else if (Active == true && CurrentCoordinates != ActiveCoord
+							&& promotion == false) {
 
 							//move----------------------------
 							if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
@@ -90,23 +113,31 @@ void Game::Update() {
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 
-								//Check for promotion
+								//Check for promotion i zmienic status
 								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
 									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
-									m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+
+									promotion = true;
+
+									/*PromotionHandler(CurrentCoordinates.y == 0 ?
+										PieceColor::Black : PieceColor::White, CurrentCoordinates);*/
+
 								}
+								
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
 
 							
 								//Change player turn
-								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								if (promotion==false) playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
 							} 
 							
 							//capture-------------------------
-							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture) {								
+							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture
+								&& promotion == false) {
 
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
@@ -114,18 +145,22 @@ void Game::Update() {
 								//Check for promotion
 								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) 
 									&& m_chessboard.getPieceID(CurrentCoordinates)==PieceID::Pawn) {
-									m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
+									
+									promotion = true;
+									/*PromotionHandler(CurrentCoordinates.y == 0 ?
+										PieceColor::Black : PieceColor::White, CurrentCoordinates);*/
 								}
 
 								ActiveCoord = { -1, -1 };
 								Active = false;
 
 								//Change player turn
-								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								if (promotion == false) playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
 							}
 
-							
+							//if z promocja, bo moze zadziala wtedy z kliknieciem
 						}
 					} 
 					break;
@@ -209,6 +244,49 @@ void Game::OnClickTest() {
 		std::cout << "None: " << x << "," << y << "\n";
 	}
 }
+
+PieceID Game::getPromotionPiece()
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+	if (mousePos.x > 832 && mousePos.x < 1168 && mousePos.y>318 && mousePos.y < 402) {
+		switch ((mousePos.x - 832) / 84) {
+		case 0: {return PieceID::Rook; break; }
+		case 1: {return PieceID::Knight; break; }
+		case 2: {return PieceID::Bishop; break; }
+		case 3: {return PieceID::Queen; break; }
+		//default: {return PieceID::Pawn; break; }
+		}
+	}
+	
+}
+
+void Game::PromotionHandler(PieceColor color, sf::Vector2i CurrentCoordinates){
+	
+
+	//TODO: do zmiany
+	//BeginDraw();
+	
+	//RenderPromotion();
+
+	//std::cout << "0\n";
+	m_chessboard.RenderPromotion(color);
+	//std::cout << "1\n";
+	PieceID prom = getPromotionPiece();
+	//std::cout << "2\n";
+	m_chessboard.Promotion(prom, CurrentCoordinates);
+	//std::cout << "3\n";
+
+	
+
+
+
+
+	//EndDraw();
+
+	
+
+}
+
 
 Game::Game() { Setup("T4C", sf::Vector2u(1280, 720)); }
 Game::Game(const std::string& title, const sf::Vector2u& size) :m_chessboard() { Setup(title, size); }
