@@ -42,7 +42,7 @@ private:
 	void Sprites();
 	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
 
-	//Chess pieces possible moves
+	//Chess pieces show and hide functions
 		//moze to zrobie exeptions pozniej
 		void ChangeStatusForHighlighted(int x, int y);
 		void ChangeStatusForCapture(int x, int y);
@@ -79,6 +79,13 @@ public:
 	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
 	void HidePossibleMoves(sf::Vector2i ActiveCoord);
 
+	//Checking whether the field is being attacked
+	bool CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color);
+	bool CheckOneRookAttack(PieceColor color, sf::Vector2i Coord);
+	bool CheckOneBishopAttack(PieceColor color, sf::Vector2i Coord);
+	bool CheckOneKnightAttack(PieceColor color, sf::Vector2i Coord);
+	bool CheckOneKingAttack(PieceColor color, sf::Vector2i Coord);
+	bool CheckOnePawnAttack(PieceColor color, sf::Vector2i Coord);
 
 	//special moves
 	void Promotion(PieceID id, sf::Vector2i coord);
@@ -99,9 +106,10 @@ public:
 	sf::Sprite PieceSpriteHandler(PieceID id, PieceColor color, sf::Vector2i coord);
 	sf::Sprite PromotionSpriteHandler(PieceColor color, int n);
 
-	void RenderPromotion(PieceColor color);
+	
 
 	void Initialize();
 	void Render(sf::RenderWindow& l_window);
+	void RenderPromotion(PieceColor color);
 };
 

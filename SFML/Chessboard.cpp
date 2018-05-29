@@ -199,6 +199,280 @@ void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
 		promotion = false;
 }
 
+//TODO Function checking whether field is being attacked is not checked
+bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
+	
+	//Rook, Bishop and Queen
+
+	int x = Coord.x;
+	int y = Coord.y;
+	//left---------------
+	while (x - 1 >= 0 && x - 1 <= 7) {
+		
+		if (CheckOneRookAttack(color, { x - 1, y })) return true;
+	
+		x--;
+	}
+
+
+	//right
+	x = Coord.x;
+	y = Coord.y;
+	while (x + 1 >= 0 && x + 1 <= 7) {
+		
+		if (CheckOneRookAttack(color, { x + 1, y })) return true;
+		
+
+		x++;
+	}
+
+	//up
+	x = Coord.x;
+	y = Coord.y;
+	while (y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneRookAttack(color, { x, y  - 1})) return true;
+		
+		y--;
+
+	}
+
+	//down
+	x = Coord.x;
+	y = Coord.y;
+	while (y + 1 >= 0 && y + 1 <= 7) {
+		
+		if (CheckOneRookAttack(color, { x , y + 1 })) return true;
+		
+		y++;
+	}
+
+
+	//top-left---------------
+	x = Coord.x;
+	y = Coord.y;
+	
+	while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneBishopAttack(color, { x - 1 , y - 1 })) return true;
+
+		x--; y--;
+	}
+
+	//top-right---------------
+
+	x = Coord.x;
+	y = Coord.y;
+
+	while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneBishopAttack(color, { x + 1 , y - 1 })) return true;
+
+		x++; y--;
+	}
+
+	//bottom-left---------------
+
+	x = Coord.x;
+	y = Coord.y;
+
+	while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+		
+		if (CheckOneBishopAttack(color, { x - 1 , y + 1 })) return true;
+
+		x--; y++;
+	}
+
+	//bottom-right---------------
+
+	x = Coord.x;
+	y = Coord.y;
+
+	while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+		
+		if (CheckOneBishopAttack(color, { x + 1 , y + 1 })) return true;
+
+		x++; y++;
+	}
+
+
+	//King and Pawn
+
+	x = Coord.x;
+	y = Coord.y;
+
+	//left---------------
+	if (x - 1 >= 0 && x - 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x - 1 , y})) return true;
+	}
+
+	//right
+	if (x + 1 >= 0 && x + 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x + 1 , y})) return true;
+	}
+
+	//up
+	if (y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x , y - 1 })) return true;
+	}
+
+	//down
+	if (y + 1 >= 0 && y + 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x , y + 1 })) return true;
+	}
+
+	//top-left---------------
+	if (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x - 1 , y - 1 })) return true;
+		if (CheckOnePawnAttack(color, { x - 1 , y - 1 })) return true;
+	}
+
+	//top-right---------------
+	if (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x + 1 , y - 1 })) return true;
+		if (CheckOnePawnAttack(color, { x + 1 , y - 1 })) return true;
+	}
+
+	//bottom-left---------------
+	if (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+
+		if (CheckOneKingAttack(color, { x - 1 , y + 1 })) return true;
+		if (CheckOnePawnAttack(color, { x - 1 , y + 1 })) return true;
+	}
+
+	//bottom-right---------------
+	if (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
+		
+		if (CheckOneKingAttack(color, { x + 1 , y + 1 })) return true;
+		if (CheckOnePawnAttack(color, { x + 1 , y + 1 })) return true;
+	}
+
+	//Knight
+
+	x = Coord.x;
+	y = Coord.y;
+
+
+
+	//top - left----------------------
+	if ((x - 1 >= 0 && y - 2 >= 0)) {		
+		if (CheckOneKnightAttack(color, { x - 1, y - 2 })) return true;		
+	}
+
+	//top - right----------------------
+	if ((x + 1 <= 7 && y - 2 >= 0)) {
+
+		if (CheckOneKnightAttack(color, { x + 1, y - 2 })) return true;
+	}
+
+	//bottom - left----------------------
+	if ((x - 1 >= 0 && y + 2 <= 7)) {
+
+		if (CheckOneKnightAttack(color, { x - 1, y + 2 })) return true;
+	}
+
+	//bottom - right----------------------
+	if ((x + 1 <= 7 && y + 2 <= 7)) {
+
+		if (CheckOneKnightAttack(color, { x + 1, y + 2 })) return true;
+	}
+
+
+
+	//left - bottom----------------------
+	if ((x - 2 >= 0 && y + 1 <= 7)) {
+
+		if (CheckOneKnightAttack(color, { x - 2, y + 1 })) return true;
+	}
+
+	//left - top----------------------
+	if ((x - 2 >= 0 && y - 1 >= 0)) {
+
+		if (CheckOneKnightAttack(color, { x - 2, y - 1 })) return true;
+	}
+
+	//right - top------------------
+	if ((x + 2 <= 7 && y + 1 <= 7)) {
+
+		if (CheckOneKnightAttack(color, { x + 2, y + 1 })) return true;
+	}
+
+	//right - bottom------------------
+	if ((x + 2 <= 7 && y - 1 >= 0)) {
+		if (CheckOneKnightAttack(color, { x + 2, y - 1 })) return true;
+	}
+
+
+
+	return false;
+}
+
+
+
+bool Chessboard::CheckOneRookAttack(PieceColor color, sf::Vector2i Coord) {
+	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
+		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
+			if (Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::Queen ||
+				Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::Rook) return true;
+		}
+		else return false;
+
+	}
+	else return false;
+}
+
+bool Chessboard::CheckOneBishopAttack(PieceColor color, sf::Vector2i Coord) {
+	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
+		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
+			if (Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::Queen ||
+				Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::Bishop) return true;
+		}
+		else return false;
+
+	}
+	else return false;
+}
+
+bool Chessboard::CheckOneKnightAttack(PieceColor color, sf::Vector2i Coord) {
+	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
+		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
+			if (Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::Knight) return true;
+		}
+		else return false;
+
+	}
+	else return false;
+}
+
+bool Chessboard::CheckOneKingAttack(PieceColor color, sf::Vector2i Coord) {
+	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
+		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
+			if (Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::King) return true;
+		}
+		else return false;
+
+	}
+	else return false;
+}
+
+bool Chessboard::CheckOnePawnAttack(PieceColor color, sf::Vector2i Coord) {
+	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
+		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
+			if (Board[Coord.x][Coord.y].piece->getPieceID() == PieceID::King) return true;
+		}
+		else return false;
+
+	}
+	else return false;
+}
+
+
 BoardStatus Chessboard::getBoardStatus(sf::Vector2i coor) {
 	return Board[coor.x][coor.y].status;
 }
