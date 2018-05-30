@@ -584,48 +584,42 @@ void Chessboard::Initialize() {
 	//initialize board status	
 	promotion = false;
 	for (int i = 0; i < 8; i++) {
-		int j = 0;
-
-		//Black 
-
-		//rooks
-		if (i == 0 || i == 7) {setPiece(PieceColor::Black, PieceID::Rook, { i, j });}
-		//knights
-		if (i == 1 || i == 6) {setPiece(PieceColor::Black, PieceID::Knight, { i, j });}
-		//bishops
-		if (i == 2 || i == 5) {setPiece(PieceColor::Black, PieceID::Bishop, { i, j });}
-		//queen
-		if (i == 3) {setPiece(PieceColor::Black, PieceID::Queen, { i, j });}
-		//king
-		if (i == 4) {setPiece(PieceColor::Black, PieceID::King, { i, j });}
-		//pawns
-		j = 1; setPiece(PieceColor::Black, PieceID::Pawn, { i, j });
-			
-
-		//Empty slots
-		for (j = 2; j < 6; j++) {
-			Board[i][j].status = BoardStatus::Empty;
-			Board[i][j].piece = nullptr;
-		}
-
-		//White
-
-		//pawns
-		j = 6;	
-		setPiece(PieceColor::White, PieceID::Pawn, { i, j });
 		
-		j = 7;
-		//rooks
-		if (i == 0 || i == 7) {setPiece(PieceColor::White, PieceID::Rook, { i, j });}
-		//knights
-		if (i == 1 || i == 6) {setPiece(PieceColor::White, PieceID::Knight, { i, j });}
-		//bishops
-		if (i == 2 || i == 5) {setPiece(PieceColor::White, PieceID::Bishop, { i, j });}
-		//queen
-		if (i == 3) {setPiece(PieceColor::White, PieceID::Queen, { i, j });}
-		//king
-		if (i == 4) {setPiece(PieceColor::White, PieceID::King, { i, j });}
+		for (int j = 0; j < 8; j++) {
 
+			//Heavy Pieces
+			if (j == 0 || j == 7) {
+				//rooks
+				if (i == 0 || i == 7) { setPiece(j==0 ? PieceColor::Black : PieceColor::White,
+					PieceID::Rook, { i, j }); }
+				//knights
+				if (i == 1 || i == 6) { setPiece(j == 0 ? PieceColor::Black : PieceColor::White,
+					PieceID::Knight, { i, j }); }
+				//bishops
+				if (i == 2 || i == 5) { setPiece(j == 0 ? PieceColor::Black : PieceColor::White,
+					PieceID::Bishop, { i, j }); }
+				//queen
+				if (i == 3) { setPiece(j == 0 ? PieceColor::Black : PieceColor::White,
+					PieceID::Queen, { i, j }); }
+				//king
+				if (i == 4) { setPiece(j == 0 ? PieceColor::Black : PieceColor::White,
+					PieceID::King, { i, j }); }
+			}
+			
+			//Pawns
+			if (j == 1 || j == 6) {
+				setPiece(j == 1 ? PieceColor::Black : PieceColor::White,
+					PieceID::Pawn, { i, j });
+			}
+
+			//Empty Fields
+			if (j > 1 && j < 6) {
+				Board[i][j].status = BoardStatus::Empty;
+				Board[i][j].piece = nullptr;
+			}
+
+
+		}
 	}
 
 
