@@ -216,8 +216,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	//left---------------
 	while (x - 1 >= 0 && x - 1 <= 7) {
 		
-		if ((Board[x - 1][y].status == BoardStatus::Occupied && Board[x - 1][y].piece->getPieceColor() != color)
-			|| Board[x - 1][y].status == BoardStatus::Empty) {
+		if (Board[x - 1][y].status == BoardStatus::Empty ||
+			(Board[x - 1][y].status == BoardStatus::Occupied &&
+				Board[x - 1][y].piece->getPieceColor() != color &&
+				(Board[x - 1][y].piece->getPieceID() == PieceID::Rook ||
+					Board[x - 1][y].piece->getPieceID() == PieceID::Queen
+					))) {
 
 			//if (Board[x - 1][y].status == BoardStatus::Empty) { x--; continue; }
 			if (CheckOneRookAttack(color, { x - 1, y })) return true;
@@ -232,8 +236,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	y = Coord.y;
 	while (x + 1 >= 0 && x + 1 <= 7) {
 		
-		if ((Board[x + 1][y].status == BoardStatus::Occupied && Board[x + 1][y].piece->getPieceColor() != color)
-			|| Board[x + 1][y].status == BoardStatus::Empty) {
+		if (Board[x + 1][y].status == BoardStatus::Empty ||
+			(Board[x + 1][y].status == BoardStatus::Occupied &&
+				Board[x + 1][y].piece->getPieceColor() != color &&
+				(Board[x + 1][y].piece->getPieceID() == PieceID::Rook ||
+					Board[x + 1][y].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneRookAttack(color, { x + 1, y })) return true;
 		}
 		else break;
@@ -246,8 +254,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	y = Coord.y;
 	while (y - 1 >= 0 && y - 1 <= 7) {
 		
-		if ((Board[x][y - 1].status == BoardStatus::Occupied && Board[x][y - 1].piece->getPieceColor() != color)
-			|| Board[x][y - 1].status == BoardStatus::Empty) {
+		if (Board[x][y - 1].status == BoardStatus::Empty ||
+			(Board[x][y - 1].status == BoardStatus::Occupied &&
+				Board[x][y - 1].piece->getPieceColor() != color &&
+				(Board[x][y - 1].piece->getPieceID() == PieceID::Rook ||
+					Board[x][y - 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneRookAttack(color, { x, y - 1 })) return true;
 		}
 		else break;
@@ -261,8 +273,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	y = Coord.y;
 	while (y + 1 >= 0 && y + 1 <= 7) {
 		
-		if ((Board[x][y + 1].status == BoardStatus::Occupied && Board[x][y + 1].piece->getPieceColor() != color)
-			|| Board[x][y + 1].status == BoardStatus::Empty) {
+		if (Board[x][y + 1].status == BoardStatus::Empty ||
+			(Board[x][y + 1].status == BoardStatus::Occupied &&
+				Board[x][y + 1].piece->getPieceColor() != color &&
+				(Board[x][y + 1].piece->getPieceID() == PieceID::Rook ||
+					Board[x][y + 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneRookAttack(color, { x, y + 1 })) return true;
 		}
 		else break;
@@ -277,8 +293,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	
 	while (x - 1 >= 0 && x - 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 		
-		if ((Board[x - 1][y - 1].status == BoardStatus::Occupied && Board[x - 1][y - 1].piece->getPieceColor() != color) 
-		|| Board[x - 1][y - 1].status == BoardStatus::Empty){
+		if (Board[x - 1][y - 1].status == BoardStatus::Empty ||
+			(Board[x - 1][y - 1].status == BoardStatus::Occupied &&
+				Board[x - 1][y - 1].piece->getPieceColor() != color &&
+				(Board[x - 1][y - 1].piece->getPieceID() == PieceID::Bishop ||
+					Board[x - 1][y - 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneBishopAttack(color, { x - 1, y - 1 })) return true;
 		}
 		else break;
@@ -294,8 +314,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 
 	while (x + 1 >= 0 && x + 1 <= 7 && y - 1 >= 0 && y - 1 <= 7) {
 		
-		if ((Board[x + 1][y - 1].status == BoardStatus::Occupied && Board[x + 1][y - 1].piece->getPieceColor() != color)
-			|| Board[x + 1][y - 1].status == BoardStatus::Empty) {
+		if (Board[x + 1][y - 1].status == BoardStatus::Empty ||
+			(Board[x + 1][y - 1].status == BoardStatus::Occupied &&
+				Board[x + 1][y - 1].piece->getPieceColor() != color &&
+				(Board[x + 1][y - 1].piece->getPieceID() == PieceID::Bishop ||
+					Board[x + 1][y - 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneBishopAttack(color, { x + 1, y - 1 })) return true;
 		}
 		else break;
@@ -310,8 +334,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 
 	while (x - 1 >= 0 && x - 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 		
-		if ((Board[x - 1][y + 1].status == BoardStatus::Occupied && Board[x - 1][y + 1].piece->getPieceColor() != color)
-			|| Board[x - 1][y + 1].status == BoardStatus::Empty) {
+		if (Board[x - 1][y + 1].status == BoardStatus::Empty ||
+			(Board[x - 1][y + 1].status == BoardStatus::Occupied &&
+				Board[x - 1][y + 1].piece->getPieceColor() != color &&
+				(Board[x - 1][y + 1].piece->getPieceID() == PieceID::Bishop ||
+					Board[x - 1][y + 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneBishopAttack(color, { x - 1, y + 1 })) return true;
 		}
 		else break;
@@ -326,8 +354,12 @@ bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 
 	while (x + 1 >= 0 && x + 1 <= 7 && y + 1 >= 0 && y + 1 <= 7) {
 		
-		if ((Board[x + 1][y + 1].status == BoardStatus::Occupied && Board[x + 1][y + 1].piece->getPieceColor() != color)
-			|| Board[x + 1][y + 1].status == BoardStatus::Empty) {
+		if (Board[x + 1][y + 1].status == BoardStatus::Empty ||
+			(Board[x + 1][y + 1].status == BoardStatus::Occupied &&
+				Board[x + 1][y + 1].piece->getPieceColor() != color &&
+				(Board[x + 1][y + 1].piece->getPieceID() == PieceID::Bishop ||
+					Board[x + 1][y + 1].piece->getPieceID() == PieceID::Queen
+					))) {
 			if (CheckOneBishopAttack(color, { x + 1, y + 1 })) return true;
 		}
 		else break;
@@ -513,9 +545,6 @@ bool Chessboard::CheckOnePawnAttack(PieceColor color, sf::Vector2i Coord) {
 
 
 bool Chessboard::CheckForCheck(){
-	std::cout << "Black King Coordinates: " << BlackKingCoordinates.x << ", " << BlackKingCoordinates.y << std::endl;
-	std::cout << "White King Coordinates: " << WhiteKingCoordinates.x << ", " << WhiteKingCoordinates.y << std::endl;
-
 	if (CheckIfFieldIsAttacked(WhiteKingCoordinates, PieceColor::White)) {
 		check = PieceColor::White;
 		return true;
@@ -524,8 +553,6 @@ bool Chessboard::CheckForCheck(){
 		check = PieceColor::Black;
 		return true;
 	}
-	std::cout << "Black King Coordinates: " << BlackKingCoordinates.x << ", " << BlackKingCoordinates.y << std::endl;
-	std::cout << "White King Coordinates: " << WhiteKingCoordinates.x << ", " << WhiteKingCoordinates.y << std::endl;
 
 	return false;
 }
