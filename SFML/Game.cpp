@@ -69,13 +69,27 @@ void Game::Update() {
 
 					}
 
+					//TODO mate				
+
 					//if active is false, first click------------------------------------
 
 					if (CurrentCoordinates.x >= 0 && CurrentCoordinates.x < 8
 						&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8) {
 						if (Active == false) {
-							if (playerTurn == PieceColor::White) {
-								
+
+							if (mate == true) {
+
+								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
+									&&m_chessboard.getPieceID(CurrentCoordinates) == PieceID::King) {
+
+									Active = true;
+									ActiveCoord = CurrentCoordinates;
+									m_chessboard.MakeActiveSprite(ActiveCoord);
+								}
+							}		
+							if (playerTurn == PieceColor::White && mate==false) {
+
+					
 								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
 									&&m_chessboard.getPieceColor(CurrentCoordinates)==PieceColor::White) {
 									
@@ -84,7 +98,7 @@ void Game::Update() {
 									m_chessboard.MakeActiveSprite(ActiveCoord);
 								}
 							}
-							else if (playerTurn == PieceColor::Black) {
+							else if (playerTurn == PieceColor::Black && mate == false) {
 								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
 									&&m_chessboard.getPieceColor(CurrentCoordinates) == PieceColor::Black) {
 									
@@ -114,6 +128,8 @@ void Game::Update() {
 
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+
+								if (mate == true) mate = false;
 
 								//Check for mate
 								if (m_chessboard.CheckForCheck()) {
@@ -151,6 +167,8 @@ void Game::Update() {
 
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+
+								if (mate == true) mate = false;
 
 								//Check for mate
 								if (m_chessboard.CheckForCheck()) {
@@ -283,28 +301,9 @@ PieceID Game::getPromotionPiece(sf::Vector2i mousePos)
 
 void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates){
 	
-
-	//TODO: do zmiany
-	//BeginDraw();
-	
-	//RenderPromotion();
-
-	//std::cout << "0\n";
-	//m_chessboard.RenderPromotion(color);
-	//std::cout << "1\n";
 	PieceID prom = getPromotionPiece(TempCoordinates);
-	//std::cout << "2\n";
 	m_chessboard.Promotion(prom, CurrentCoordinates);
-	//std::cout << "3\n";
 
-	
-
-
-
-
-	//EndDraw();
-
-	
 
 }
 

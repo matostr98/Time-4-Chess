@@ -77,6 +77,7 @@ Chessboard::Chessboard() {
 }
 Chessboard::~Chessboard() {}
 
+//Move
 void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
 	//new field
 	Board[NewCoord.x][NewCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
@@ -103,7 +104,6 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
 
 	
 }
-
 void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord) {
 	
 	//opponent field (new field)
@@ -135,6 +135,7 @@ void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord) {
 
 }
 
+//Show moves--------------------------------------------------------------------
 void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
 	
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
@@ -167,7 +168,6 @@ void Chessboard::ShowPossibleMoves(sf::Vector2i ActiveCoord){
 
 	}
 }
-
 void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 	switch (Board[ActiveCoord.x][ActiveCoord.y].piece->getPieceID()) {
 
@@ -198,15 +198,15 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 	}
 }
 
+
 void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
 		Board[coord.x][coord.y].piece->setPieceIDforPromotion(id);
-		std::cout << "weszlo\n";
 		Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
 			Board[coord.x][coord.y].piece->getPieceColor(), coord);
 		promotion = false;
 }
 
-//TODO Function checking whether field is being attacked is not checked
+//Function checking whether field is being attacked is not checked
 bool Chessboard::CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color) {
 	
 	//Rook, Bishop and Queen
@@ -498,7 +498,6 @@ bool Chessboard::CheckOneRookAttack(PieceColor color, sf::Vector2i Coord) {
 	}
 	else return false;
 }
-
 bool Chessboard::CheckOneBishopAttack(PieceColor color, sf::Vector2i Coord) {
 	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
 		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
@@ -510,7 +509,6 @@ bool Chessboard::CheckOneBishopAttack(PieceColor color, sf::Vector2i Coord) {
 	}
 	else return false;
 }
-
 bool Chessboard::CheckOneKnightAttack(PieceColor color, sf::Vector2i Coord) {
 	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
 		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
@@ -521,7 +519,6 @@ bool Chessboard::CheckOneKnightAttack(PieceColor color, sf::Vector2i Coord) {
 	}
 	else return false;
 }
-
 bool Chessboard::CheckOneKingAttack(PieceColor color, sf::Vector2i Coord) {
 	if (Board[Coord.x][Coord.y].status == BoardStatus::Occupied) {
 		if (Board[Coord.x][Coord.y].piece->getPieceColor() != color) {
@@ -563,55 +560,70 @@ bool Chessboard::CheckForCheckmate()
 	std::cout << "White King Coordinates: " << WhiteKingCoordinates.x << ", " << WhiteKingCoordinates.y << std::endl;
 
 
-	//TODO wjy is it working good?
-	if (check == PieceColor::Black) {
+	if (check == PieceColor::White) {
 
 			//left, right, top, bottom
-			if (WhiteKingCoordinates.x - 1 >= 0 && WhiteKingCoordinates.x - 1 <= 7 &&
-				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x - 1, WhiteKingCoordinates.y }, check)) return false;
+		if (WhiteKingCoordinates.x - 1 >= 0 && WhiteKingCoordinates.x - 1 <= 7 &&
+			Board[WhiteKingCoordinates.x - 1][WhiteKingCoordinates.y].status != BoardStatus::Empty &&
+			!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x - 1, WhiteKingCoordinates.y }, check)) return false;
 			if (WhiteKingCoordinates.x + 1 >= 0 && WhiteKingCoordinates.x + 1 <= 7 &&
+				Board[WhiteKingCoordinates.x + 1][WhiteKingCoordinates.y].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x + 1, WhiteKingCoordinates.y }, check)) return false;
 			if (WhiteKingCoordinates.y - 1 >= 0 && WhiteKingCoordinates.y - 1 <= 7 &&
+				Board[WhiteKingCoordinates.x][WhiteKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x, WhiteKingCoordinates.y - 1 }, check)) return false;
 			if (WhiteKingCoordinates.y + 1 >= 0 && WhiteKingCoordinates.y + 1 <= 7 &&
+				Board[WhiteKingCoordinates.x][WhiteKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x, WhiteKingCoordinates.y + 1 }, check)) return false;
 			//diagonals
 			if (WhiteKingCoordinates.x - 1 >= 0 && WhiteKingCoordinates.x - 1 <= 7 &&
 				WhiteKingCoordinates.y - 1 >= 0 && WhiteKingCoordinates.y - 1 <= 7 &&
+				Board[WhiteKingCoordinates.x - 1][WhiteKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x - 1, WhiteKingCoordinates.y - 1 }, check)) return false;
 			if (WhiteKingCoordinates.x + 1 >= 0 && WhiteKingCoordinates.x + 1 <= 7 &&
 				WhiteKingCoordinates.y - 1 >= 0 && WhiteKingCoordinates.y - 1 <= 7 &&
+				Board[WhiteKingCoordinates.x + 1][WhiteKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x + 1, WhiteKingCoordinates.y - 1 }, check)) return false;
 			if (WhiteKingCoordinates.x - 1 >= 0 && WhiteKingCoordinates.x - 1 <= 7 &&
 				WhiteKingCoordinates.y + 1 >= 0 && WhiteKingCoordinates.y + 1 <= 7 &&
+				Board[WhiteKingCoordinates.x - 1][WhiteKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x - 1, WhiteKingCoordinates.y + 1 }, check)) return false;
 			if (WhiteKingCoordinates.x + 1 >= 0 && WhiteKingCoordinates.x + 1 <= 7 &&
 				WhiteKingCoordinates.y + 1 >= 0 && WhiteKingCoordinates.y + 1 <= 7 &&
+				Board[WhiteKingCoordinates.x + 1][WhiteKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ WhiteKingCoordinates.x + 1, WhiteKingCoordinates.y + 1 }, check)) return false;
 		
 	}
-	else if (check==PieceColor::White) {
+	else if (check==PieceColor::Black) {
 		//left, right, top, bottom
 			if (BlackKingCoordinates.x - 1 >= 0 && BlackKingCoordinates.x - 1 <= 7 &&
+				Board[BlackKingCoordinates.x - 1][BlackKingCoordinates.y].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x - 1, BlackKingCoordinates.y }, check)) return false;
 			if (BlackKingCoordinates.x + 1 >= 0 && BlackKingCoordinates.x + 1 <= 7 &&
+				Board[BlackKingCoordinates.x + 1][BlackKingCoordinates.y].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x + 1, BlackKingCoordinates.y }, check)) return false;
 			if (BlackKingCoordinates.y - 1 >= 0 && BlackKingCoordinates.y - 1 <= 7 &&
+				Board[BlackKingCoordinates.x][BlackKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x, BlackKingCoordinates.y - 1 }, check)) return false;
 			if (BlackKingCoordinates.y + 1 >= 0 && BlackKingCoordinates.y + 1 <= 7 &&
+				Board[BlackKingCoordinates.x][BlackKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x, BlackKingCoordinates.y + 1 }, check)) return false;
 			//diagonals
 			if (BlackKingCoordinates.x - 1 >= 0 && BlackKingCoordinates.x - 1 <= 7 &&
 				BlackKingCoordinates.y - 1 >= 0 && BlackKingCoordinates.y - 1 <= 7 &&
+				Board[BlackKingCoordinates.x - 1][BlackKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x - 1, BlackKingCoordinates.y - 1 }, check)) return false;
 			if (BlackKingCoordinates.x + 1 >= 0 && BlackKingCoordinates.x + 1 <= 7 &&
 				BlackKingCoordinates.y - 1 >= 0 && BlackKingCoordinates.y - 1 <= 7 &&
+				Board[BlackKingCoordinates.x + 1][BlackKingCoordinates.y - 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x + 1, BlackKingCoordinates.y - 1 }, check)) return false;
 			if (BlackKingCoordinates.x - 1 >= 0 && BlackKingCoordinates.x - 1 <= 7 &&
 				BlackKingCoordinates.y + 1 >= 0 && BlackKingCoordinates.y + 1 <= 7 &&
+				Board[BlackKingCoordinates.x - 1][BlackKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x - 1, BlackKingCoordinates.y + 1 }, check)) return false;
 			if (BlackKingCoordinates.x + 1 >= 0 && BlackKingCoordinates.x + 1 <= 7 &&
 				BlackKingCoordinates.y + 1 >= 0 && BlackKingCoordinates.y + 1 <= 7 &&
+				Board[BlackKingCoordinates.x + 1][BlackKingCoordinates.y + 1].status != BoardStatus::Empty &&
 				!CheckIfFieldIsAttacked({ BlackKingCoordinates.x + 1, BlackKingCoordinates.y + 1 }, check)) return false;
 	}
 	return true;
@@ -632,11 +644,16 @@ PieceID Chessboard::getPieceID(sf::Vector2i coor)
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
-
 	Board[coord.x][coord.y].status = BoardStatus::Active;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	ShowPossibleMoves(coord);
 }
+
+//void Chessboard::MakeActiveKingSprite(sf::Vector2i Coord) {
+//	Board[Coord.x][Coord.y].status = BoardStatus::Active;
+//	Board[Coord.x][Coord.y].StatRect = StatusSpriteHandler(Board[Coord.x][Coord.y].status, Coord);
+//	ShowPossibleMoves(Coord);
+//}
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
 
@@ -2416,11 +2433,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({x - 1, y}, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y);
 		}
 
@@ -2429,11 +2448,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x + 1, y }, PieceColor::White))
 					ChangeStatusForCapture(x + 1, y);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y);
 		}
 
@@ -2442,11 +2463,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x, y - 1 }, PieceColor::White))
 					ChangeStatusForCapture(x, y - 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x, y - 1);
 		}
 
@@ -2455,11 +2478,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x, y + 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x, y + 1);
 		}
 
@@ -2468,11 +2493,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x - 1, y - 1 }, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y - 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y - 1);
 		}
 
@@ -2481,11 +2508,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x + 1, y - 1 }, PieceColor::White))
 					ChangeStatusForCapture(x + 1, y - 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y - 1);
 		}
 
@@ -2494,11 +2523,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x - 1, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y + 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y + 1);
 		}
 
@@ -2507,11 +2538,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::Black) {
+					if (!CheckIfFieldIsAttacked({ x + 1, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x + 1, y + 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y + 1);
 		}
 	}
@@ -2527,11 +2560,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x - 1, y}, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y);
 		}
 
@@ -2540,11 +2575,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x + 1, y }, PieceColor::White))
 					ChangeStatusForCapture(x + 1, y);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y);
 		}
 		
@@ -2553,11 +2590,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y + 1].status == BoardStatus::Occupied &&
 				Board[x][y + 1].piece->getPieceColor() == PieceColor::White) {
+				if (!CheckIfFieldIsAttacked({ x, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x, y + 1);
 				}
 			
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x, y + 1);
 		}
 
@@ -2568,10 +2607,12 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x][y - 1].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x, y - 1 }, PieceColor::White))
 					ChangeStatusForCapture(x, y - 1);
 				}
 			}
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x, y - 1);
 
 
@@ -2582,11 +2623,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y - 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x - 1, y - 1 }, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y - 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y - 1);
 		}
 
@@ -2595,12 +2638,14 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y - 1].status == BoardStatus::Occupied) {
 				 if (Board[x + 1][y - 1].piece->getPieceColor() == PieceColor::White) {
+					 if (!CheckIfFieldIsAttacked({ x + 1, y - 1 }, PieceColor::White))
 					 ChangeStatusForCapture(x + 1, y - 1);
 
 				 }
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y - 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y - 1);
 		}
 
@@ -2609,11 +2654,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x - 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x - 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x - 1, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x - 1, y + 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x - 1, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x - 1, y + 1);
 		}
 
@@ -2622,11 +2669,13 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			//if next field is occupied
 			if (Board[x + 1][y + 1].status == BoardStatus::Occupied) {
 				if (Board[x + 1][y + 1].piece->getPieceColor() == PieceColor::White) {
+					if (!CheckIfFieldIsAttacked({ x + 1, y + 1 }, PieceColor::White))
 					ChangeStatusForCapture(x + 1, y + 1);
 				}
 			}
 
 			//if next field is empty
+			if (!CheckIfFieldIsAttacked({ x + 1, y + 1 }, PieceColor::White))
 			ChangeStatusForHighlighted(x + 1, y + 1);
 		}
 	}

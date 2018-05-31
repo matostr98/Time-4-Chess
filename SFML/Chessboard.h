@@ -43,7 +43,6 @@ private:
 	std::map<std::string, sf::Texture> TextureMap;
 
 	//king positions 
-	//TODO zainicjalizowac
 	sf::Vector2i WhiteKingCoordinates;
 	sf::Vector2i BlackKingCoordinates;
 
@@ -87,6 +86,7 @@ public:
 	void Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
 	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
 	void HidePossibleMoves(sf::Vector2i ActiveCoord);
+	//void ShowPossibleMovesForKing(sf::Vector2i Coord);
 
 	//Checking whether the field is being attacked
 	bool CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color);
@@ -113,7 +113,9 @@ public:
 
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);
+	void MakeActiveKingSprite(sf::Vector2i Coord);
 	void UnmakeActiveSprite(sf::Vector2i coord);
+
 
 	//Sprite Handlers
 	sf::Sprite StatusSpriteHandler(BoardStatus status, sf::Vector2i coord);
