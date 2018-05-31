@@ -113,7 +113,7 @@ public:
 
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);
-	void MakeActiveKingSprite(sf::Vector2i Coord);
+	//void MakeActiveKingSprite(sf::Vector2i Coord);
 	void UnmakeActiveSprite(sf::Vector2i coord);
 
 
