@@ -12,7 +12,6 @@ class ChessPiece
 {
 protected:
 	PieceColor color;
-	//std::string spriteName;
 	PieceID id;
 
 	sf::Vector2i position;

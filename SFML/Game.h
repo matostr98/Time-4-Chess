@@ -28,6 +28,8 @@ private:
 	bool promotion;
 	sf::Vector2i PromotionCoordinates;
 
+	bool mate;
+
 	Chessboard m_chessboard;
 public:
 	int cellSize = 84;

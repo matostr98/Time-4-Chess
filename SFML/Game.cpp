@@ -54,17 +54,6 @@ void Game::Update() {
 					if (promotion == true && TempCoordinates.x > 832 && TempCoordinates.x < 1168 
 						&& TempCoordinates.y>318 && TempCoordinates.y < 402) {
 
-						//najpierw wyswietlic
-
-						//potem klikniecie w check for promotion
-						//moze jakis if z nowa zmienna (nowa==current) i pozniej zmienic na nwaz z currentem
-						
-						
-						//TempCoordinates = sf::Mouse::getPosition(m_window);
-
-						//potem promocja i znikniecie
-
-
 						std::cout << "PromotionCoordinates: " << PromotionCoordinates.x << ", "
 							<< PromotionCoordinates.y << std::endl;
 
@@ -126,21 +115,23 @@ void Game::Update() {
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 
-								//Check for promotion i zmienic status
+								//Check for mate
+								if (m_chessboard.CheckForCheck()) {
+									if (m_chessboard.CheckForCheckmate()) m_isDone = true; 
+									else mate = true;
+								}
+
+								//Check for promotion
 								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
 									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
 									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
 
 									promotion = true;
-
-									//tu juz bym misual zmienic sprite'y
-									/*if (promotion == true) */m_chessboard.RenderPromotion(
+								
+									m_chessboard.RenderPromotion(
 										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
 									
 									PromotionCoordinates = CurrentCoordinates;
-									/*PromotionHandler(CurrentCoordinates.y == 0 ?
-										PieceColor::Black : PieceColor::White, CurrentCoordinates);*/
-
 								}
 								
 								if (promotion == false) {
@@ -160,15 +151,20 @@ void Game::Update() {
 								m_chessboard.UnmakeActiveSprite(ActiveCoord);
 								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
 
+								//Check for mate
+								if (m_chessboard.CheckForCheck()) {
+									if (m_chessboard.CheckForCheckmate()) m_isDone = true;
+									else mate = true;
+								}
+
 								//Check for promotion
-								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) 
-									&& m_chessboard.getPieceID(CurrentCoordinates)==PieceID::Pawn) {
-									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
-									
+								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
+									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
+
 									promotion = true;
-									/*if (promotion == true)*/ m_chessboard.RenderPromotion(
-										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
-									
+									m_chessboard.RenderPromotion(CurrentCoordinates.y == 0 ?
+										 PieceColor::White : PieceColor::Black);
+
 									PromotionCoordinates = CurrentCoordinates;
 								}
 
@@ -180,7 +176,7 @@ void Game::Update() {
 									Active = false;
 								}
 
-								
+
 							}
 
 							//if z promocja, bo moze zadziala wtedy z kliknieciem

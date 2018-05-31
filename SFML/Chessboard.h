@@ -25,8 +25,6 @@ public:
 
 private:
 	std::array<std::array<BoardSlot, 8>, 8> Board;
-	//PieceSet WhitePiecesSet;
-	//PieceSet BlackPiecesSet;
 
 	sf::Texture t_background;
 	sf::Sprite background;
@@ -35,9 +33,20 @@ private:
 	sf::Sprite knight;
 	sf::Sprite bishop;
 	sf::Sprite queen;
+	
+	//Booleans
 	bool promotion;
+	bool WhiteCastle;
+	bool BlackCastle;
 
+	//maps
 	std::map<std::string, sf::Texture> TextureMap;
+
+	//king positions 
+	//TODO zainicjalizowac
+	sf::Vector2i WhiteKingCoordinates;
+	sf::Vector2i BlackKingCoordinates;
+
 
 	void Sprites();
 	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
@@ -90,6 +99,11 @@ public:
 	//special moves
 	void Promotion(PieceID id, sf::Vector2i coord);
 
+
+	//checkmate
+	bool CheckForCheck();
+	bool CheckForCheckmate();
+	PieceColor check;
 
 	//Get
 	BoardStatus getBoardStatus(sf::Vector2i coor);
