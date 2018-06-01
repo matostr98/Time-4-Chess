@@ -126,8 +126,18 @@ void Game::Update() {
 							//move----------------------------
 							if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
 
-								m_chessboard.UnmakeActiveSprite(ActiveCoord);
-								m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+								if (m_chessboard.getPieceID(ActiveCoord) == PieceID::King &&
+									m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Rook){
+									
+									m_chessboard.UnmakeActiveSprite(ActiveCoord);
+									m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
+								}
+								else {
+									m_chessboard.UnmakeActiveSprite(ActiveCoord);
+									m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+								}
+
+								
 
 								if (mate == true) mate = false;
 
@@ -139,8 +149,9 @@ void Game::Update() {
 								}
 
 								//Check for promotion
-								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
-									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
+								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) &&
+									m_chessboard.getBoardStatus(CurrentCoordinates)==BoardStatus::Occupied &&
+									m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
 									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
 
 									promotion = true;
@@ -178,8 +189,9 @@ void Game::Update() {
 								}
 
 								//Check for promotion
-								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7)
-									&& m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
+								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) &&
+									m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied &&
+									m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
 
 									promotion = true;
 									m_chessboard.RenderPromotion(CurrentCoordinates.y == 0 ?

@@ -86,7 +86,6 @@ public:
 	void Capture(sf::Vector2i ActiveCoord, sf::Vector2i CurrentCoord);
 	void ShowPossibleMoves(sf::Vector2i ActiveCoord);
 	void HidePossibleMoves(sf::Vector2i ActiveCoord);
-	//void ShowPossibleMovesForKing(sf::Vector2i Coord);
 
 	//Checking whether the field is being attacked
 	bool CheckIfFieldIsAttacked(sf::Vector2i Coord, PieceColor color);
@@ -96,9 +95,13 @@ public:
 	bool CheckOneKingAttack(PieceColor color, sf::Vector2i Coord);
 	bool CheckOnePawnAttack(PieceColor color, sf::Vector2i Coord);
 
-	//special moves
+	//Special moves
 	void Promotion(PieceID id, sf::Vector2i coord);
+	void ShortCastle(PieceColor color);
+	void LongCastle(PieceColor color);
 
+	//Show special moves
+	void ShowShortCastle(PieceColor color);
 
 	//checkmate
 	bool CheckForCheck();
