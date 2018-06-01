@@ -68,8 +68,7 @@ void Game::Update() {
 							: playerTurn = PieceColor::White;
 
 					}
-
-					//TODO mate				
+		
 
 					//if active is false, first click------------------------------------
 
@@ -126,18 +125,26 @@ void Game::Update() {
 							//move----------------------------
 							if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
 
-								if (m_chessboard.getPieceID(ActiveCoord) == PieceID::King &&
-									m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Rook){
-									
-									m_chessboard.UnmakeActiveSprite(ActiveCoord);
-									m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
-								}
-								else {
+
+								if (m_chessboard.getPieceID(ActiveCoord) == PieceID::King) {
+									//normal move
+									if (m_chessboard.getNullPtr(CurrentCoordinates)) {
+										
+										m_chessboard.UnmakeActiveSprite(ActiveCoord);
+										m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+									}
+									//TODO long castle, short castle move
+									else {
+										if (m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Rook) {
+											m_chessboard.UnmakeActiveSprite(ActiveCoord);
+											m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
+										}
+									}
+								} else {
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 								}
-
-								
+						
 
 								if (mate == true) mate = false;
 

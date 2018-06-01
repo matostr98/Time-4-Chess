@@ -113,6 +113,7 @@ public:
 	std::array<std::array<BoardSlot, 8>, 8> getBoard() { return Board; }
 	PieceColor getPieceColor(sf::Vector2i coor);
 	PieceID getPieceID(sf::Vector2i coor);
+	bool getNullPtr(sf::Vector2i coor);
 
 	//Change
 	void MakeActiveSprite(sf::Vector2i coord);

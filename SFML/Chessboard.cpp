@@ -911,6 +911,12 @@ PieceID Chessboard::getPieceID(sf::Vector2i coor)
 	return Board[coor.x][coor.y].piece->getPieceID();
 }
 
+bool Chessboard::getNullPtr(sf::Vector2i coor){
+
+	if (Board[coor.x][coor.y].piece == nullptr) return true;
+	else return false;
+}
+
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
 	Board[coord.x][coord.y].status = BoardStatus::Active;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
@@ -2698,9 +2704,10 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 		int y = ActiveCoord.y;
 
 		//Short Castle
-		if (Board[x][y].piece->getMoveCount() == 0 &&
-			Board[x + 3][y].piece->getMoveCount() == 0) {
-			ShowShortCastle(PieceColor::White);
+		if (Board[x][y].piece->getMoveCount() == 0) {
+			if (Board[x + 3][y].status == BoardStatus::Occupied && 
+				Board[x + 3][y].piece->getMoveCount() == 0)
+				ShowShortCastle(PieceColor::White);
 		}
 
 
@@ -2832,10 +2839,11 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
 		
-		//Short castle
-		if (Board[x][y].piece->getMoveCount() == 0 &&
-			Board[x + 3][y].piece->getMoveCount() == 0) {
-			ShowShortCastle(PieceColor::White);
+		//Short Castle
+		if (Board[x][y].piece->getMoveCount() == 0) {
+			if (Board[x + 3][y].status == BoardStatus::Occupied &&
+				Board[x + 3][y].piece->getMoveCount() == 0)
+				ShowShortCastle(PieceColor::Black);
 		}
 
 
