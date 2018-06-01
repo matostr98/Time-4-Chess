@@ -133,11 +133,14 @@ void Game::Update() {
 										m_chessboard.UnmakeActiveSprite(ActiveCoord);
 										m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 									}
-									//TODO long castle, short castle move
+									//castle
 									else {
 										if (m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Rook) {
 											m_chessboard.UnmakeActiveSprite(ActiveCoord);
-											m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
+											if (CurrentCoordinates.x == 7)
+												m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
+											else
+												m_chessboard.LongCastle(m_chessboard.getPieceColor(ActiveCoord));
 										}
 									}
 								} else {

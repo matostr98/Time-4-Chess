@@ -102,6 +102,7 @@ public:
 
 	//Show special moves
 	void ShowShortCastle(PieceColor color);
+	void ShowLongCastle(PieceColor color);
 
 	//checkmate
 	bool CheckForCheck();

@@ -222,6 +222,21 @@ void Chessboard::ShortCastle(PieceColor color) {
 
 }
 
+void Chessboard::LongCastle(PieceColor color){
+	int i = 4;
+	int j;
+	color == PieceColor::White ? j = 7 : j = 0;
+
+	Move({ i, j }, { i - 2, j });
+	Move({ i - 4, j }, { i - 1, j });
+	j == 7 ? WhiteCastle = true : BlackCastle = true;
+	j == 7 ? WhiteKingCoordinates = { i - 2, j } : BlackKingCoordinates = { i - 2, j };
+	Board[i - 4][j].status = BoardStatus::Empty;
+	Board[i - 4][j].StatRect = StatusSpriteHandler(
+		Board[i - 4][j].status, { i - 4, j });
+
+}
+
 void Chessboard::ShowShortCastle(PieceColor color){
 	int i = 4;
 	int j;
@@ -245,6 +260,32 @@ void Chessboard::ShowShortCastle(PieceColor color){
 
 					//ChangeStatusForHighlighted(i + 3, j);
 					//Board[i + 3][j].status = BoardStatus::Highlighted;
+				}
+			}
+		}
+	}
+}
+
+void Chessboard::ShowLongCastle(PieceColor color){
+	int i = 4;
+	int j;
+	color == PieceColor::White ? j = 7 : j = 0;
+
+	//Check move count
+	if (Board[i][j].piece->getMoveCount() == 0 && Board[i - 4][j].piece->getMoveCount() == 0) {
+
+		if (!CheckIfFieldIsAttacked({ i, j }, j == 7 ? PieceColor::White : PieceColor::Black)) {
+			if (Board[i - 1][j].status == BoardStatus::Empty &&
+				!CheckIfFieldIsAttacked({ i - 1, j }, j == 7 ? PieceColor::White : PieceColor::Black)) {
+				if (Board[i - 2][j].status == BoardStatus::Empty &&
+					!CheckIfFieldIsAttacked({ i - 2, j }, j == 7 ? PieceColor::White : PieceColor::Black)) {
+					if (Board[i - 3][j].status == BoardStatus::Empty) {
+
+
+						Board[i - 4][j].status = BoardStatus::Highlighted;
+						Board[i - 4][j].StatRect = StatusSpriteHandler(
+							Board[i - 4][j].status, { i - 4, j });
+					}
 				}
 			}
 		}
@@ -2703,11 +2744,15 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
 
-		//Short Castle
+		//Castle
 		if (Board[x][y].piece->getMoveCount() == 0) {
 			if (Board[x + 3][y].status == BoardStatus::Occupied && 
 				Board[x + 3][y].piece->getMoveCount() == 0)
 				ShowShortCastle(PieceColor::White);
+
+			if (Board[x - 4][y].status == BoardStatus::Occupied &&
+				Board[x - 4][y].piece->getMoveCount() == 0)
+				ShowLongCastle(PieceColor::White);
 		}
 
 
@@ -2844,6 +2889,10 @@ void Chessboard::ShowKingPossibleMoves(sf::Vector2i ActiveCoord){
 			if (Board[x + 3][y].status == BoardStatus::Occupied &&
 				Board[x + 3][y].piece->getMoveCount() == 0)
 				ShowShortCastle(PieceColor::Black);
+
+			if (Board[x - 4][y].status == BoardStatus::Occupied &&
+				Board[x - 4][y].piece->getMoveCount() == 0)
+				ShowLongCastle(PieceColor::Black);
 		}
 
 
@@ -2979,6 +3028,32 @@ void Chessboard::HideKingPossibleMoves(sf::Vector2i ActiveCoord){
 
 		int x = ActiveCoord.x;
 		int y = ActiveCoord.y;
+
+		if (x == 4 && (y == 0 || y == 7)) {
+			//Short castle hide
+			if (Board[x + 3][y].piece != nullptr && Board[x + 3][y].piece->getPieceID() == PieceID::Rook) {
+				if (Board[x + 3][y].status == BoardStatus::Highlighted) {
+
+					Board[x + 3][y].status = BoardStatus::Occupied;
+					Board[x + 3][y].StatRect = StatusSpriteHandler(
+						Board[x + 3][y].status, { x + 3, y });
+				}
+			}
+
+			//Short castle hide
+			if (Board[x - 4][y].piece != nullptr && Board[x - 4][y].piece->getPieceID() == PieceID::Rook) {
+				if (Board[x - 4][y].status == BoardStatus::Highlighted) {
+
+					Board[x - 4][y].status = BoardStatus::Occupied;
+					Board[x - 4][y].StatRect = StatusSpriteHandler(
+						Board[x - 4][y].status, { x - 4, y });
+				}
+			}
+
+		}
+			
+		
+
 		//left---------------
 		if (x - 1 >= 0 && x - 1 <= 7) {
 			//if next field is occupied
