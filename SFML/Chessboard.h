@@ -46,6 +46,7 @@ private:
 	sf::Vector2i WhiteKingCoordinates;
 	sf::Vector2i BlackKingCoordinates;
 
+	sf::Vector2i PreviousCoordinates;
 
 	void Sprites();
 	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
@@ -99,6 +100,7 @@ public:
 	void Promotion(PieceID id, sf::Vector2i coord);
 	void ShortCastle(PieceColor color);
 	void LongCastle(PieceColor color);
+	void EnPassant(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord, PieceColor color);
 
 	//Show special moves
 	void ShowShortCastle(PieceColor color);

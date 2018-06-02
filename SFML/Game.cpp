@@ -119,8 +119,7 @@ void Game::Update() {
 						
 						//move and capture, second click------------------------------------
 
-						else if (Active == true && CurrentCoordinates != ActiveCoord
-							&& promotion == false) {
+						else if (Active == true && CurrentCoordinates != ActiveCoord && promotion == false) {
 
 							//move----------------------------
 							if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
@@ -183,11 +182,30 @@ void Game::Update() {
 							} 
 							
 							//capture-------------------------
-							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture
-								&& promotion == false) {
+							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture&& promotion == false) {
 
-								m_chessboard.UnmakeActiveSprite(ActiveCoord);
-								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+								/*if (ActiveCoord.y == 3 || ActiveCoord.y == 4) {
+									if (m_chessboard.getPieceID({ CurrentCoordinates.x,
+										ActiveCoord.y == 3 ? CurrentCoordinates.y + 1 : CurrentCoordinates.y - 1 }) == PieceID::Pawn) {
+										if (m_chessboard.getNullPtr(CurrentCoordinates)) {
+
+											m_chessboard.UnmakeActiveSprite(ActiveCoord);
+											m_chessboard.EnPassant(ActiveCoord, CurrentCoordinates,
+												ActiveCoord.y == 3 ? PieceColor::White : PieceColor::Black);
+										}
+										else {
+											m_chessboard.UnmakeActiveSprite(ActiveCoord);
+											m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+										}
+									}
+								}
+								else {*/
+									m_chessboard.UnmakeActiveSprite(ActiveCoord);
+									m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+								//}
+
+
+								
 
 								if (mate == true) mate = false;
 
