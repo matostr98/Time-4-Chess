@@ -8,6 +8,28 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	Active = false;
 	promotion = false;
 	Create();
+
+	//sounds
+	music.openFromFile("Miasma.ogg");
+	music.setVolume(10.f);
+	music.setPitch(1.f);
+	music.setLoop(true);
+	music.play();
+
+	active.openFromFile("Active.ogg");
+	active.setVolume(100.f);
+	active.setPitch(1.f);
+
+
+	move.openFromFile("Move.ogg");
+	move.setVolume(100.f);
+	move.setPitch(1.f);
+
+	capture.openFromFile("Capture.ogg");
+	capture.setVolume(100.f);
+	capture.setPitch(1.f);
+
+
 }
 void Game::Create() {
 	m_window.create({ m_windowSize.x, m_windowSize.y, 32 },
@@ -84,6 +106,7 @@ void Game::Update() {
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
+									active.play();
 								}
 							}		
 							if (playerTurn == PieceColor::White && mate==false) {
@@ -95,6 +118,7 @@ void Game::Update() {
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
+									active.play();
 								}
 							}
 							else if (playerTurn == PieceColor::Black && mate == false) {
@@ -104,6 +128,7 @@ void Game::Update() {
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
+									active.play();
 								}
 							}
 						} 
@@ -131,6 +156,7 @@ void Game::Update() {
 										
 										m_chessboard.UnmakeActiveSprite(ActiveCoord);
 										m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+										move.play();
 									}
 									//castle
 									else {
@@ -145,6 +171,7 @@ void Game::Update() {
 								} else {
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Move(ActiveCoord, CurrentCoordinates);
+									move.play();
 								}
 						
 
@@ -202,6 +229,7 @@ void Game::Update() {
 								else {*/
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+									capture.play();
 								//}
 
 
@@ -349,7 +377,10 @@ void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::
 
 
 Game::Game() { Setup("T4C", sf::Vector2u(1280, 720)); }
-Game::Game(const std::string& title, const sf::Vector2u& size) :m_chessboard() { Setup(title, size); }
+Game::Game(const std::string& title, const sf::Vector2u& size) :m_chessboard() {
+	Setup(title, size);
+
+}
 
 Game::~Game() {}
 

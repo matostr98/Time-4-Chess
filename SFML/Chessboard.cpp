@@ -64,26 +64,37 @@ void Chessboard::Sprites() {
 
 
 void Chessboard::Sounds() {
-	//sf::SoundBuffer temp;
+	sf::SoundBuffer temp;
 
-	/*if (temp.loadFromFile("\Assets\SFX\Active.ogg")) 
+	/*if (temp.loadFromFile("Active.ogg")) 
 		SFXMap["Active"] = temp; else std::cout << "Error!\n";
 
-	if (temp.loadFromFile("\Assets\SFX\Move.ogg"))
+	if (temp.loadFromFile("Move.ogg"))
 		SFXMap["Move"] = temp; else std::cout << "Error!\n";
 
-	if (temp.loadFromFile("\Assets\SFX\Capture.ogg"))
+	if (temp.loadFromFile("Capture.ogg"))
 		SFXMap["Capture"] = temp; else std::cout << "Error!\n";*/
 
 
-	/*if (temp.loadFromFile("\Assets\SFX\Active.ogg"))
-		active.setBuffer(temp); else std::cout << "Error!\n";
+	if (temp.loadFromFile("Active.ogg")) {
+		active.setBuffer(temp);
+		active.setVolume(100.f);
+		active.setPitch(1.f);
+		//active.setLoop(true);
+	}  else std::cout << "Error!\n";
 
-	if (temp.loadFromFile("\Assets\SFX\Move.ogg"))
-		move.setBuffer(temp); else std::cout << "Error!\n";
 
-	if (temp.loadFromFile("\Assets\SFX\Capture.ogg"))
-		capture.setBuffer(temp); else std::cout << "Error!\n";*/
+	if (temp.loadFromFile("Move.ogg")) {
+		move.setBuffer(temp);
+		move.setVolume(100.f);
+		move.setPitch(1.f);
+	} else std::cout << "Error!\n";
+
+	if (temp.loadFromFile("Capture.ogg")) {
+		capture.setBuffer(temp);
+		capture.setVolume(100.f);
+		capture.setPitch(1.f);
+	} else std::cout << "Error!\n";
 
 
 }
@@ -106,6 +117,7 @@ Chessboard::~Chessboard() {}
 
 //Move
 void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
+	move.play();
 	//new field
 	Board[NewCoord.x][NewCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
 	if (Board[NewCoord.x][NewCoord.y].piece->getPieceID() == PieceID::King) {
@@ -134,7 +146,8 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
 	
 }
 void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord) {
-	
+	capture.play();
+
 	if (ActiveCoord.y == 3 || ActiveCoord.y == 4) {
 
 		if (Board[NewCoord.x][ActiveCoord.y == 3 ? NewCoord.y : NewCoord.y ].piece == nullptr) {
@@ -1058,6 +1071,7 @@ bool Chessboard::getNullPtr(sf::Vector2i coor){
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
+	active.play();
 	Board[coord.x][coord.y].status = BoardStatus::Active;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	ShowPossibleMoves(coord);

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 
 
 class Game {
@@ -20,7 +20,14 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
-	//sf::Music music;
+	sf::Music music;
+	/*sf::Sound active;
+	sf::Sound capture;
+	sf::Sound move;*/
+	sf::Music active;
+	sf::Music capture;
+	sf::Music move;
+
 	PieceColor playerTurn;
 
 	bool Active;

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
+#include <SFML/Audio.hpp>
 #include <memory>
 #include <array>
 #include <iostream>
@@ -35,9 +35,9 @@ private:
 	sf::Sprite bishop;
 	sf::Sprite queen;
 
-	//sf::Sound active;
-	//sf::Sound capture;
-	//sf::Sound move;
+	sf::Sound active;
+	sf::Sound capture;
+	sf::Sound move;
 
 	//Booleans
 	bool promotion;
@@ -46,7 +46,7 @@ private:
 
 	//maps
 	std::map<std::string, sf::Texture> TextureMap;
-	//std::map<std::string, sf::SoundBuffer> SFXMap;
+	std::map<std::string, sf::SoundBuffer> SFXMap;
 
 
 	//king positions 
