@@ -153,7 +153,7 @@ void Game::Update() {
 								//Check for mate
 								if (m_chessboard.CheckForCheck()) {
 									if (m_chessboard.CheckForCheckmate()) 
-										m_isDone = true; 
+										m_isDone = true;
 									else mate = true;
 								}
 

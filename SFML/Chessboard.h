@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
 #include <memory>
 #include <array>
 #include <iostream>
@@ -33,7 +34,11 @@ private:
 	sf::Sprite knight;
 	sf::Sprite bishop;
 	sf::Sprite queen;
-	
+
+	//sf::Sound active;
+	//sf::Sound capture;
+	//sf::Sound move;
+
 	//Booleans
 	bool promotion;
 	bool WhiteCastle;
@@ -41,6 +46,8 @@ private:
 
 	//maps
 	std::map<std::string, sf::Texture> TextureMap;
+	//std::map<std::string, sf::SoundBuffer> SFXMap;
+
 
 	//king positions 
 	sf::Vector2i WhiteKingCoordinates;
@@ -49,6 +56,7 @@ private:
 	sf::Vector2i PreviousCoordinates;
 
 	void Sprites();
+	void Sounds();
 	void setPiece(PieceColor color, PieceID id, sf::Vector2i coord);
 
 	//Chess pieces show and hide functions

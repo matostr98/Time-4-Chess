@@ -5,6 +5,7 @@
 #include <fstream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+//#include <SFML/Audio.hpp>
 
 
 class Game {
@@ -19,7 +20,7 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
-
+	//sf::Music music;
 	PieceColor playerTurn;
 
 	bool Active;
@@ -31,6 +32,7 @@ private:
 	bool mate;
 
 	Chessboard m_chessboard;
+
 public:
 	int cellSize = 84;
 

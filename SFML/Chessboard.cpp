@@ -62,6 +62,32 @@ void Chessboard::Sprites() {
 
 }
 
+
+void Chessboard::Sounds() {
+	//sf::SoundBuffer temp;
+
+	/*if (temp.loadFromFile("\Assets\SFX\Active.ogg")) 
+		SFXMap["Active"] = temp; else std::cout << "Error!\n";
+
+	if (temp.loadFromFile("\Assets\SFX\Move.ogg"))
+		SFXMap["Move"] = temp; else std::cout << "Error!\n";
+
+	if (temp.loadFromFile("\Assets\SFX\Capture.ogg"))
+		SFXMap["Capture"] = temp; else std::cout << "Error!\n";*/
+
+
+	/*if (temp.loadFromFile("\Assets\SFX\Active.ogg"))
+		active.setBuffer(temp); else std::cout << "Error!\n";
+
+	if (temp.loadFromFile("\Assets\SFX\Move.ogg"))
+		move.setBuffer(temp); else std::cout << "Error!\n";
+
+	if (temp.loadFromFile("\Assets\SFX\Capture.ogg"))
+		capture.setBuffer(temp); else std::cout << "Error!\n";*/
+
+
+}
+
 void Chessboard::setPiece(PieceColor color, PieceID id, sf::Vector2i coord){
 	ChessPiece p(color, id, coord);
 	Board[coord.x][coord.y].piece = std::make_shared<ChessPiece>(p);
@@ -73,6 +99,7 @@ void Chessboard::setPiece(PieceColor color, PieceID id, sf::Vector2i coord){
 
 Chessboard::Chessboard() {
 	Sprites();
+	Sounds();
 	Initialize();
 }
 Chessboard::~Chessboard() {}
