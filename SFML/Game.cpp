@@ -10,11 +10,14 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	Create();
 
 	//sounds
-	music.openFromFile("Miasma.ogg");
-	music.setVolume(10.f);
-	music.setPitch(1.f);
-	music.setLoop(true);
-	music.play();
+	if (music.openFromFile("Miasma.ogg")) {
+		music.setVolume(100.f);
+		music.setPitch(1.f);
+		music.setLoop(true);
+		music.play();
+	}
+	else std::cout << "Error!";
+	
 
 	active.openFromFile("Active.ogg");
 	active.setVolume(100.f);
@@ -29,6 +32,23 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	capture.setVolume(100.f);
 	capture.setPitch(1.f);
 
+
+	if (font.loadFromFile("DancingScript.ttf")) {
+		timerBlack.setFont(font);
+		timerBlack.setString("05:47");
+		timerBlack.setCharacterSize(40);
+		timerBlack.setFillColor(sf::Color::White);
+		timerBlack.setPosition(950, 100);
+
+		timerWhite.setFont(font);
+		timerWhite.setString("07:47");
+		timerWhite.setCharacterSize(40);
+		timerWhite.setFillColor(sf::Color::White);
+		timerWhite.setPosition(950, 580);
+
+	}
+	else
+		std::cout << "Error!\n";
 
 }
 void Game::Create() {
@@ -118,7 +138,7 @@ void Game::Update() {
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
-									active.play();
+									//active.play();
 								}
 							}
 							else if (playerTurn == PieceColor::Black && mate == false) {
@@ -128,7 +148,7 @@ void Game::Update() {
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
-									active.play();
+									//active.play();
 								}
 							}
 						} 
@@ -156,7 +176,7 @@ void Game::Update() {
 										
 										m_chessboard.UnmakeActiveSprite(ActiveCoord);
 										m_chessboard.Move(ActiveCoord, CurrentCoordinates);
-										move.play();
+										//move.play();
 									}
 									//castle
 									else {
@@ -171,7 +191,7 @@ void Game::Update() {
 								} else {
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Move(ActiveCoord, CurrentCoordinates);
-									move.play();
+									//move.play();
 								}
 						
 
@@ -229,7 +249,7 @@ void Game::Update() {
 								else {*/
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
-									capture.play();
+									//capture.play();
 								//}
 
 
@@ -394,7 +414,8 @@ void Game::Render() {
 	BeginDraw();
 	// Render here.
 	m_chessboard.Render(m_window);
-
+	m_window.draw(timerWhite);
+	m_window.draw(timerBlack);
 	EndDraw();
 }
 

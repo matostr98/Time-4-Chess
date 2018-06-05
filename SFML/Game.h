@@ -28,6 +28,10 @@ private:
 	sf::Music capture;
 	sf::Music move;
 
+	sf::Font font;
+	sf::Text timerWhite;
+	sf::Text timerBlack;
+
 	PieceColor playerTurn;
 
 	bool Active;

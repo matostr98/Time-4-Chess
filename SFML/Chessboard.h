@@ -35,6 +35,9 @@ private:
 	sf::Sprite bishop;
 	sf::Sprite queen;
 
+	sf::SoundBuffer sb_move;
+	sf::SoundBuffer sb_capture;
+	sf::SoundBuffer sb_active;
 	sf::Sound active;
 	sf::Sound capture;
 	sf::Sound move;

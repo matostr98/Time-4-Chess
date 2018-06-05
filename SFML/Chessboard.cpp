@@ -64,7 +64,7 @@ void Chessboard::Sprites() {
 
 
 void Chessboard::Sounds() {
-	sf::SoundBuffer temp;
+	
 
 	/*if (temp.loadFromFile("Active.ogg")) 
 		SFXMap["Active"] = temp; else std::cout << "Error!\n";
@@ -76,23 +76,23 @@ void Chessboard::Sounds() {
 		SFXMap["Capture"] = temp; else std::cout << "Error!\n";*/
 
 
-	if (temp.loadFromFile("Active.ogg")) {
-		active.setBuffer(temp);
-		active.setVolume(100.f);
+	if (sb_active.loadFromFile("Active1.ogg")) {
+		active.setBuffer(sb_active);
+		active.setVolume(40.f);
 		active.setPitch(1.f);
 		//active.setLoop(true);
 	}  else std::cout << "Error!\n";
 
 
-	if (temp.loadFromFile("Move.ogg")) {
-		move.setBuffer(temp);
-		move.setVolume(100.f);
+	if (sb_move.loadFromFile("Move1.ogg")) {
+		move.setBuffer(sb_move);
+		move.setVolume(40.f);
 		move.setPitch(1.f);
 	} else std::cout << "Error!\n";
 
-	if (temp.loadFromFile("Capture.ogg")) {
-		capture.setBuffer(temp);
-		capture.setVolume(100.f);
+	if (sb_capture.loadFromFile("Capture.ogg")) {
+		capture.setBuffer(sb_capture);
+		capture.setVolume(40.f);
 		capture.setPitch(1.f);
 	} else std::cout << "Error!\n";
 
