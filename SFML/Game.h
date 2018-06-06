@@ -31,6 +31,11 @@ private:
 	sf::Font font;
 	sf::Text timerWhite;
 	sf::Text timerBlack;
+	float timerW;
+	float timerB;
+	sf::Time sub;
+	sf::Clock clock;
+
 
 	PieceColor playerTurn;
 
@@ -74,6 +79,9 @@ public:
 	void OnClickTest();
 	PieceID getPromotionPiece(sf::Vector2i mousePos);
 	void PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates);
+	void DisplayTime();
+	void RestartClock();
+
 
 	//void Draw(sf::Drawable& l_drawable);
 

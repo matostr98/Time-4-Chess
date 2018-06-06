@@ -11,37 +11,23 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 
 	//sounds
 	if (music.openFromFile("Miasma.ogg")) {
-		music.setVolume(100.f);
+		music.setVolume(200.f);
 		music.setPitch(1.f);
 		music.setLoop(true);
 		music.play();
 	}
 	else std::cout << "Error!";
-	
-
-	active.openFromFile("Active.ogg");
-	active.setVolume(100.f);
-	active.setPitch(1.f);
-
-
-	move.openFromFile("Move.ogg");
-	move.setVolume(100.f);
-	move.setPitch(1.f);
-
-	capture.openFromFile("Capture.ogg");
-	capture.setVolume(100.f);
-	capture.setPitch(1.f);
 
 
 	if (font.loadFromFile("DancingScript.ttf")) {
 		timerBlack.setFont(font);
-		timerBlack.setString("05:47");
+		//timerBlack.setString("05:47");
 		timerBlack.setCharacterSize(40);
 		timerBlack.setFillColor(sf::Color::White);
 		timerBlack.setPosition(950, 100);
 
 		timerWhite.setFont(font);
-		timerWhite.setString("07:47");
+		//timerWhite.setString("07:47");
 		timerWhite.setCharacterSize(40);
 		timerWhite.setFillColor(sf::Color::White);
 		timerWhite.setPosition(950, 580);
@@ -50,10 +36,16 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else
 		std::cout << "Error!\n";
 
+	timerW = 671;
+	timerB = 347;
+	sub = clock.restart();
+	//std::cout << timer << std::endl;
+
 }
 void Game::Create() {
 	m_window.create({ m_windowSize.x, m_windowSize.y, 32 },
-		m_windowTitle);
+		m_windowTitle, sf::Style::Titlebar| sf::Style::Close);
+	m_window.setFramerateLimit(60);
 
 }
 void Game::Destroy() {
@@ -395,6 +387,46 @@ void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::
 
 }
 
+void Game::DisplayTime() {
+
+	/*timerW -= clock.getElapsedTime().asSeconds()*(1.0 / 60.0);
+	timerB -= clock.getElapsedTime().asSeconds()*(1.0/60.0);*/
+	/*timerW -= sub.asSeconds();
+	timerB -= sub.asSeconds();*/
+	int ttimerW = timerW - clock.getElapsedTime().asSeconds();
+	int ttimerB = timerB - clock.getElapsedTime().asSeconds();
+	//std::cout << timerW << std::endl;
+	//if (clock.getElapsedTime().asSeconds()>=1) {
+		std::string temp0 = std::to_string(ttimerW / 60);
+		std::string temp1 = std::to_string(ttimerW % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		std::string temp2 = { temp0 + ":" + temp1};
+		timerWhite.setString(temp2);
+
+
+		temp0 = std::to_string(ttimerB / 60);
+		temp1 = std::to_string(ttimerB % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		temp2 = { temp0 + ":" + temp1 };
+		timerBlack.setString(temp2);
+		
+	//}
+	
+
+	m_window.draw(timerWhite);
+	m_window.draw(timerBlack);
+}
+
+void Game::RestartClock(){
+	//std::cout << clock.getElapsedTime().asMicroseconds()<<std::endl;
+	//if (clock.getElapsedTime().asSeconds()/60.0>=1)
+	//sub = clock.restart();
+	//std::cout << clock.getElapsedTime().asMicroseconds()<<std::endl;
+
+}
+
 
 Game::Game() { Setup("T4C", sf::Vector2u(1280, 720)); }
 Game::Game(const std::string& title, const sf::Vector2u& size) :m_chessboard() {
@@ -414,8 +446,7 @@ void Game::Render() {
 	BeginDraw();
 	// Render here.
 	m_chessboard.Render(m_window);
-	m_window.draw(timerWhite);
-	m_window.draw(timerBlack);
+	DisplayTime();
 	EndDraw();
 }
 
