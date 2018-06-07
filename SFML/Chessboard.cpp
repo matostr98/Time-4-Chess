@@ -53,8 +53,13 @@ void Chessboard::Sprites() {
 		TextureMap["red"] = temp; else std::cout << "why?\n";
 
 	if (temp.loadFromFile("none.png"))
-		TextureMap["none"] = temp; else std::cout << "why?\n";
+		TextureMap["none"] = temp; else std::cout << "none?\n";
 
+	if (temp.loadFromFile("draw.png"))
+		TextureMap["draw"] = temp; else std::cout << "draw?\n";
+
+	if (temp.loadFromFile("surrender.png"))
+		TextureMap["surrender"] = temp; else std::cout << "surrender?\n";
 
 
 	if (t_background.loadFromFile("Chessboard.png"))
@@ -1167,6 +1172,16 @@ void Chessboard::RenderPromotion(PieceColor color){
 	bishop = PromotionSpriteHandler(color, 2);
 	queen = PromotionSpriteHandler(color, 3);
 
+	Draw0.setTexture(TextureMap["draw"]);
+	Draw0.setPosition(846, 96);
+	Draw1.setTexture(TextureMap["draw"]);
+	Draw1.setPosition(846, 528);
+
+	Surr0.setTexture(TextureMap["surrender"]);
+	Surr0.setPosition(1090, 96);
+	Surr1.setTexture(TextureMap["surrender"]);
+	Surr1.setPosition(1090, 528);
+
 }
 
 void Chessboard::Initialize() {
@@ -1232,6 +1247,10 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 			l_window.draw(queen);
 		}
 	}
+	l_window.draw(Draw0);
+	l_window.draw(Draw1);
+	l_window.draw(Surr0);
+	l_window.draw(Surr1);
 
 }
 

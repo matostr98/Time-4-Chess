@@ -34,6 +34,10 @@ private:
 	sf::Sprite knight;
 	sf::Sprite bishop;
 	sf::Sprite queen;
+	sf::Sprite Draw0;
+	sf::Sprite Draw1;
+	sf::Sprite Surr0;
+	sf::Sprite Surr1;
 
 	sf::SoundBuffer sb_move;
 	sf::SoundBuffer sb_capture;

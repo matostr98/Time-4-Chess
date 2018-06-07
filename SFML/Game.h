@@ -28,6 +28,7 @@ private:
 	sf::Music capture;
 	sf::Music move;
 
+
 	sf::Font font;
 	sf::Text timerWhite;
 	sf::Text timerBlack;
@@ -80,11 +81,5 @@ public:
 	PieceID getPromotionPiece(sf::Vector2i mousePos);
 	void PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates);
 	void DisplayTime();
-	void RestartClock();
-
-
-	//void Draw(sf::Drawable& l_drawable);
-
-	//Window* GetWindow();
 
 };

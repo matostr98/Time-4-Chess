@@ -19,18 +19,20 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else std::cout << "Error!";
 
 
-	if (font.loadFromFile("DancingScript.ttf")) {
+	if (font.loadFromFile("CutiveMono-Regular.ttf")) {
 		timerBlack.setFont(font);
 		//timerBlack.setString("05:47");
+		timerBlack.setStyle(sf::Text::Bold);
 		timerBlack.setCharacterSize(40);
 		timerBlack.setFillColor(sf::Color::White);
-		timerBlack.setPosition(950, 100);
+		timerBlack.setPosition(940, 100);
 
 		timerWhite.setFont(font);
 		//timerWhite.setString("07:47");
+		timerWhite.setStyle(sf::Text::Bold);
 		timerWhite.setCharacterSize(40);
 		timerWhite.setFillColor(sf::Color::White);
-		timerWhite.setPosition(950, 580);
+		timerWhite.setPosition(940, 572); //bylo 580
 
 	}
 	else
@@ -417,14 +419,6 @@ void Game::DisplayTime() {
 
 	m_window.draw(timerWhite);
 	m_window.draw(timerBlack);
-}
-
-void Game::RestartClock(){
-	//std::cout << clock.getElapsedTime().asMicroseconds()<<std::endl;
-	//if (clock.getElapsedTime().asSeconds()/60.0>=1)
-	//sub = clock.restart();
-	//std::cout << clock.getElapsedTime().asMicroseconds()<<std::endl;
-
 }
 
 
