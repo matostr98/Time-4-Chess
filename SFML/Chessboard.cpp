@@ -1172,19 +1172,22 @@ void Chessboard::RenderPromotion(PieceColor color){
 	bishop = PromotionSpriteHandler(color, 2);
 	queen = PromotionSpriteHandler(color, 3);
 
-	Draw0.setTexture(TextureMap["draw"]);
-	Draw0.setPosition(846, 96);
-	Draw1.setTexture(TextureMap["draw"]);
-	Draw1.setPosition(846, 528);
-
-	Surr0.setTexture(TextureMap["surrender"]);
-	Surr0.setPosition(1090, 96);
-	Surr1.setTexture(TextureMap["surrender"]);
-	Surr1.setPosition(1090, 528);
+	
 
 }
 
 void Chessboard::Initialize() {
+
+	Draw0.setTexture(TextureMap["draw"]);
+	Draw0.setPosition(846, 96);
+	Draw1.setTexture(TextureMap["draw"]);
+	Draw1.setPosition(846, 569);
+
+	Surr0.setTexture(TextureMap["surrender"]);
+	Surr0.setPosition(1090, 96);
+	Surr1.setTexture(TextureMap["surrender"]);
+	Surr1.setPosition(1090, 569);
+
 	//initialize board status	
 	promotion = false;
 	for (int i = 0; i < 8; i++) {

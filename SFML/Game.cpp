@@ -82,19 +82,71 @@ void Game::Update() {
 					OnClickTest();
 
 					sf::Vector2i CurrentCoordinates = GetCellCoor();
-					sf::Vector2i TempCoordinates = sf::Mouse::getPosition(m_window);
+					sf::Vector2i MouseCoordinates = sf::Mouse::getPosition(m_window);
 					
 
-					//promotion
+					
 
-					if (promotion == true && TempCoordinates.x > 832 && TempCoordinates.x < 1168 
-						&& TempCoordinates.y>318 && TempCoordinates.y < 402) {
+					if (playerTurn == PieceColor::White) {
+					
+
+						//surrender button
+						if(MouseCoordinates.x>1090 && MouseCoordinates.x <=1154 &&
+						MouseCoordinates.y >569 && MouseCoordinates.y<=633){
+							std::cout << "White Player surrenders! Black wins!\n";
+							sf::sleep(sf::milliseconds(3000));
+							m_isDone = true;
+						}
+
+						//draw button
+						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
+							MouseCoordinates.y >569 && MouseCoordinates.y <= 633) {
+							std::cout << "White Player offers draw\n";
+							sf::sleep(sf::milliseconds(3000));
+							
+
+						}
+						
+					
+					}
+						 
+					if (playerTurn == PieceColor::Black) {
+
+
+						//surrender button
+						if (MouseCoordinates.x>1090 && MouseCoordinates.x <= 1154 &&
+							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
+
+							std::cout << "Black Player surrenders! White wins!\n";
+							sf::sleep(sf::milliseconds(3000));
+							m_isDone = true;
+						}
+
+
+						//draw button
+						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
+							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
+
+							std::cout << "Black Player offers draw\n";
+							sf::sleep(sf::milliseconds(3000));
+
+
+						}
+
+					}
+						
+
+
+
+					//promotion
+					if (promotion == true && MouseCoordinates.x > 832 && MouseCoordinates.x < 1168 
+						&& MouseCoordinates.y>318 && MouseCoordinates.y < 402) {
 
 						std::cout << "PromotionCoordinates: " << PromotionCoordinates.x << ", "
 							<< PromotionCoordinates.y << std::endl;
 
 						PromotionHandler(PromotionCoordinates.y == 0 ? 
-							PieceColor::White : PieceColor::Black, TempCoordinates, PromotionCoordinates);
+							PieceColor::White : PieceColor::Black, MouseCoordinates, PromotionCoordinates);
 
 						//potem zmaiana stanu na bazowy i zmiana tury, ktora nie wejdzie bo promotion bylo true
 						promotion = false;
@@ -193,8 +245,16 @@ void Game::Update() {
 
 								//Check for mate
 								if (m_chessboard.CheckForCheck()) {
-									if (m_chessboard.CheckForCheckmate()) 
+									if (m_chessboard.CheckForCheckmate()) {
+										std::cout << "Checkmate!\n";
+										sf::sleep(sf::milliseconds(10'000));
+										std::cin.get();
+										std::cin.get();
+
 										m_isDone = true;
+
+									}
+
 									else mate = true;
 								}
 
@@ -205,7 +265,7 @@ void Game::Update() {
 									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
 
 									promotion = true;
-								
+									std::cout << "Promotion\n";
 									m_chessboard.RenderPromotion(
 										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
 									
@@ -253,8 +313,16 @@ void Game::Update() {
 
 								//Check for mate
 								if (m_chessboard.CheckForCheck()) {
-									if (m_chessboard.CheckForCheckmate()) 
+									if (m_chessboard.CheckForCheckmate()) {
+
+										std::cout << "Checkmate!\n";
+										sf::sleep(sf::milliseconds(10'000));
+										std::cin.get();
+										std::cin.get();
+
 										m_isDone = true;
+									}
+										
 									else mate = true;
 								}
 
