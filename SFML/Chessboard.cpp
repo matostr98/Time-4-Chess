@@ -5,64 +5,67 @@ void Chessboard::Sprites() {
 	sf::Texture temp;
 	
 	//White
-	if (temp.loadFromFile("wP.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wP.png"))
 		TextureMap["wP"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("wR.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wR.png"))
 		TextureMap["wR"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("wKn.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wKn.png"))
 		TextureMap["wKn"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("wB.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wB.png"))
 		TextureMap["wB"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("wQ.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wQ.png"))
 		TextureMap["wQ"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("wK.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/wK.png"))
 		TextureMap["wK"]=temp; else std::cout << "why?\n";
 	
 	//Black
-	if (temp.loadFromFile("bP.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bP.png"))
 		TextureMap["bP"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("bR.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bR.png"))
 		TextureMap["bR"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("bKn.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bKn.png"))
 		TextureMap["bKn"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("bB.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bB.png"))
 		TextureMap["bB"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("bQ.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bQ.png"))
 		TextureMap["bQ"]=temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("bK.png"))
+	if (temp.loadFromFile("Assets/Textures/Pieces/bK.png"))
 		TextureMap["bK"]=temp; else std::cout << "why?\n";
 
 	//Other
-	if (temp.loadFromFile("blue.png"))
+	if (temp.loadFromFile("Assets/Textures/Status/blue.png"))
 		TextureMap["blue"] = temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("green.png"))
+	if (temp.loadFromFile("Assets/Textures/Status/high.png"))
 		TextureMap["green"] = temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("red.png"))
+	if (temp.loadFromFile("Assets/Textures/Status/capt.png"))
 		TextureMap["red"] = temp; else std::cout << "why?\n";
 
-	if (temp.loadFromFile("none.png"))
+	if (temp.loadFromFile("Assets/Textures/Status/none.png"))
 		TextureMap["none"] = temp; else std::cout << "none?\n";
 
-	if (temp.loadFromFile("draw.png"))
+	if (temp.loadFromFile("Assets/Textures/Buttons/i_draw.png"))
 		TextureMap["draw"] = temp; else std::cout << "draw?\n";
 
-	if (temp.loadFromFile("surrender.png"))
+	if (temp.loadFromFile("Assets/Textures/Buttons/i_surrender.png"))
 		TextureMap["surrender"] = temp; else std::cout << "surrender?\n";
 
+	if (temp.loadFromFile("Assets/Textures/Status/turns.png"))
+		TextureMap["turns"] = temp; else std::cout << "turns?\n";
 
-	if (t_background.loadFromFile("Chessboard.png"))
+
+	if (t_background.loadFromFile("Assets/Textures/Menus/Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
 
 }
@@ -70,38 +73,55 @@ void Chessboard::Sprites() {
 
 void Chessboard::Sounds() {
 	
+	/*audio.loadAudio("Assets/SFX/Active1.ogg", "active");
+	audio.setVolume("active", 40.f);
 
-	/*if (temp.loadFromFile("Active.ogg")) 
-		SFXMap["Active"] = temp; else std::cout << "Error!\n";
+	audio.loadAudio("Assets/SFX/Move1.ogg", "move");
+	audio.setVolume("active", 60.f);
 
-	if (temp.loadFromFile("Move.ogg"))
-		SFXMap["Move"] = temp; else std::cout << "Error!\n";
+	audio.loadAudio("Assets/SFX/Capture.ogg", "capture");
+	audio.setVolume("active", 40.f);
 
-	if (temp.loadFromFile("Capture.ogg"))
-		SFXMap["Capture"] = temp; else std::cout << "Error!\n";*/
+	audio.loadAudio("Assets/SFX/Castle.ogg", "castle");
+	audio.setVolume("active", 60.f);
+
+	audio.loadAudio("Assets/SFX/Check0.ogg", "check");
+	audio.setVolume("active", 40.f);
+
+	audio.loadAudio("Assets/SFX/Checkmate.ogg", "checkmate");
+	audio.setVolume("active", 40.f);
+
+	audio.loadAudio("Assets/SFX/Click.ogg", "click");
+	audio.setVolume("active", 40.f);
+
+	audio.loadAudio("Assets/SFX/Promotion.ogg", "promotion");
+	audio.setVolume("active", 40.f);
+
+	audio.loadAudio("Assets/SFX/Unactive.ogg", "unactive");
+	audio.setVolume("active", 40.f);*/
 
 
-	if (sb_active.loadFromFile("Active1.ogg")) {
-		active.setBuffer(sb_active);
-		active.setVolume(40.f);
-		active.setPitch(1.f);
-		//active.setLoop(true);
-	}  else std::cout << "Error!\n";
+	//if (sb_active.loadFromFile("Assets/SFX/Active1.ogg")) {
+	//	active.setBuffer(sb_active);
+	//	active.setVolume(40.f);
+	//	active.setPitch(1.f);
+	//	//active.setLoop(true);
+	//}  else std::cout << "Error!\n";
 
 
-	if (sb_move.loadFromFile("Move1.ogg")) {
+	/*if (sb_move.loadFromFile("Assets/SFX/Move1.ogg")) {
 		move.setBuffer(sb_move);
 		move.setVolume(40.f);
 		move.setPitch(1.f);
 	} else std::cout << "Error!\n";
 
-	if (sb_capture.loadFromFile("Capture.ogg")) {
+	if (sb_capture.loadFromFile("Assets/SFX/Capture.ogg")) {
 		capture.setBuffer(sb_capture);
 		capture.setVolume(40.f);
 		capture.setPitch(1.f);
 	} else std::cout << "Error!\n";
 
-
+*/
 }
 
 void Chessboard::setPiece(PieceColor color, PieceID id, sf::Vector2i coord){
@@ -122,7 +142,7 @@ Chessboard::~Chessboard() {}
 
 //Move
 void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
-	move.play();
+	//audio.play("move");
 	//new field
 	Board[NewCoord.x][NewCoord.y].piece = Board[ActiveCoord.x][ActiveCoord.y].piece;
 	if (Board[NewCoord.x][NewCoord.y].piece->getPieceID() == PieceID::King) {
@@ -151,7 +171,7 @@ void Chessboard::Move(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord){
 	
 }
 void Chessboard::Capture(sf::Vector2i ActiveCoord, sf::Vector2i NewCoord) {
-	capture.play();
+	//audio.play("capture");
 
 	if (ActiveCoord.y == 3 || ActiveCoord.y == 4) {
 
@@ -284,6 +304,7 @@ void Chessboard::HidePossibleMoves(sf::Vector2i ActiveCoord) {
 
 
 void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
+		//audio.play("promotion");
 		Board[coord.x][coord.y].piece->setPieceIDforPromotion(id);
 		Board[coord.x][coord.y].rect = PieceSpriteHandler(Board[coord.x][coord.y].piece->getPieceID(),
 			Board[coord.x][coord.y].piece->getPieceColor(), coord);
@@ -291,6 +312,7 @@ void Chessboard::Promotion(PieceID id, sf::Vector2i coord) {
 }
 
 void Chessboard::ShortCastle(PieceColor color) {
+	//audio.play("castle");
 	int i = 4;
 	int j;
 	color == PieceColor::White ? j = 7 : j = 0;
@@ -307,6 +329,7 @@ void Chessboard::ShortCastle(PieceColor color) {
 }
 
 void Chessboard::LongCastle(PieceColor color){
+	//audio.play("castle");
 	int i = 4;
 	int j;
 	color == PieceColor::White ? j = 7 : j = 0;
@@ -910,10 +933,12 @@ bool Chessboard::CheckOnePawnAttack(PieceColor color, sf::Vector2i Coord) {
 bool Chessboard::CheckForCheck(){
 	if (CheckIfFieldIsAttacked(WhiteKingCoordinates, PieceColor::White)) {
 		check = PieceColor::White;
+		//audio.play("check");
 		return true;
 	}
 	if (CheckIfFieldIsAttacked(BlackKingCoordinates, PieceColor::Black)) {
 		check = PieceColor::Black;
+		//audio.play("check");
 		return true;
 	}
 
@@ -1052,6 +1077,8 @@ bool Chessboard::CheckForCheckmate()
 				if (!CheckIfFieldIsAttacked({ BlackKingCoordinates.x + 1, BlackKingCoordinates.y + 1 }, check)) return false;
 		}
 	}
+
+	//audio.play("checkmate");
 	return true;
 }
 
@@ -1076,7 +1103,7 @@ bool Chessboard::getNullPtr(sf::Vector2i coor){
 }
 
 void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
-	active.play();
+	//audio.play("active");
 	Board[coord.x][coord.y].status = BoardStatus::Active;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	ShowPossibleMoves(coord);
@@ -1089,10 +1116,18 @@ void Chessboard::MakeActiveSprite(sf::Vector2i coord) {
 //}
 
 void Chessboard::UnmakeActiveSprite(sf::Vector2i coord) {
-
+	//audio.play("unactive");
 	Board[coord.x][coord.y].status = BoardStatus::Occupied;
 	Board[coord.x][coord.y].StatRect = StatusSpriteHandler(Board[coord.x][coord.y].status, coord);
 	HidePossibleMoves(coord);
+}
+
+void Chessboard::ChangeTurnSprite(PieceColor color) {
+	if (color == PieceColor::Black) {	
+		Turn.setPosition(720, 112);
+	} else {
+		Turn.setPosition(720, 585);
+	}
 }
 
 sf::Sprite Chessboard::StatusSpriteHandler(BoardStatus status, sf::Vector2i coord)
@@ -1188,6 +1223,11 @@ void Chessboard::Initialize() {
 	Surr1.setTexture(TextureMap["surrender"]);
 	Surr1.setPosition(1090, 569);
 
+	Turn.setTexture((TextureMap["turns"]));
+	Turn.setPosition(720, 585);
+
+
+
 	//initialize board status	
 	promotion = false;
 	for (int i = 0; i < 8; i++) {
@@ -1254,6 +1294,7 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 	l_window.draw(Draw1);
 	l_window.draw(Surr0);
 	l_window.draw(Surr1);
+	l_window.draw(Turn);
 
 }
 

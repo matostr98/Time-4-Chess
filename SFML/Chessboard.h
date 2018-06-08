@@ -8,6 +8,7 @@
 #include "Chesspiece.h"
 #include "Pawn.h"
 #include "Useful.h"
+#include "AudioManager.h"
 
 using PiecePtr = std::shared_ptr<ChessPiece>;
 //using PieceSet = std::array<std::shared_ptr<ChessPiece>, 16>;
@@ -38,13 +39,16 @@ private:
 	sf::Sprite Draw1;
 	sf::Sprite Surr0;
 	sf::Sprite Surr1;
+	sf::Sprite Turn;
 
-	sf::SoundBuffer sb_move;
+	//audio
+	//AudioManager audio;
+	/*sf::SoundBuffer sb_move;
 	sf::SoundBuffer sb_capture;
 	sf::SoundBuffer sb_active;
 	sf::Sound active;
 	sf::Sound capture;
-	sf::Sound move;
+	sf::Sound move;*/
 
 	//Booleans
 	bool promotion;
@@ -137,7 +141,7 @@ public:
 	void MakeActiveSprite(sf::Vector2i coord);
 	//void MakeActiveKingSprite(sf::Vector2i Coord);
 	void UnmakeActiveSprite(sf::Vector2i coord);
-
+	void ChangeTurnSprite(PieceColor color);
 
 	//Sprite Handlers
 	sf::Sprite StatusSpriteHandler(BoardStatus status, sf::Vector2i coord);

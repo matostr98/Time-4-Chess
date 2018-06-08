@@ -81,6 +81,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -88,6 +90,8 @@
     <ClCompile Include="Pawn.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Chessboard.h" />
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="Game.h" />

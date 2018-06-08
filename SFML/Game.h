@@ -14,12 +14,15 @@ private:
 	void Setup(const std::string title, const sf::Vector2u& size);
 	void Create();
 	void Destroy();
+	void SetupSounds();
 
 	sf::RenderWindow m_window;
 	sf::Vector2u m_windowSize;
 	std::string m_windowTitle;
 	bool m_isDone;
 
+	//audio
+	AudioManager audio;
 	sf::Music music;
 	/*sf::Sound active;
 	sf::Sound capture;
@@ -36,6 +39,7 @@ private:
 	float timerB;
 	sf::Time sub;
 	sf::Clock clock;
+
 
 
 	PieceColor playerTurn;
