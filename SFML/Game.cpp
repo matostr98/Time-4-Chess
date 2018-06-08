@@ -11,13 +11,13 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	SetupSounds();
 
 	//sounds
-	if (music.openFromFile("Assets/Music/Miasma.ogg")) {
+	/*if (music.openFromFile("Assets/Music/Miasma.ogg")) {
 		music.setVolume(200.f);
 		music.setPitch(1.f);
 		music.setLoop(true);
 		music.play();
 	}
-	else std::cout << "Error!";
+	else std::cout << "Error!";*/
 
 
 	if (font.loadFromFile("Assets/Fonts/CutiveMono-Regular.ttf")) {
@@ -82,6 +82,18 @@ void Game::SetupSounds() {
 
 	audio.loadAudio("Assets/SFX/Unactive.ogg", "unactive");
 	audio.setVolume("unactive", 40.f);
+
+	music.add("Assets/Music/Blizzard.ogg");
+	music.add("Assets/Music/December.ogg");
+	music.add("Assets/Music/January.ogg");
+	music.add("Assets/Music/Morbid_Imagination.ogg");
+	music.add("Assets/Music/Nothing.ogg");
+	music.add("Assets/Music/Snowfall.ogg");
+	music.add("Assets/Music/Snowmen.ogg");
+	music.add("Assets/Music/Thaw.ogg");
+	music.play();
+	music.setVolume(100.f);
+
 }
 
 void Game::BeginDraw() { m_window.clear(sf::Color::Black); }
@@ -93,6 +105,7 @@ sf::RenderWindow* Game::GetRenderWindow() { return &m_window; }
 sf::Vector2u Game::GetWindowSize() { return m_windowSize; }
 
 void Game::Update() {
+	music.next();
 
 	sf::Event event;
 	while (m_window.pollEvent(event)) {

@@ -1,5 +1,7 @@
 #pragma once
 #include "Chessboard.h"
+#include "AudioManager.h"
+#include "MusicManager.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -23,13 +25,9 @@ private:
 
 	//audio
 	AudioManager audio;
-	sf::Music music;
-	/*sf::Sound active;
-	sf::Sound capture;
-	sf::Sound move;*/
-	sf::Music active;
-	sf::Music capture;
-	sf::Music move;
+	MusicManager music;
+	//sf::Music music;
+	
 
 
 	sf::Font font;

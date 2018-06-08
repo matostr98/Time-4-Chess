@@ -83,10 +83,13 @@
   <ItemGroup>
     <ClCompile Include="Audio.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Checkmate.cpp" />
     <ClCompile Include="Chessboard.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Moves.cpp" />
+    <ClCompile Include="MusicManager.cpp" />
     <ClCompile Include="Pawn.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +98,7 @@
     <ClInclude Include="Chessboard.h" />
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="MusicManager.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Useful.h" />
   </ItemGroup>

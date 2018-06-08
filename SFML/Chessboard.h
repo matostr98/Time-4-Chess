@@ -8,7 +8,6 @@
 #include "Chesspiece.h"
 #include "Pawn.h"
 #include "Useful.h"
-#include "AudioManager.h"
 
 using PiecePtr = std::shared_ptr<ChessPiece>;
 //using PieceSet = std::array<std::shared_ptr<ChessPiece>, 16>;
@@ -40,15 +39,6 @@ private:
 	sf::Sprite Surr0;
 	sf::Sprite Surr1;
 	sf::Sprite Turn;
-
-	//audio
-	//AudioManager audio;
-	/*sf::SoundBuffer sb_move;
-	sf::SoundBuffer sb_capture;
-	sf::SoundBuffer sb_active;
-	sf::Sound active;
-	sf::Sound capture;
-	sf::Sound move;*/
 
 	//Booleans
 	bool promotion;

@@ -36,6 +36,15 @@
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Moves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkmate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -43,9 +52,6 @@
     </ClInclude>
     <ClInclude Include="Chessboard.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Useful.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Pawn.h">
       <Filter>Header Files</Filter>
@@ -57,6 +63,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Useful.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
