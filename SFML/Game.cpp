@@ -7,7 +7,7 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	playerTurn = PieceColor::White;
 	Active = false;
 	promotion = false;
-	Create();
+	//Create();
 	SetupSounds();
 
 	main = true;
@@ -44,8 +44,8 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else
 		std::cout << "Error!\n";
 
-	timerW = 15;
-	timerB = 20;
+	timerW = 900;
+	timerB = 900;
 
 	int ttimerW = timerW;
 	int ttimerB = timerB;
@@ -146,8 +146,31 @@ sf::Vector2u Game::GetWindowSize() { return m_windowSize; }
 
 void Game::Update() {
 	music.next();
-	updateTime();
-	//std::cout << after << std::endl;
+
+	//main menu window
+	if (main==true) {
+		mainMenu.Update();
+
+		if (mainMenu.is_cplay()==true) {
+			Create();
+			mainMenu.Close();
+			main = false;
+			chessboard = true;
+			clock.restart();
+		}
+
+		if (mainMenu.IsDone()==true) {
+			m_isDone = true;
+		}
+	}
+
+
+
+
+
+
+
+	//after game window---------------------------------------------
 
 	if (after > 0) {
 		afterMenu.Update();
@@ -169,10 +192,12 @@ void Game::Update() {
 		}
 	}
 
-	
 
+	//chesboard events---------------------------------
+	if (chessboard==true){
+		updateTime();
 	sf::Event event;
-	if (after == 0)
+	//if (after == 0)
 	while (m_window.pollEvent(event)) {
 
 		switch (event.type) {
@@ -183,7 +208,8 @@ void Game::Update() {
 			case sf::Keyboard::Right: {music.nextSong(); music.next(); break; }
 			}
 		case sf::Event::MouseButtonPressed:
-			switch (event.key.code) {
+			if (after == 0) {
+				switch (event.key.code) {
 
 				case sf::Mouse::Left: {
 					//if left button is clicked
@@ -192,16 +218,16 @@ void Game::Update() {
 
 					sf::Vector2i CurrentCoordinates = GetCellCoor();
 					sf::Vector2i MouseCoordinates = sf::Mouse::getPosition(m_window);
-					
 
-					
+
+
 
 					if (playerTurn == PieceColor::White) {
-					
+
 
 						//surrender button
-						if(MouseCoordinates.x>1090 && MouseCoordinates.x <=1154 &&
-						MouseCoordinates.y >569 && MouseCoordinates.y<=633){
+						if (MouseCoordinates.x > 1090 && MouseCoordinates.x <= 1154 &&
+							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633) {
 							audio.play("click");
 							std::cout << "White Player surrenders! Black wins!\n";
 
@@ -213,8 +239,8 @@ void Game::Update() {
 						}
 
 						//draw button
-						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
-							MouseCoordinates.y >569 && MouseCoordinates.y <= 633) {
+						if (MouseCoordinates.x > 846 && MouseCoordinates.x <= 910 &&
+							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633) {
 							audio.play("click");
 							after = 3;
 							SetupAfterMenu();
@@ -224,16 +250,16 @@ void Game::Update() {
 							*/
 
 						}
-						
-					
+
+
 					}
-						 
+
 					if (playerTurn == PieceColor::Black) {
 
 
 						//surrender button
-						if (MouseCoordinates.x>1090 && MouseCoordinates.x <= 1154 &&
-							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
+						if (MouseCoordinates.x > 1090 && MouseCoordinates.x <= 1154 &&
+							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160) {
 							audio.play("click");
 							std::cout << "Black Player surrenders! White wins!\n";
 
@@ -245,8 +271,8 @@ void Game::Update() {
 
 
 						//draw button
-						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
-							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
+						if (MouseCoordinates.x > 846 && MouseCoordinates.x <= 910 &&
+							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160) {
 							audio.play("click");
 							/*std::cout << "Black Player offers draw\n";
 							sf::sleep(sf::milliseconds(3000));*/
@@ -256,18 +282,18 @@ void Game::Update() {
 						}
 
 					}
-						
+
 
 
 
 					//promotion
-					if (promotion == true && MouseCoordinates.x > 832 && MouseCoordinates.x < 1168 
+					if (promotion == true && MouseCoordinates.x > 832 && MouseCoordinates.x < 1168
 						&& MouseCoordinates.y>318 && MouseCoordinates.y < 402) {
 
 						std::cout << "PromotionCoordinates: " << PromotionCoordinates.x << ", "
 							<< PromotionCoordinates.y << std::endl;
 						;
-						PromotionHandler(PromotionCoordinates.y == 0 ? 
+						PromotionHandler(PromotionCoordinates.y == 0 ?
 							PieceColor::White : PieceColor::Black, MouseCoordinates, PromotionCoordinates);
 						audio.play("promotion");
 						std::cout << "Promotion\n";
@@ -281,10 +307,10 @@ void Game::Update() {
 						m_chessboard.ChangeTurnSprite(playerTurn);
 						changeTurnTime();
 
-						//TODO check fo mate
+						//TODO check for mate
 
 					}
-		
+
 
 					//if active is false, first click------------------------------------
 
@@ -294,10 +320,10 @@ void Game::Update() {
 
 							if (playerTurn == PieceColor::White) {
 
-					
+
 								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
-									&&m_chessboard.getPieceColor(CurrentCoordinates)==PieceColor::White) {
-									
+									&&m_chessboard.getPieceColor(CurrentCoordinates) == PieceColor::White) {
+
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
@@ -307,25 +333,25 @@ void Game::Update() {
 							else if (playerTurn == PieceColor::Black) {
 								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
 									&&m_chessboard.getPieceColor(CurrentCoordinates) == PieceColor::Black) {
-									
+
 									Active = true;
 									ActiveCoord = CurrentCoordinates;
 									m_chessboard.MakeActiveSprite(ActiveCoord);
 									audio.play("active");
 								}
 							}
-						} 
-						
+						}
+
 						//unmake active, second click------------------------------------
 
-						else if (Active == true && CurrentCoordinates == ActiveCoord 
-							&& promotion==false) {
+						else if (Active == true && CurrentCoordinates == ActiveCoord
+							&& promotion == false) {
 							m_chessboard.UnmakeActiveSprite(ActiveCoord);
 							audio.play("unactive");
 							ActiveCoord = { -1, -1 };
 							Active = false;
-						} 
-						
+						}
+
 						//move and capture, second click------------------------------------
 
 						else if (Active == true && CurrentCoordinates != ActiveCoord && promotion == false) {
@@ -337,7 +363,7 @@ void Game::Update() {
 								if (m_chessboard.getPieceID(ActiveCoord) == PieceID::King) {
 									//normal move
 									if (m_chessboard.getNullPtr(CurrentCoordinates)) {
-										
+
 										m_chessboard.UnmakeActiveSprite(ActiveCoord);
 										m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 										audio.play("move");
@@ -349,7 +375,7 @@ void Game::Update() {
 											if (CurrentCoordinates.x == 7) {
 												m_chessboard.ShortCastle(m_chessboard.getPieceColor(ActiveCoord));
 												audio.play("castle");
-											}										
+											}
 											else {
 												m_chessboard.LongCastle(m_chessboard.getPieceColor(ActiveCoord));
 												audio.play("castle");
@@ -357,12 +383,13 @@ void Game::Update() {
 											}
 										}
 									}
-								} else {
+								}
+								else {
 									m_chessboard.UnmakeActiveSprite(ActiveCoord);
 									m_chessboard.Move(ActiveCoord, CurrentCoordinates);
 									audio.play("move");
 								}
-						
+
 
 								//if (mate == true) mate = false;
 
@@ -382,50 +409,50 @@ void Game::Update() {
 									}
 
 									else {
-										mate = true; 
+										mate = true;
 										audio.play("check");
-								}
+									}
 								}
 
 								//Check for promotion
 								if ((CurrentCoordinates.y == 0 || CurrentCoordinates.y == 7) &&
-									m_chessboard.getBoardStatus(CurrentCoordinates)==BoardStatus::Occupied &&
+									m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied &&
 									m_chessboard.getPieceID(CurrentCoordinates) == PieceID::Pawn) {
 									//m_chessboard.Promotion(PieceID::Queen, CurrentCoordinates);
 
 									promotion = true;
-									
-									
+
+
 									m_chessboard.RenderPromotion(
 										CurrentCoordinates.y == 0 ? PieceColor::White : PieceColor::Black);
-									
+
 									PromotionCoordinates = CurrentCoordinates;
 								}
-								
+
 								if (promotion == false) {
-								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
-									: playerTurn = PieceColor::White;
-								//after = 3;
-								m_chessboard.ChangeTurnSprite(playerTurn);
-								changeTurnTime();
+									playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+										: playerTurn = PieceColor::White;
+									//after = 3;
+									m_chessboard.ChangeTurnSprite(playerTurn);
+									changeTurnTime();
 
 									ActiveCoord = { -1, -1 };
 									Active = false;
 								}
 
-							} 
-							
+							}
+
 							//capture-------------------------
-							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture&& 
+							else if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Capture&&
 								promotion == false) {
 
-									audio.play("capture");
-									m_chessboard.UnmakeActiveSprite(ActiveCoord);
-									m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
+								audio.play("capture");
+								m_chessboard.UnmakeActiveSprite(ActiveCoord);
+								m_chessboard.Capture(ActiveCoord, CurrentCoordinates);
 
 
 
-								
+
 
 								//if (mate == true) mate = false;
 
@@ -442,11 +469,11 @@ void Game::Update() {
 
 										m_isDone = true;*/
 									}
-										
+
 									else {
 										mate = true;
 										audio.play("check");
-									} 
+									}
 								}
 
 								//Check for promotion
@@ -457,7 +484,7 @@ void Game::Update() {
 									//audio.play("promotion");
 									promotion = true;
 									m_chessboard.RenderPromotion(CurrentCoordinates.y == 0 ?
-										 PieceColor::White : PieceColor::Black);
+										PieceColor::White : PieceColor::Black);
 
 									PromotionCoordinates = CurrentCoordinates;
 								}
@@ -477,10 +504,12 @@ void Game::Update() {
 
 							//if z promocja, bo moze zadziala wtedy z kliknieciem
 						}
-					} 
+					}
 					break;
 				}
+				}
 			}
+		}
 		}
 	}
 }
@@ -642,20 +671,22 @@ void Game::HandleInput() {
 
 void Game::Render() {
 	BeginDraw();
+
+	if (main==true) {
+		mainMenu.Render();
+	}
+
+	if (chessboard==true) {
+		m_chessboard.Render(m_window);
+		DisplayTime();
+	}
 	// Render here.
-	m_chessboard.Render(m_window);
-	DisplayTime();
+	
 
 
 	if (after > 0) 
 		afterMenu.Render();
-	//if (after>0) {
-	//	afterMenu.clear(sf::Color::Black);
-	//	//draw aftermenu
-
-
-	//	m_window.display();
-	//}
+	
 	EndDraw();
 }
 

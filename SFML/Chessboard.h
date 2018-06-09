@@ -143,5 +143,7 @@ public:
 	void Initialize();
 	void Render(sf::RenderWindow& l_window);
 	void RenderPromotion(PieceColor color);
+
+	void Setup();
 };
 

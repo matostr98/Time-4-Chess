@@ -9,6 +9,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include "Menu.h"
 
 
 class Game {
@@ -26,6 +27,8 @@ private:
 
 	AfterMenu afterMenu;
 	void SetupAfterMenu();
+
+	Menu mainMenu;
 
 	//audio
 	AudioManager audio;
