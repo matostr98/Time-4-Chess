@@ -2,6 +2,7 @@
 #include "Chessboard.h"
 #include "AudioManager.h"
 #include "MusicManager.h"
+#include "AfterMenu.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -23,6 +24,9 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
+	AfterMenu afterMenu;
+	void SetupAfterMenu();
+
 	//audio
 	AudioManager audio;
 	MusicManager music;
@@ -38,7 +42,13 @@ private:
 	//windows
 	bool main;
 	bool chessboard;
-	bool after;
+	int after;
+	//0 - no window
+	//1 - white wins
+	//2 - black wins
+	//3 - draw
+	//-1 - see board
+	//sf::RenderWindow afterMenu;
 
 
 	PieceColor playerTurn;
@@ -75,6 +85,8 @@ public:
 	bool IsDone();
 	sf::RenderWindow* GetRenderWindow();
 	sf::Vector2u GetWindowSize();
+
+	void setDone() { m_isDone = true; }
 
 
 	//Others

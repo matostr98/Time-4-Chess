@@ -11,8 +11,8 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	SetupSounds();
 
 	main = true;
-	chessboard = true;
-	after = false;
+	chessboard = false;
+	after = 0;
 
 
 	//sounds
@@ -44,8 +44,8 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else
 		std::cout << "Error!\n";
 
-	timerW = 600;
-	timerB = 600;
+	timerW = 15;
+	timerB = 20;
 
 	int ttimerW = timerW;
 	int ttimerB = timerB;
@@ -119,6 +119,23 @@ void Game::SetupSounds() {
 
 }
 
+void Game::SetupAfterMenu() {
+	switch (after) {
+	case 1: {
+		afterMenu.Setup("White wins!", { 700, 400 });
+		break;
+	}
+	case 2: {
+		afterMenu.Setup("Black wins!", { 700, 400 });
+		break;
+	}
+	case 3: {
+		afterMenu.Setup("It's a draw!", { 700, 400 });
+		break;
+	}
+	}
+}
+
 void Game::BeginDraw() { m_window.clear(sf::Color::Black); }
 void Game::EndDraw() { m_window.display(); }
 
@@ -130,8 +147,32 @@ sf::Vector2u Game::GetWindowSize() { return m_windowSize; }
 void Game::Update() {
 	music.next();
 	updateTime();
+	//std::cout << after << std::endl;
+
+	if (after > 0) {
+		afterMenu.Update();
+		if (afterMenu.IsDone() == true) {
+			m_isDone = true;
+			afterMenu.Setup();
+		}
+		if (afterMenu.is_minimize() == true) {
+			after = -1;
+			afterMenu.Close();
+			afterMenu.Setup();
+		}
+		if (afterMenu.is_ngame()==true) {
+			m_chessboard.Initialize();
+			afterMenu.ngameSetFalse();
+			afterMenu.Close();
+			afterMenu.Setup();
+			Setup("Time-4-Chess", sf::Vector2u(1280, 720));
+		}
+	}
+
+	
 
 	sf::Event event;
+	if (after == 0)
 	while (m_window.pollEvent(event)) {
 
 		switch (event.type) {
@@ -163,17 +204,24 @@ void Game::Update() {
 						MouseCoordinates.y >569 && MouseCoordinates.y<=633){
 							audio.play("click");
 							std::cout << "White Player surrenders! Black wins!\n";
-							sf::sleep(sf::milliseconds(3000));
-							m_isDone = true;
+
+							after = 2;
+							SetupAfterMenu();
+
+							/*sf::sleep(sf::milliseconds(3000));
+							m_isDone = true;*/
 						}
 
 						//draw button
 						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
 							MouseCoordinates.y >569 && MouseCoordinates.y <= 633) {
 							audio.play("click");
-							std::cout << "White Player offers draw\n";
+							after = 3;
+							SetupAfterMenu();
+
+							/*std::cout << "White Player offers draw\n";
 							sf::sleep(sf::milliseconds(3000));
-							
+							*/
 
 						}
 						
@@ -188,8 +236,11 @@ void Game::Update() {
 							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
 							audio.play("click");
 							std::cout << "Black Player surrenders! White wins!\n";
-							sf::sleep(sf::milliseconds(3000));
-							m_isDone = true;
+
+							after = 1;
+							SetupAfterMenu();
+							/*sf::sleep(sf::milliseconds(3000));
+							m_isDone = true;*/
 						}
 
 
@@ -197,9 +248,10 @@ void Game::Update() {
 						if (MouseCoordinates.x>846 && MouseCoordinates.x <= 910 &&
 							MouseCoordinates.y >96 && MouseCoordinates.y <= 160) {
 							audio.play("click");
-							std::cout << "Black Player offers draw\n";
-							sf::sleep(sf::milliseconds(3000));
-
+							/*std::cout << "Black Player offers draw\n";
+							sf::sleep(sf::milliseconds(3000));*/
+							after = 3;
+							SetupAfterMenu();
 
 						}
 
@@ -229,6 +281,8 @@ void Game::Update() {
 						m_chessboard.ChangeTurnSprite(playerTurn);
 						changeTurnTime();
 
+						//TODO check fo mate
+
 					}
 		
 
@@ -238,17 +292,6 @@ void Game::Update() {
 						&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8) {
 						if (Active == false) {
 
-							/*if (mate == true) {
-
-								if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Occupied
-									&&m_chessboard.getPieceID(CurrentCoordinates) == PieceID::King) {
-
-									Active = true;
-									ActiveCoord = CurrentCoordinates;
-									m_chessboard.MakeActiveSprite(ActiveCoord);
-									active.play();
-								}
-							}*/		
 							if (playerTurn == PieceColor::White) {
 
 					
@@ -328,11 +371,13 @@ void Game::Update() {
 									if (m_chessboard.CheckForCheckmate()) {
 										audio.play("checkmate");
 										std::cout << "Checkmate!\n";
-										sf::sleep(sf::milliseconds(10'000));
+										m_chessboard.check == PieceColor::White ? after = 2 : after = 1;
+										SetupAfterMenu();
+										/*sf::sleep(sf::milliseconds(10'000));
 										std::cin.get();
 										std::cin.get();
 
-										m_isDone = true;
+										m_isDone = true;*/
 
 									}
 
@@ -360,6 +405,7 @@ void Game::Update() {
 								if (promotion == false) {
 								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
+								//after = 3;
 								m_chessboard.ChangeTurnSprite(playerTurn);
 								changeTurnTime();
 
@@ -388,11 +434,13 @@ void Game::Update() {
 									if (m_chessboard.CheckForCheckmate()) {
 										audio.play("checkmate");
 										std::cout << "Checkmate!\n";
-										sf::sleep(sf::milliseconds(10'000));
+										m_chessboard.check == PieceColor::White ? after = 2 : after = 1;
+										SetupAfterMenu();
+										/*sf::sleep(sf::milliseconds(10'000));
 										std::cin.get();
 										std::cin.get();
 
-										m_isDone = true;
+										m_isDone = true;*/
 									}
 										
 									else {
@@ -536,46 +584,6 @@ void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::
 }
 
 void Game::DisplayTime() {
-
-	/*int ttimerW = timerW - clock.getElapsedTime().asSeconds();
-	int ttimerB = timerB - clock.getElapsedTime().asSeconds();
-	
-		std::string temp0 = std::to_string(ttimerW / 60);
-		std::string temp1 = std::to_string(ttimerW % 60);
-		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
-		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
-		std::string temp2 = { temp0 + ":" + temp1};
-		timerWhite.setString(temp2);
-
-
-		temp0 = std::to_string(ttimerB / 60);
-		temp1 = std::to_string(ttimerB % 60);
-		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
-		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
-		temp2 = { temp0 + ":" + temp1 };
-		timerBlack.setString(temp2);*/
-
-	//---------------------------------------------
-	/*if (playerTurn==PieceColor::White) {
-		int ttimerW = timerW - clock.getElapsedTime().asSeconds();
-
-		std::string temp0 = std::to_string(ttimerW / 60);
-		std::string temp1 = std::to_string(ttimerW % 60);
-		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
-		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
-		temp0 = { temp0 + ":" + temp1 };
-		timerWhite.setString(temp0);
-	} else {
-		int ttimerB = timerB - clock.getElapsedTime().asSeconds();
-
-		std::string temp0 = std::to_string(ttimerB / 60);
-		std::string temp1 = std::to_string(ttimerB % 60);
-		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
-		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
-		temp0 = { temp0 + ":" + temp1 };
-		timerBlack.setString(temp0);
-	}*/
-
 	m_window.draw(timerWhite);
 	m_window.draw(timerBlack);
 }
@@ -593,9 +601,11 @@ void Game::changeTurnTime(){
 }
 
 void Game::updateTime() {
+
+	if (after==0)
 	if (playerTurn == PieceColor::White) {
 		int ttimerW = timerW - clock.getElapsedTime().asSeconds();
-
+		if (ttimerW <= 0) { after = 2; SetupAfterMenu(); }
 		std::string temp0 = std::to_string(ttimerW / 60);
 		std::string temp1 = std::to_string(ttimerW % 60);
 		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
@@ -605,7 +615,7 @@ void Game::updateTime() {
 	}
 	else {
 		int ttimerB = timerB - clock.getElapsedTime().asSeconds();
-
+		if (ttimerB <= 0) { after = 1; SetupAfterMenu(); }
 		std::string temp0 = std::to_string(ttimerB / 60);
 		std::string temp1 = std::to_string(ttimerB % 60);
 		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
@@ -616,7 +626,7 @@ void Game::updateTime() {
 }
 
 
-Game::Game() { Setup("T4C", sf::Vector2u(1280, 720)); }
+Game::Game() { Setup("Time-4-Chess", sf::Vector2u(1280, 720)); }
 Game::Game(const std::string& title, const sf::Vector2u& size) :m_chessboard() {
 	Setup(title, size);
 
@@ -635,6 +645,17 @@ void Game::Render() {
 	// Render here.
 	m_chessboard.Render(m_window);
 	DisplayTime();
+
+
+	if (after > 0) 
+		afterMenu.Render();
+	//if (after>0) {
+	//	afterMenu.clear(sf::Color::Black);
+	//	//draw aftermenu
+
+
+	//	m_window.display();
+	//}
 	EndDraw();
 }
 

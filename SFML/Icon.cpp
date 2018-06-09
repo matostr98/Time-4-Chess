@@ -23,3 +23,12 @@ Icon::~Icon()
 void Icon::DrawButton(sf::RenderWindow& window) {
 	window.draw(sprite);
 }
+
+void Icon::Setup(sf::Vector2i position, std::string source) {
+	this->position = position;
+	this->source = source;
+
+	texture.loadFromFile(source);
+	sprite.setTexture(texture);
+	sprite.setPosition({(float)position.x, (float)position.y});
+}

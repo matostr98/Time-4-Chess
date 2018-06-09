@@ -16,7 +16,7 @@ public:
 	~Icon();
 
 	void DrawButton(sf::RenderWindow& window);
-
+	void Setup(sf::Vector2i position, std::string source);
 
 	sf::Vector2i get_position() const {return position;}
 	void set_position(const sf::Vector2i& position) {this->position = position;}
