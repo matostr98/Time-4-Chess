@@ -26,9 +26,6 @@ private:
 	//audio
 	AudioManager audio;
 	MusicManager music;
-	//sf::Music music;
-	
-
 
 	sf::Font font;
 	sf::Text timerWhite;
@@ -38,6 +35,10 @@ private:
 	sf::Time sub;
 	sf::Clock clock;
 
+	//windows
+	bool main;
+	bool chessboard;
+	bool after;
 
 
 	PieceColor playerTurn;
@@ -83,5 +84,8 @@ public:
 	PieceID getPromotionPiece(sf::Vector2i mousePos);
 	void PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::Vector2i CurrentCoordinates);
 	void DisplayTime();
+	//void setTime(int t1, int t2);
+	void changeTurnTime();
+	void updateTime();
 
 };

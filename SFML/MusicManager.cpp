@@ -36,5 +36,9 @@ void MusicManager::next(){
 	}
 }
 
+void MusicManager::nextSong(){
+	music.stop();
+}
+
 
 

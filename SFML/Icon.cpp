@@ -12,7 +12,7 @@ Icon::Icon(sf::Vector2i pos, std::string src) {
 	texture.loadFromFile(src);
 	sprite.setTexture(texture);
 	sprite.setPosition(position.x, position.y);
-	dimensions = { texture.getSize().x, texture.getSize().y };
+	dimensions = texture.getSize();
 }
 
 

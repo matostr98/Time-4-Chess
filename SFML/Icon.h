@@ -9,7 +9,7 @@ private:
 	sf::Texture texture;
 	sf::Sprite sprite;
 	std::string source;
-	sf::Vector2i dimensions;
+	sf::Vector2u dimensions;
 public:
 	Icon();
 	Icon(sf::Vector2i pos, std::string src);
@@ -24,7 +24,7 @@ public:
 	std::string get_source() const {return source;}
 	void set_source(const std::string& source) {this->source = source;}
 
-	sf::Vector2i get_dimensions() const {return dimensions;}
-	void set_dimensions(const sf::Vector2i& dimensions) {this->dimensions = dimensions;}
+	sf::Vector2u get_dimensions() const {return dimensions;}
+	//void set_dimensions(const sf::Vector2u& dimensions) {this->dimensions = dimensions;}
 };
 

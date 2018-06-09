@@ -10,6 +10,11 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	Create();
 	SetupSounds();
 
+	main = true;
+	chessboard = true;
+	after = false;
+
+
 	//sounds
 	/*if (music.openFromFile("Assets/Music/Miasma.ogg")) {
 		music.setVolume(200.f);
@@ -39,9 +44,27 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else
 		std::cout << "Error!\n";
 
-	timerW = 671;
-	timerB = 347;
-	sub = clock.restart();
+	timerW = 600;
+	timerB = 600;
+
+	int ttimerW = timerW;
+	int ttimerB = timerB;
+
+	std::string temp0 = std::to_string(ttimerW / 60);
+	std::string temp1 = std::to_string(ttimerW % 60);
+	temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+	temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+	temp0 = { temp0 + ":" + temp1 };
+	timerWhite.setString(temp0);
+
+	temp0 = std::to_string(ttimerB / 60);
+	temp1 = std::to_string(ttimerB % 60);
+	temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+	temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+	temp0 = { temp0 + ":" + temp1 };
+	timerBlack.setString(temp0);
+
+	//sub = clock.restart();
 	//std::cout << timer << std::endl;
 
 }
@@ -66,7 +89,7 @@ void Game::SetupSounds() {
 	audio.setVolume("capture", 40.f);
 
 	audio.loadAudio("Assets/SFX/Castle.ogg", "castle");
-	audio.setVolume("castle", 60.f);
+	audio.setVolume("castle", 150.f);
 
 	audio.loadAudio("Assets/SFX/Check0.ogg", "check");
 	audio.setVolume("check", 40.f);
@@ -78,7 +101,7 @@ void Game::SetupSounds() {
 	audio.setVolume("click", 40.f);
 
 	audio.loadAudio("Assets/SFX/Promotion.ogg", "promotion");
-	audio.setVolume("promotion", 40.f);
+	audio.setVolume("promotion", 150.f);
 
 	audio.loadAudio("Assets/SFX/Unactive.ogg", "unactive");
 	audio.setVolume("unactive", 40.f);
@@ -92,7 +115,7 @@ void Game::SetupSounds() {
 	music.add("Assets/Music/Snowmen.ogg");
 	music.add("Assets/Music/Thaw.ogg");
 	music.play();
-	music.setVolume(100.f);
+	music.setVolume(40.f);
 
 }
 
@@ -106,6 +129,7 @@ sf::Vector2u Game::GetWindowSize() { return m_windowSize; }
 
 void Game::Update() {
 	music.next();
+	updateTime();
 
 	sf::Event event;
 	while (m_window.pollEvent(event)) {
@@ -115,6 +139,7 @@ void Game::Update() {
 		case sf::Event::KeyPressed:
 			switch (event.key.code) {
 			case sf::Keyboard::Escape: {m_isDone = true; break; }
+			case sf::Keyboard::Right: {music.nextSong(); music.next(); break; }
 			}
 		case sf::Event::MouseButtonPressed:
 			switch (event.key.code) {
@@ -202,6 +227,7 @@ void Game::Update() {
 						playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 							: playerTurn = PieceColor::White;
 						m_chessboard.ChangeTurnSprite(playerTurn);
+						changeTurnTime();
 
 					}
 		
@@ -335,6 +361,7 @@ void Game::Update() {
 								playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 									: playerTurn = PieceColor::White;
 								m_chessboard.ChangeTurnSprite(playerTurn);
+								changeTurnTime();
 
 									ActiveCoord = { -1, -1 };
 									Active = false;
@@ -391,6 +418,7 @@ void Game::Update() {
 									playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 										: playerTurn = PieceColor::White;
 									m_chessboard.ChangeTurnSprite(playerTurn);
+									changeTurnTime();
 
 									ActiveCoord = { -1, -1 };
 									Active = false;
@@ -509,14 +537,9 @@ void Game::PromotionHandler(PieceColor color, sf::Vector2i TempCoordinates, sf::
 
 void Game::DisplayTime() {
 
-	/*timerW -= clock.getElapsedTime().asSeconds()*(1.0 / 60.0);
-	timerB -= clock.getElapsedTime().asSeconds()*(1.0/60.0);*/
-	/*timerW -= sub.asSeconds();
-	timerB -= sub.asSeconds();*/
-	int ttimerW = timerW - clock.getElapsedTime().asSeconds();
+	/*int ttimerW = timerW - clock.getElapsedTime().asSeconds();
 	int ttimerB = timerB - clock.getElapsedTime().asSeconds();
-	//std::cout << timerW << std::endl;
-	//if (clock.getElapsedTime().asSeconds()>=1) {
+	
 		std::string temp0 = std::to_string(ttimerW / 60);
 		std::string temp1 = std::to_string(ttimerW % 60);
 		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
@@ -530,13 +553,66 @@ void Game::DisplayTime() {
 		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
 		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
 		temp2 = { temp0 + ":" + temp1 };
-		timerBlack.setString(temp2);
-		
-	//}
-	
+		timerBlack.setString(temp2);*/
+
+	//---------------------------------------------
+	/*if (playerTurn==PieceColor::White) {
+		int ttimerW = timerW - clock.getElapsedTime().asSeconds();
+
+		std::string temp0 = std::to_string(ttimerW / 60);
+		std::string temp1 = std::to_string(ttimerW % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		temp0 = { temp0 + ":" + temp1 };
+		timerWhite.setString(temp0);
+	} else {
+		int ttimerB = timerB - clock.getElapsedTime().asSeconds();
+
+		std::string temp0 = std::to_string(ttimerB / 60);
+		std::string temp1 = std::to_string(ttimerB % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		temp0 = { temp0 + ":" + temp1 };
+		timerBlack.setString(temp0);
+	}*/
 
 	m_window.draw(timerWhite);
 	m_window.draw(timerBlack);
+}
+
+void Game::changeTurnTime(){
+	if (playerTurn == PieceColor::White) {
+		timerB -= clock.getElapsedTime().asSeconds();
+		clock.restart();
+	}
+	else {
+		timerW -= clock.getElapsedTime().asSeconds();
+		clock.restart();
+	}
+	
+}
+
+void Game::updateTime() {
+	if (playerTurn == PieceColor::White) {
+		int ttimerW = timerW - clock.getElapsedTime().asSeconds();
+
+		std::string temp0 = std::to_string(ttimerW / 60);
+		std::string temp1 = std::to_string(ttimerW % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		temp0 = { temp0 + ":" + temp1 };
+		timerWhite.setString(temp0);
+	}
+	else {
+		int ttimerB = timerB - clock.getElapsedTime().asSeconds();
+
+		std::string temp0 = std::to_string(ttimerB / 60);
+		std::string temp1 = std::to_string(ttimerB % 60);
+		temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+		temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+		temp0 = { temp0 + ":" + temp1 };
+		timerBlack.setString(temp0);
+	}
 }
 
 

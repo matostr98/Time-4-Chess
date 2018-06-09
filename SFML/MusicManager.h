@@ -22,6 +22,7 @@ public:
 	void play();
 	void add(std::string src);
 	void next();
+	void nextSong();
 	//void previous();
 };
 
