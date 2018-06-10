@@ -59,6 +59,7 @@ private:
 	bool Active;
 	sf::Vector2i ActiveCoord;
 
+	bool draw;
 	bool promotion;
 	sf::Vector2i PromotionCoordinates;
 

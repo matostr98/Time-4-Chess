@@ -219,6 +219,27 @@ void Game::Update() {
 					sf::Vector2i CurrentCoordinates = GetCellCoor();
 					sf::Vector2i MouseCoordinates = sf::Mouse::getPosition(m_window);
 
+					if (draw==true && MouseCoordinates.x > 833 + 84 && MouseCoordinates.x <= 833 + 84*3 && 
+						MouseCoordinates.y > 318 && MouseCoordinates.y <= 402) {
+						
+						//if accepted-------------------
+						if (MouseCoordinates.x <= 833 + 84 * 2) {
+							draw = false;
+							m_chessboard.DeactivateDraw();
+							after = 3;
+							SetupAfterMenu();
+						}
+						//if declined-------------------
+						else {
+							draw = false;
+							m_chessboard.DeactivateDraw();
+							playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								: playerTurn = PieceColor::White;
+							m_chessboard.ChangeTurnSprite(playerTurn);
+							changeTurnTime();
+						}
+
+					}
 
 
 
@@ -227,7 +248,8 @@ void Game::Update() {
 
 						//surrender button
 						if (MouseCoordinates.x > 1090 && MouseCoordinates.x <= 1154 &&
-							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633) {
+							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633 && draw == false &&
+							Active == false) {
 							audio.play("click");
 							std::cout << "White Player surrenders! Black wins!\n";
 
@@ -240,14 +262,20 @@ void Game::Update() {
 
 						//draw button
 						if (MouseCoordinates.x > 846 && MouseCoordinates.x <= 910 &&
-							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633) {
+							MouseCoordinates.y > 569 && MouseCoordinates.y <= 633 && draw == false &&
+							Active == false) {
 							audio.play("click");
-							after = 3;
-							SetupAfterMenu();
 
-							/*std::cout << "White Player offers draw\n";
-							sf::sleep(sf::milliseconds(3000));
-							*/
+							m_chessboard.RenderDraw();
+							draw = true;
+
+							playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								: playerTurn = PieceColor::White;
+							m_chessboard.ChangeTurnSprite(playerTurn);
+							changeTurnTime();
+
+							/*after = 3;
+							SetupAfterMenu();*/
 
 						}
 
@@ -259,7 +287,8 @@ void Game::Update() {
 
 						//surrender button
 						if (MouseCoordinates.x > 1090 && MouseCoordinates.x <= 1154 &&
-							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160) {
+							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160 && draw == false &&
+							Active == false) {
 							audio.play("click");
 							std::cout << "Black Player surrenders! White wins!\n";
 
@@ -272,12 +301,20 @@ void Game::Update() {
 
 						//draw button
 						if (MouseCoordinates.x > 846 && MouseCoordinates.x <= 910 &&
-							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160) {
+							MouseCoordinates.y > 96 && MouseCoordinates.y <= 160 && draw==false &&
+							Active == false) {
 							audio.play("click");
-							/*std::cout << "Black Player offers draw\n";
-							sf::sleep(sf::milliseconds(3000));*/
-							after = 3;
-							SetupAfterMenu();
+
+							m_chessboard.RenderDraw();
+							draw = true;
+
+							playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
+								: playerTurn = PieceColor::White;
+							m_chessboard.ChangeTurnSprite(playerTurn);
+							changeTurnTime();
+
+							/*after = 3;
+							SetupAfterMenu();*/
 
 						}
 
@@ -288,7 +325,7 @@ void Game::Update() {
 
 					//promotion
 					if (promotion == true && MouseCoordinates.x > 832 && MouseCoordinates.x < 1168
-						&& MouseCoordinates.y>318 && MouseCoordinates.y < 402) {
+						&& MouseCoordinates.y>318 && MouseCoordinates.y < 402 && draw == false) {
 
 						std::cout << "PromotionCoordinates: " << PromotionCoordinates.x << ", "
 							<< PromotionCoordinates.y << std::endl;
@@ -302,12 +339,28 @@ void Game::Update() {
 						ActiveCoord = { -1, -1 };
 						Active = false;
 
+						//Check for mate
+						if (m_chessboard.CheckForCheck()) {
+							if (m_chessboard.CheckForCheckmate()) {
+								audio.play("checkmate");
+								std::cout << "Checkmate!\n";
+								m_chessboard.check == PieceColor::White ? after = 2 : after = 1;
+								SetupAfterMenu();
+
+							}
+
+							else {
+								mate = true;
+								audio.play("check");
+							}
+						}
+
 						playerTurn == PieceColor::White ? playerTurn = PieceColor::Black
 							: playerTurn = PieceColor::White;
 						m_chessboard.ChangeTurnSprite(playerTurn);
 						changeTurnTime();
 
-						//TODO check for mate
+						
 
 					}
 
@@ -315,7 +368,7 @@ void Game::Update() {
 					//if active is false, first click------------------------------------
 
 					if (CurrentCoordinates.x >= 0 && CurrentCoordinates.x < 8
-						&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8) {
+						&& CurrentCoordinates.y >= 0 && CurrentCoordinates.x < 8 && draw == false) {
 						if (Active == false) {
 
 							if (playerTurn == PieceColor::White) {
@@ -345,7 +398,7 @@ void Game::Update() {
 						//unmake active, second click------------------------------------
 
 						else if (Active == true && CurrentCoordinates == ActiveCoord
-							&& promotion == false) {
+							&& promotion == false && draw == false) {
 							m_chessboard.UnmakeActiveSprite(ActiveCoord);
 							audio.play("unactive");
 							ActiveCoord = { -1, -1 };
@@ -354,7 +407,8 @@ void Game::Update() {
 
 						//move and capture, second click------------------------------------
 
-						else if (Active == true && CurrentCoordinates != ActiveCoord && promotion == false) {
+						else if (Active == true && CurrentCoordinates != ActiveCoord && promotion == false
+							&& draw == false) {
 
 							//move----------------------------
 							if (m_chessboard.getBoardStatus(CurrentCoordinates) == BoardStatus::Highlighted) {
@@ -400,11 +454,6 @@ void Game::Update() {
 										std::cout << "Checkmate!\n";
 										m_chessboard.check == PieceColor::White ? after = 2 : after = 1;
 										SetupAfterMenu();
-										/*sf::sleep(sf::milliseconds(10'000));
-										std::cin.get();
-										std::cin.get();
-
-										m_isDone = true;*/
 
 									}
 

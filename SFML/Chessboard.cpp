@@ -64,6 +64,12 @@ void Chessboard::Sprites() {
 	if (temp.loadFromFile("Assets/Textures/Status/turns.png"))
 		TextureMap["turns"] = temp; else std::cout << "turns?\n";
 
+	if (temp.loadFromFile("Assets/Textures/Buttons/i_gdraw.png"))
+		TextureMap["acc"] = temp; else std::cout << "accept?\n";
+
+	if (temp.loadFromFile("Assets/Textures/Buttons/i_rdraw.png"))
+		TextureMap["dec"] = temp; else std::cout << "dec?\n";
+
 
 	if (t_background.loadFromFile("Assets/Textures/Menus/Chessboard.png"))
 		background.setTexture(t_background); else std::cout << "why?\n";
@@ -508,7 +514,18 @@ void Chessboard::RenderPromotion(PieceColor color){
 
 }
 
+void Chessboard::RenderDraw() {
+	draw = true;
+	acc.setTexture(TextureMap["acc"]);
+	dec.setTexture(TextureMap["dec"]);
+
+	acc.setPosition(833 + 84, 318);
+	dec.setPosition(833 + 84 * 2, 318);
+}
+
 void Chessboard::Initialize() {
+
+	draw = false;
 
 	Draw0.setTexture(TextureMap["draw"]);
 	Draw0.setPosition(846, 96);
@@ -580,13 +597,20 @@ void Chessboard::Render(sf::RenderWindow & l_window) {
 				l_window.draw(Board[i][j].StatRect);
 			}
 		}
-		if (promotion == true) {
-			l_window.draw(rook);
-			l_window.draw(knight);
-			l_window.draw(bishop);
-			l_window.draw(queen);
-		}
+		
 	}
+	if (promotion == true) {
+		l_window.draw(rook);
+		l_window.draw(knight);
+		l_window.draw(bishop);
+		l_window.draw(queen);
+	}
+
+	if (promotion==false&&draw==true) {
+		l_window.draw(acc);
+		l_window.draw(dec);
+	}
+
 	l_window.draw(Draw0);
 	l_window.draw(Draw1);
 	l_window.draw(Surr0);

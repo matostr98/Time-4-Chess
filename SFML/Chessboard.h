@@ -30,6 +30,8 @@ private:
 	sf::Texture t_background;
 	sf::Sprite background;
 
+	sf::Sprite acc;
+	sf::Sprite dec;
 	sf::Sprite rook;
 	sf::Sprite knight;
 	sf::Sprite bishop;
@@ -42,6 +44,7 @@ private:
 
 	//Booleans
 	bool promotion;
+	bool draw;
 	bool WhiteCastle;
 	bool BlackCastle;
 
@@ -138,11 +141,13 @@ public:
 	sf::Sprite PieceSpriteHandler(PieceID id, PieceColor color, sf::Vector2i coord);
 	sf::Sprite PromotionSpriteHandler(PieceColor color, int n);
 
-	
+	void DeactivateDraw() { draw = false; }
 
 	void Initialize();
 	void Render(sf::RenderWindow& l_window);
 	void RenderPromotion(PieceColor color);
+	void RenderDraw();
+
 
 	void Setup();
 };
