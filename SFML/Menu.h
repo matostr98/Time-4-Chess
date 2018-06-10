@@ -18,8 +18,12 @@ private:
 	std::string m_windowTitle;
 	bool m_isDone;
 
-	sf::Texture texture;
+	std::map<std::string, sf::Texture> TextureMap;
+	//sf::Texture texture;
 	sf::Sprite background;
+	sf::Sprite m_credits;
+	sf::Sprite m_guide;
+	sf::Sprite m_options;
 	sf::Font font;
 
 	Icon newGame;
@@ -28,12 +32,27 @@ private:
 	Icon guide;
 	Icon about;
 	Icon exit;
+	Icon back;
 
+	//options buttons
+	Icon t3;
+	Icon t5;
+	Icon t10;
+	Icon t15;
+	Icon t20;
+	Icon t30;
+	Icon t45;
+	Icon t60;
+	Icon t90;
+
+	bool main;
 	bool cplay;
 	bool conline;
 	bool coptions;
 	bool cguide;
 	bool cabout;
+
+	float timer;
 
 public:
 	Menu();
@@ -63,6 +82,11 @@ public:
 
 	bool is_conline() const {
 		return conline;
+	}
+
+
+	float get_timer() const {
+		return timer;
 	}
 };
 

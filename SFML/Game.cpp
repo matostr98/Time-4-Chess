@@ -44,8 +44,10 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	else
 		std::cout << "Error!\n";
 
-	timerW = 900;
-	timerB = 900;
+	//timerW = 900;
+	//timerB = 900;
+
+
 
 	int ttimerW = timerW;
 	int ttimerB = timerB;
@@ -63,6 +65,8 @@ void Game::Setup(const std::string title, const sf::Vector2u& size) {
 	temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
 	temp0 = { temp0 + ":" + temp1 };
 	timerBlack.setString(temp0);
+
+
 
 	//sub = clock.restart();
 	//std::cout << timer << std::endl;
@@ -151,8 +155,12 @@ void Game::Update() {
 	if (main==true) {
 		mainMenu.Update();
 
+		timerW = mainMenu.get_timer();
+		timerB = mainMenu.get_timer();
+
 		if (mainMenu.is_cplay()==true) {
 			Create();
+			setTime();
 			mainMenu.Close();
 			main = false;
 			chessboard = true;
@@ -162,6 +170,8 @@ void Game::Update() {
 		if (mainMenu.IsDone()==true) {
 			m_isDone = true;
 		}
+
+		
 	}
 
 
@@ -563,6 +573,26 @@ void Game::Update() {
 	}
 }
 
+
+void Game::setTime() {
+
+	int ttimerW = timerW;
+	int ttimerB = timerB;
+
+	std::string temp0 = std::to_string(ttimerW / 60);
+	std::string temp1 = std::to_string(ttimerW % 60);
+	temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+	temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+	temp0 = { temp0 + ":" + temp1 };
+	timerWhite.setString(temp0);
+
+	temp0 = std::to_string(ttimerB / 60);
+	temp1 = std::to_string(ttimerB % 60);
+	temp0.size() == 1 ? temp0 = "0" + temp0 : temp0 = temp0;
+	temp1.size() == 1 ? temp1 = "0" + temp1 : temp1 = temp1;
+	temp0 = { temp0 + ":" + temp1 };
+	timerBlack.setString(temp0);
+}
 
 int Game::GetCellNumber(sf::RenderWindow& l_window) {
 

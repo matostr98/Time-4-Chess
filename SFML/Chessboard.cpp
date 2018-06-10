@@ -519,8 +519,11 @@ void Chessboard::RenderDraw() {
 	acc.setTexture(TextureMap["acc"]);
 	dec.setTexture(TextureMap["dec"]);
 
-	acc.setPosition(833 + 84, 318);
-	dec.setPosition(833 + 84 * 2, 318);
+	acc.setPosition(916, 318);
+	dec.setPosition(916 + 84 + 20, 318);
+
+	/*acc.setPosition(833 + 84, 318);
+	dec.setPosition(833 + 84 * 2, 318);*/
 }
 
 void Chessboard::Initialize() {

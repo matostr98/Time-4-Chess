@@ -91,6 +91,7 @@ public:
 	sf::Vector2u GetWindowSize();
 
 	void setDone() { m_isDone = true; }
+	void setTime();
 
 
 	//Others
