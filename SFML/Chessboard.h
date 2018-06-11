@@ -6,7 +6,6 @@
 #include <iostream>
 #include <map>
 #include "Chesspiece.h"
-#include "Pawn.h"
 #include "Useful.h"
 
 using PiecePtr = std::shared_ptr<ChessPiece>;

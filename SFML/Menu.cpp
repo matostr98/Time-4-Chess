@@ -15,6 +15,9 @@ void Menu::Setup(const std::string title, const sf::Vector2u& size) {
 	timer = 900;
 	Create();
 	Textures();
+
+	click.load("Assets/SFX/Click.ogg");
+	click.setVolume(40.f);
 }
 
 void Menu::Create() {
@@ -152,7 +155,8 @@ void Menu::Update() {
 						MouseCoordinates.x < 610 &&
 						MouseCoordinates.y >= newGame.get_position().y &&
 						MouseCoordinates.y < 380) {
-						
+						click.play();
+
 						cplay = true;
 						main = false;
 					}
@@ -162,12 +166,14 @@ void Menu::Update() {
 						MouseCoordinates.y >= online.get_position().y &&
 						MouseCoordinates.y < 380) {
 						//m_isDone = true;
+						click.play();
 					}
 
 					if (MouseCoordinates.x >= options.get_position().x &&
 						MouseCoordinates.x < 610 &&
 						MouseCoordinates.y >= options.get_position().y &&
 						MouseCoordinates.y < 520) {
+						click.play();
 						coptions = true;
 						main = false;
 					}
@@ -176,6 +182,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 1060 &&
 						MouseCoordinates.y >= guide.get_position().y &&
 						MouseCoordinates.y < 520) {
+						click.play();
 						cguide = true;
 						main = false;
 					}
@@ -184,6 +191,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 610 &&
 						MouseCoordinates.y >= about.get_position().y &&
 						MouseCoordinates.y < 660) {
+						click.play();
 						cabout = true;
 						main = false;
 					}
@@ -192,6 +200,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 1060 &&
 						MouseCoordinates.y >= exit.get_position().y &&
 						MouseCoordinates.y < 660) {
+						click.play();
 						//std::cout << "Exit\n";
 						m_isDone = true;
 					}
@@ -203,6 +212,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 1240 &&
 						MouseCoordinates.y >= back.get_position().y &&
 						MouseCoordinates.y < 700) {
+						click.play();
 						main = true;
 						cabout = false;
 					}
@@ -213,6 +223,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 1240 &&
 						MouseCoordinates.y >= back.get_position().y &&
 						MouseCoordinates.y < 700) {
+						click.play();
 						main = true;
 						cguide = false;
 					}
@@ -223,6 +234,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 1240 &&
 						MouseCoordinates.y >= back.get_position().y &&
 						MouseCoordinates.y < 700) {
+						click.play();
 						main = true;
 						coptions = false;
 					}
@@ -231,6 +243,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 285 &&
 						MouseCoordinates.y >= t3.get_position().y &&
 						MouseCoordinates.y < 400) {
+						click.play();
 						timer = 180;
 
 						main = true;
@@ -241,6 +254,7 @@ void Menu::Update() {
 						MouseCoordinates.x < 420 &&
 						MouseCoordinates.y >= t5.get_position().y &&
 						MouseCoordinates.y < 400) {
+						click.play();
 						timer = 300;
 
 						main = true;
@@ -252,7 +266,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t10.get_position().y &&
 						MouseCoordinates.y < 400) {
 						timer = 600;
-
+						click.play();
 						main = true;
 						coptions = false;
 					}
@@ -262,7 +276,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t15.get_position().y &&
 						MouseCoordinates.y < 400) {
 						timer = 900;
-
+						click.play();
 						main = true;
 						coptions = false;
 					}
@@ -282,7 +296,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t30.get_position().y &&
 						MouseCoordinates.y < 400) {
 						timer = 1'800;
-
+						click.play(); 
 						main = true;
 						coptions = false;
 					}
@@ -292,7 +306,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t45.get_position().y &&
 						MouseCoordinates.y < 400) {
 						timer = 2'700;
-
+						click.play();
 						main = true;
 						coptions = false;
 					}
@@ -302,7 +316,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t60.get_position().y &&
 						MouseCoordinates.y < 530) {
 						timer = 3'600;
-
+						click.play();
 						main = true;
 						coptions = false;
 					}
@@ -312,7 +326,7 @@ void Menu::Update() {
 						MouseCoordinates.y >= t90.get_position().y &&
 						MouseCoordinates.y < 530) {
 						timer = 5'400;
-
+						click.play();
 						main = true;
 						coptions = false;
 					}

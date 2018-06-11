@@ -93,7 +93,6 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Moves.cpp" />
     <ClCompile Include="MusicManager.cpp" />
-    <ClCompile Include="Pawn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AfterMenu.h" />
@@ -105,7 +104,6 @@
     <ClInclude Include="Icon.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="MusicManager.h" />
-    <ClInclude Include="Pawn.h" />
     <ClInclude Include="Useful.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

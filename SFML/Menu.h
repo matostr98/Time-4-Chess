@@ -4,6 +4,7 @@
 #include "Icon.h"
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
+#include "Audio.h"
 
 class Menu
 {
@@ -25,6 +26,8 @@ private:
 	sf::Sprite m_guide;
 	sf::Sprite m_options;
 	sf::Font font;
+
+	Audio click;
 
 	Icon newGame;
 	Icon online;
