@@ -6,6 +6,8 @@ This is chess game with graphical interface
 ## Description
 
 App is a chess game written in C++ with SFML. It supports basic chess piece moves as well as more advanced like promotion, castling, en passant. It supports mouse input. When in game player can choose what piece he wants to move and where. There are highlighted fields where piece can move. Player can also choose to draw or surrender.
+![T4C_2019-06-13_16-43-34](https://user-images.githubusercontent.com/34037932/59449366-306ee500-8e07-11e9-9709-397a13398bf4.png)
+![T4C_2019-06-13_16-45-09](https://user-images.githubusercontent.com/34037932/59449376-35339900-8e07-11e9-82e9-cfa3efa1fc5c.png)
 
 ## Guide
 ![T4C_2019-06-13_17-45-22](https://user-images.githubusercontent.com/34037932/59449139-d837e300-8e06-11e9-8421-9a141ec72a5b.png)
